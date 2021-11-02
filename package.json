@@ -1,0 +1,59 @@
+{
+  "name": "sisfin-front-vue",
+  "version": "0.4.0",
+  "private": true,
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve --port 8081",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "core-js": "^3.9.1",
+    "express": "^4.17.1",
+    "serve-static": "^1.14.1",
+    "vue": "^2.6.12",
+    "vue-router": "^3.5.1",
+    "vue-simple-alert": "^1.1.1",
+    "vuetify": "^2.4.5",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.5.11",
+    "@vue/cli-plugin-eslint": "^4.5.11",
+    "@vue/cli-service": "^4.5.11",
+    "@vue/eslint-config-airbnb": "^5.3.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-html": "^6.1.1",
+    "eslint-plugin-vue": "^5.0.0",
+    "js-md5": "^0.7.3",
+    "sass": "^1.32.8",
+    "sass-loader": "^8.0.0",
+    "vue-cli-plugin-vuetify": "^2.2.2",
+    "vue-template-compiler": "^2.6.12",
+    "vuetify-loader": "^1.7.2"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}
