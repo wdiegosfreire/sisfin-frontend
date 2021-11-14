@@ -1,6 +1,6 @@
 <template><span>
   <v-app-bar app color="primary" dark>
-    <v-app-bar-nav-icon v-if="$store.state.btpUsuario.usuCodUsuario" @click.stop="showNavigationDrawer = !showNavigationDrawer"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon v-if="$store.state.user.identity" @click.stop="showNavigationDrawer = !showNavigationDrawer"></v-app-bar-nav-icon>
     <v-toolbar-title :title="computedEnviroment">
       Sistema de Controle Financeiro - SISFIN v0.4.0
     </v-toolbar-title>
@@ -8,7 +8,7 @@
     <v-spacer />
 
     <v-toolbar-items>
-      <v-btn v-if="$store.state.btpUsuario.usuCodUsuario" text @click="encerrarSessao()">Sair</v-btn>
+      <v-btn v-if="$store.state.user.identity" text @click="encerrarSessao()">Sair</v-btn>
     </v-toolbar-items>
   </v-app-bar>
 
@@ -85,12 +85,12 @@ export default {
   mixins: [api, message],
   data() {
     return {
-      btpUsuario: {},
+      user: {},
       showNavigationDrawer: false
     }
   },
   watch: {
-    "$store.state.btpUsuario": "setBtpUsuario"
+    "$store.state.user": "setUser"
   },
   computed: {
     computedInitials() {
@@ -98,8 +98,8 @@ export default {
       let firstChar = "";
       let lastChar = "";
 
-      if (this.btpUsuario && this.btpUsuario.usuTxtNome) {
-        splittedName = this.btpUsuario.usuTxtNome.split(" ");
+      if (this.user && this.user.usuTxtNome) {
+        splittedName = this.user.usuTxtNome.split(" ");
         firstChar = splittedName[0].substring(0, 1);
         lastChar = splittedName[splittedName.length - 1].substr(0, 1);
       }
@@ -111,8 +111,8 @@ export default {
       let firstName = "";
       let lastName = "";
 
-      if (this.btpUsuario && this.btpUsuario.usuTxtNome) {
-        splittedName = this.btpUsuario.usuTxtNome.split(" ");
+      if (this.user && this.user.name) {
+        splittedName = this.user.name.split(" ");
         firstName = splittedName[0];
         lastName = splittedName[splittedName.length - 1];
       }
@@ -124,9 +124,9 @@ export default {
     }
   },
   methods: {
-    setBtpUsuario() {
-      this.$store.commit("setBtpUsuario", this.$store.state.btpUsuario);
-      this.btpUsuario = this.$store.state.btpUsuario;
+    setUser() {
+      this.$store.commit("setUser", this.$store.state.user);
+      this.user = this.$store.state.user;
     },
 
     acessarModuloResumo() {
@@ -166,8 +166,8 @@ export default {
     },
 
     encerrarSessao() {
-      this.post(`/usuario/encerrarSessao`, this.btpUsuario).then(() => {
-        this.$store.commit("setBtpUsuario", {});
+      this.post(`/user/encerrarSessao`, this.user).then(() => {
+        this.$store.commit("setUser", {});
         this.$router.push("/");
       }).catch(error => {
           this.$_message_showError(error.response);

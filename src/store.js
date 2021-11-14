@@ -10,7 +10,7 @@ export default new Vuex.Store({
 		globalDialog: false,
 		globalLoading: false,
 
-		btpUsuario: {},
+		user: {},
 		logged: false,
 		isProduction: false,
 		message: {
@@ -36,9 +36,9 @@ export default new Vuex.Store({
 		},
 
 		// Codigo nao refatorado
-		setBtpUsuario(state, payload) {
-			window.localStorage.btpUsuario = payload;
-			state.btpUsuario = payload;
+		setUser(state, payload) {
+			window.localStorage.user = payload;
+			state.user = payload;
 		},
 
 		setLogged(state, payload) {
