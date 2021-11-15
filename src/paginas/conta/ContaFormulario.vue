@@ -45,7 +45,7 @@
         <v-btn v-else width="150" @click="executarCadastro()">Confirmar</v-btn>
 
         <v-btn width="150" @click="limparFormulario()">Limpar</v-btn>
-        <v-btn width="150" @click="fecharFormulario()">Fechar</v-btn>
+        <v-btn width="150" @click="fecharFormulario()">Close</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

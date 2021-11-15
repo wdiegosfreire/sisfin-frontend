@@ -2,7 +2,7 @@
   <v-app-bar app color="primary" dark>
     <v-app-bar-nav-icon v-if="$store.state.user.identity" @click.stop="showNavigationDrawer = !showNavigationDrawer"></v-app-bar-nav-icon>
     <v-toolbar-title :title="computedEnviroment">
-      Sistema de Controle Financeiro - SISFIN v0.4.0
+      Financial Control System - FCS v1.0.0
     </v-toolbar-title>
 
     <v-spacer />
@@ -23,53 +23,53 @@
     <v-divider></v-divider>
 
     <v-list dense>
-      <v-subheader>MOVIMENTAÇÃO</v-subheader>
+      <v-subheader>TRANSACTIONS</v-subheader>
       <v-list-item link @click="acessarModuloResumo()">
         <v-list-item-icon><v-icon>mdi-text</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Resumo</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Summary</v-list-item-title></v-list-item-content>
       </v-list-item>
       <v-list-item link @click="acessarModuloMovimento()">
         <v-list-item-icon><v-icon>mdi-cash-multiple</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Movimento</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Transactions</v-list-item-title></v-list-item-content>
       </v-list-item>
       <v-list-item link @click="acessarModuloExtrato()">
         <v-list-item-icon><v-icon>mdi-notebook-plus-outline</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Extrato</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Statements</v-list-item-title></v-list-item-content>
       </v-list-item>
 
       <v-subheader>CADASTROS</v-subheader>
       <v-list-item link @click="acessarModuloConta()">
         <v-list-item-icon><v-icon>mdi-piggy-bank-outline</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Contas</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Bank Accounts</v-list-item-title></v-list-item-content>
       </v-list-item>
       <v-list-item link @click="acessarModuloEstabelecimento()">
         <v-list-item-icon><v-icon>mdi-office-building-marker-outline</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Estabelecimentos</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Locations</v-list-item-title></v-list-item-content>
       </v-list-item>
       <v-list-item link @click="acessarModuloFormaPagamento()">
         <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Formas de Pagamento</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Payment Methods</v-list-item-title></v-list-item-content>
       </v-list-item>
 
-      <v-subheader>EM BREVE</v-subheader>
+      <v-subheader>COMING SOON</v-subheader>
       <v-list-item link @click="acessarModuloDesejo()">
         <v-list-item-icon><v-icon>mdi-heart-half-full</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Desejos</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Wish List</v-list-item-title></v-list-item-content>
       </v-list-item>
       <v-list-item link @click="acessarModuloAutomovel()">
         <v-list-item-icon><v-icon>mdi-car</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Automóvel</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Car Management</v-list-item-title></v-list-item-content>
       </v-list-item>
       <v-list-item link @click="acessarModuloSupermercado()">
         <v-list-item-icon><v-icon>mdi-cart</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Supermercado</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Supermarket</v-list-item-title></v-list-item-content>
       </v-list-item>
 
       <v-divider></v-divider>
 
       <v-list-item link @click="encerrarSessao()">
         <v-list-item-icon><v-icon>mdi-logout</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Sair</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Log Out</v-list-item-title></v-list-item-content>
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -98,8 +98,8 @@ export default {
       let firstChar = "";
       let lastChar = "";
 
-      if (this.user && this.user.usuTxtNome) {
-        splittedName = this.user.usuTxtNome.split(" ");
+      if (this.user && this.user.name) {
+        splittedName = this.user.name.split(" ");
         firstChar = splittedName[0].substring(0, 1);
         lastChar = splittedName[splittedName.length - 1].substr(0, 1);
       }
@@ -120,7 +120,7 @@ export default {
       return `${firstName} ${lastName}`;
     },
     computedEnviroment() {
-      return `Ambiente ${process.env.VUE_APP_ENVIRONMENT}`;
+      return `Environment ${process.env.VUE_APP_ENVIRONMENT}`;
     }
   },
   methods: {

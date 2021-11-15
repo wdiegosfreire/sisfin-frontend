@@ -2,8 +2,6 @@ import api from "../../components/api/api.js";
 import message from "../../components/mixins/message.js";
 import md5 from 'js-md5';
 
-/* eslint no-console: "off" */
-
 export default {
   name: "userService",
   mixins: [api, message ],
@@ -36,7 +34,6 @@ export default {
         this.$store.commit("setUser", response.data.map.userAuthenticated);
         this.$router.push("/resumo");
       }).catch(error => {
-        console.log(error);
         this.$_message_handleError(error);
       });
     },
@@ -44,6 +41,6 @@ export default {
     resetForm() {
       this.user.email = "";
       this.password = "";
-  }
+    }
   }
 }
