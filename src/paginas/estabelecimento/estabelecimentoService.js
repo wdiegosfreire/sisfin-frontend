@@ -16,7 +16,7 @@ export default {
   methods: {
     acessarModulo() {
       let btpEstabelecimento = {
-        btpUsuario: this.$store.state.btpUsuario
+        user: this.$store.state.user
       }
    
       this.post("/estabelecimento/acessarModulo", btpEstabelecimento).then(response => {
@@ -31,7 +31,7 @@ export default {
     },
 
     acessarEdicao(btpEstabelecimento) {
-      btpEstabelecimento.btpUsuario = this.$store.state.btpUsuario;
+      btpEstabelecimento.user = this.$store.state.user;
       this.post("/estabelecimento/acessarEdicao", btpEstabelecimento).then(response => {
         this.$store.commit("setGlobalEntity", response.data.retorno.btpEstabelecimento);
         this.$store.commit("showGlobalDialog", true);
@@ -42,7 +42,7 @@ export default {
   
     executarFiltro(filterValue) {
       this.btpEstabelecimento.filter = filterValue;
-      this.btpEstabelecimento.btpUsuario = this.$store.state.btpUsuario;
+      this.btpEstabelecimento.user = this.$store.state.user;
 
       this.post("/estabelecimento/executarFiltro", this.btpEstabelecimento).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpEstabelecimentoList);
@@ -57,7 +57,7 @@ export default {
           return;
       }
    
-      this.btpEstabelecimento.btpUsuario = this.$store.state.btpUsuario;
+      this.btpEstabelecimento.user = this.$store.state.user;
       this.post("/estabelecimento/executarCadastro", this.btpEstabelecimento).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpEstabelecimentoList);
         this.$_message_showSuccess();
@@ -78,7 +78,7 @@ export default {
         return;
       }
 
-      this.btpEstabelecimento.btpUsuario = this.$store.state.btpUsuario;
+      this.btpEstabelecimento.user = this.$store.state.user;
       this.post("/estabelecimento/executarEdicao", this.btpEstabelecimento).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpEstabelecimentoList);
         this.$_message_showSuccess();
@@ -90,7 +90,7 @@ export default {
 
     executarExclusao(btpEstabelecimento) {
       this.$confirm("Deseja excluir permanentemente o registro selecionado?").then(() => {
-        btpEstabelecimento.btpUsuario = this.$store.state.btpUsuario;
+        btpEstabelecimento.user = this.$store.state.user;
         this.post("/estabelecimento/executarExclusao", btpEstabelecimento).then(response => {
           this.$store.commit("setGlobalResult", response.data.retorno.btpEstabelecimentoList);
           this.$_message_showSuccess();

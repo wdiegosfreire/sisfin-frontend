@@ -7,7 +7,7 @@
         <li v-for="detail in detailList" :key="detail" class="mb-2">{{ detail }}</li>
       </ul>
 
-      <v-btn text @click="showMessage = false">Fechar</v-btn>
+      <v-btn text @click="showMessage = false">Close</v-btn>
     </v-snackbar>
   </div>
 </template>

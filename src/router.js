@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-import Autenticacao from "./paginas/autenticacao/Autenticacao.vue";
+import User from "./paginas/user/User.vue";
 
 import Resumo from "./paginas/resumo/Resumo.vue";
 import Movimento from "./paginas/movimento/Movimento.vue";
@@ -21,7 +21,7 @@ import LibraryEntryPage from "./components/library/LibraryEntryPage.vue";
 Vue.use(Router);
 
 const routes = [
-    { path: "/", name: "autenticacao", component: Autenticacao },
+    { path: "/", name: "user", component: User },
     { path: "/resumo", name: "resumo", component: Resumo },
     { path: "/movimento", name: "movimento", component: Movimento },
     { path: "/extrato", name: "extrato", component: Extrato },
