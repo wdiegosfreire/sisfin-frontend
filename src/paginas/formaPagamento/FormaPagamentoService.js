@@ -15,7 +15,7 @@ export default {
   methods: {
     acessarModulo() {
       let btpFormaPagamento = {
-        btpUsuario: this.$store.state.btpUsuario
+        user: this.$store.state.user
       }
    
       this.post("/formaPagamento/acessarModulo", btpFormaPagamento).then(response => {
@@ -30,7 +30,7 @@ export default {
     },
 
     acessarEdicao(btpFormaPagamento) {
-      btpFormaPagamento.btpUsuario = this.$store.state.btpUsuario;
+      btpFormaPagamento.user = this.$store.state.user;
       this.post("/formaPagamento/acessarEdicao", btpFormaPagamento).then(response => {
         this.$store.commit("setGlobalEntity", response.data.retorno.btpFormaPagamento);
         this.$store.commit("showGlobalDialog", true);
@@ -41,7 +41,7 @@ export default {
   
     executarFiltro(filterValue) {
       this.btpFormaPagamento.filter = filterValue;
-      this.btpFormaPagamento.btpUsuario = this.$store.state.btpUsuario;
+      this.btpFormaPagamento.user = this.$store.state.user;
 
       this.post("/formaPagamento/executarFiltro", this.btpFormaPagamento).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpFormaPagamentoList);
@@ -56,7 +56,7 @@ export default {
           return;
       }
    
-      this.btpFormaPagamento.btpUsuario = this.$store.state.btpUsuario;
+      this.btpFormaPagamento.user = this.$store.state.user;
       this.post("/formaPagamento/executarCadastro", this.btpFormaPagamento).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpFormaPagamentoList);
         this.$_message_showSuccess();
@@ -77,7 +77,7 @@ export default {
         return;
       }
 
-      this.btpFormaPagamento.btpUsuario = this.$store.state.btpUsuario;
+      this.btpFormaPagamento.user = this.$store.state.user;
       this.post("/formaPagamento/executarEdicao", this.btpFormaPagamento).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpFormaPagamentoList);
         this.$_message_showSuccess();
@@ -89,7 +89,7 @@ export default {
 
     executarExclusao(btpFormaPagamento) {
       this.$confirm("Deseja excluir permanentemente o registro selecionado?").then(() => {
-        btpFormaPagamento.btpUsuario = this.$store.state.btpUsuario;
+        btpFormaPagamento.user = this.$store.state.user;
         this.post("/formaPagamento/executarExclusao", btpFormaPagamento).then(response => {
           this.$store.commit("setGlobalResult", response.data.retorno.btpFormaPagamentoList);
           this.$_message_showSuccess();

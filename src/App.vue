@@ -18,11 +18,11 @@ export default {
   created() {
     this.createInterceptors();
 
-    if (window.localStorage.btpUsuario) {
-      this.$store.commit("setBtpUsuario", window.localStorage.btpUsuario);
+    if (window.localStorage.user) {
+      this.$store.commit("setUser", window.localStorage.user);
     }
     else {
-      this.$store.commit("setBtpUsuario", {});
+      this.$store.commit("setUser", {});
       this.$router.push("/");
     }
   }

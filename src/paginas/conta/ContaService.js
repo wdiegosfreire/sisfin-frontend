@@ -16,7 +16,7 @@ export default {
   methods: {
     acessarModulo() {
       let btpConta = {
-        btpUsuario: this.$store.state.btpUsuario
+        user: this.$store.state.user
       }
    
       this.post("/conta/acessarModulo", btpConta).then(response => {
@@ -31,7 +31,7 @@ export default {
         btpConta = {}
       }
 
-      btpConta.btpUsuario = this.$store.state.btpUsuario
+      btpConta.user = this.$store.state.user
 
       this.post("/conta/acessarCadastro", btpConta).then(response => {
         this.btpContaListComboNivelUm = response.data.retorno.btpContaListComboNivelUm;
@@ -42,7 +42,7 @@ export default {
     },
 
     acessarEdicao(btpConta) {
-      btpConta.btpUsuario = this.$store.state.btpUsuario;
+      btpConta.user = this.$store.state.user;
 
       this.post("/conta/acessarEdicao", btpConta).then(response => {
         this.$store.commit("setGlobalEntity", response.data.retorno.btpConta);
@@ -54,7 +54,7 @@ export default {
   
     executarFiltro(filterValue) {
       this.btpConta.filter = filterValue;
-      this.btpConta.btpUsuario = this.$store.state.btpUsuario;
+      this.btpConta.user = this.$store.state.user;
 
       this.post("/conta/executarFiltro", this.btpConta).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpContaList);
@@ -74,7 +74,7 @@ export default {
           return;
       }
    
-      this.btpConta.btpUsuario = this.$store.state.btpUsuario;
+      this.btpConta.user = this.$store.state.user;
       this.post("/conta/executarCadastro", this.btpConta).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpContaList);
         this.$_message_showSuccess();
@@ -95,7 +95,7 @@ export default {
         return;
       }
 
-      this.btpConta.btpUsuario = this.$store.state.btpUsuario;
+      this.btpConta.user = this.$store.state.user;
       this.post("/conta/executarEdicao", this.btpConta).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpContaList);
         this.$_message_showSuccess();
@@ -107,7 +107,7 @@ export default {
 
     executarExclusao(btpConta) {
       this.$confirm("Deseja excluir permanentemente o registro selecionado?").then(() => {
-        btpConta.btpUsuario = this.$store.state.btpUsuario;
+        btpConta.user = this.$store.state.user;
         this.post("/conta/executarExclusao", btpConta).then(response => {
           this.$store.commit("setGlobalResult", response.data.retorno.btpContaList);
           this.$_message_showSuccess();
