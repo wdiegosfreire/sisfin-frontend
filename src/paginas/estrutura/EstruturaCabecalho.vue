@@ -42,7 +42,7 @@
         <v-list-item-icon><v-icon>mdi-piggy-bank-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Bank Accounts</v-list-item-title></v-list-item-content>
       </v-list-item>
-      <v-list-item link @click="acessarModuloEstabelecimento()">
+      <v-list-item link @click="accessModuleLocation()">
         <v-list-item-icon><v-icon>mdi-office-building-marker-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Locations</v-list-item-title></v-list-item-content>
       </v-list-item>
@@ -145,8 +145,8 @@ export default {
       this.$router.push("/conta");
     },
 
-    acessarModuloEstabelecimento() {
-      this.$router.push("/estabelecimento");
+    accessModuleLocation() {
+      this.$router.push("/location");
     },
 
     acessarModuloFormaPagamento() {

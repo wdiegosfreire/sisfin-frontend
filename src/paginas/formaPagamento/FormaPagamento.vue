@@ -30,7 +30,7 @@ export default {
   methods: {
     toggleFilterField() {
       if (this.btpFormaPagamento.fopNomFormaPagamento) {
-        this.btpEstabelecimento.fopNomFormaPagamento = "";
+        this.btpFormaPagamento.fopNomFormaPagamento = "";
         this.executarFiltro();
       }
 

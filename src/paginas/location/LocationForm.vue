@@ -3,23 +3,23 @@
 		<v-card class="mb-3">
 			<v-toolbar color="primary" height="35" dark flat>
 				<v-toolbar-title>
-					<span v-if="this.btpEstabelecimento.estCodEstabelecimento">Editar Estabelecimento</span>
-					<span v-else>Novo Estabelecimento</span>
+					<span v-if="this.location.identity">Edit Location</span>
+					<span v-else>New Location</span>
 				</v-toolbar-title>
 			</v-toolbar>
 
 			<v-card-text>
 				<df-grid>
-					<v-text-field label="Código" readonly v-model="btpEstabelecimento.estCodEstabelecimento" />
-					<v-text-field label="Nome" v-model="btpEstabelecimento.estNomEstabelecimento" />
+					<v-text-field label="Identity" readonly v-model="location.identity" />
+					<v-text-field label="Name" v-model="location.name" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="Observação" v-model="btpEstabelecimento.estTxtObservacao" />
+					<v-text-field label="Note" v-model="location.note" />
 				</df-grid>
 			</v-card-text>
 
       <v-card-actions>
-        <v-btn v-if="this.btpEstabelecimento.estCodEstabelecimento" color="button" width="150" @click="executarEdicao()">Confirmar</v-btn>
+        <v-btn v-if="this.location.identity" color="button" width="150" @click="executarEdicao()">Confirm</v-btn>
         <v-btn v-else width="150" @click="executarCadastro()">Confirmar</v-btn>
 
         <v-btn width="150" @click="limparFormulario()">Limpar</v-btn>
@@ -30,19 +30,19 @@
 </template>
 
 <script>
-import estabelecimentoService from "./estabelecimentoService.js";
+import locationService from "./locationService.js";
 
 import DfGrid from "../../components/grid/Grid.vue";
 
 export default {
-	name: "EstabelecimentoFormulario",
+	name: "LocationForm",
 	components: { DfGrid },
-	mixins: [estabelecimentoService],
+	mixins: [locationService],
 	methods: {
 		limparFormulario() {
-			this.btpEstabelecimento.estCodEstabelecimento = null;
-			this.btpEstabelecimento.estNomEstabelecimento = "";
-			this.btpEstabelecimento.estTxtObservacao = "";
+			this.location.identity = null;
+			this.location.name = "";
+			this.location.note = "";
 		},
 
 		fecharFormulario() {
@@ -52,7 +52,7 @@ export default {
 		},
 
 		updateGlobalEntity() {
-			this.btpEstabelecimento = this.$store.state.globalEntity;
+			this.location = this.$store.state.globalEntity;
 		}
 	},
 	watch: {

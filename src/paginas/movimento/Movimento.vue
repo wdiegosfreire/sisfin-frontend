@@ -1,19 +1,12 @@
 <template>
    <v-card>
-      <v-card-title class="headline">Estabelecimentos</v-card-title>
+      <v-card-title class="headline">Transactions</v-card-title>
 
       <v-card-text>
          <df-grid spaced>
-            <div style="border: solid 1px white;">Movimentos</div>
-            <div style="border: solid 1px white;">Movimentos</div>
-            <div style="border: solid 1px white;">Movimentos</div>
-            <div style="border: solid 1px white;">Movimentos</div>
-            <div style="border: solid 1px white;">Movimentos</div>
-            <div style="border: solid 1px white;">Movimentos</div>
-            <div style="border: solid 1px white;">Movimentos</div>
-            <div style="border: solid 1px white;">Movimentos</div>
-            <div style="border: solid 1px white;">Movimentos</div>
-            <div style="border: solid 1px white;">Movimentos</div>
+            <div style="border: solid 1px white;">Transactions</div>
+            <div style="border: solid 1px white;">Transactions</div>
+            <div style="border: solid 1px white;">Transactions</div>
          </df-grid>
       </v-card-text>
    </v-card>
