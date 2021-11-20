@@ -7,7 +7,7 @@
 
 <script>
 import Loading from "./components/loading/Loading.vue";
-import apiConfig from "./components/api/apiConfig"
+import apiConfig from "./components/axios/common/apiConfig"
 import Estrutura from "./paginas/estrutura/Estrutura.vue";
 
 export default {

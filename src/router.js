@@ -13,11 +13,6 @@ import Desejo from "./paginas/desejo/Desejo.vue";
 import Automovel from "./paginas/automovel/Automovel.vue";
 import Supermercado from "./paginas/supermercado/Supermercado.vue";
 
-import BookListPage from "./components/book/BookListPage.vue";
-import BookEntryPage from "./components/book/BookEntryPage.vue";
-import LibraryListPage from "./components/library/LibraryListPage.vue";
-import LibraryEntryPage from "./components/library/LibraryEntryPage.vue";
-
 Vue.use(Router);
 
 const routes = [
@@ -30,12 +25,7 @@ const routes = [
     { path: "/formaPagamento", name: "formaPagamento", component: FormaPagamento },
     { path: "/desejo", name: "desejo", component: Desejo },
     { path: "/automovel", name: "automovel", component: Automovel },
-    { path: "/supermercado", name: "supermercado", component: Supermercado },
-
-    { path: "/book", name: "bookList", component: BookListPage },
-    { path: "/book/:id", name: "bookEntry", component: BookEntryPage },
-    { path: "/library", name: "libraryList", component: LibraryListPage },
-    { path: "/library/:id", name: "libraryEntry", component: LibraryEntryPage }
+    { path: "/supermercado", name: "supermercado", component: Supermercado }
 ];
 
 export default new Router({

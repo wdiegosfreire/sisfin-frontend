@@ -1,10 +1,10 @@
-import api from "../../components/api/api.js";
+import maintenanceApi from "../../components/axios/maintenance/maintenanceApi.js";
 import message from "../../components/mixins/message.js";
 import md5 from 'js-md5';
 
 export default {
   name: "userService",
-  mixins: [api, message ],
+  mixins: [maintenanceApi, message ],
   data() {
     return {
         isProduction: false,
@@ -30,7 +30,7 @@ export default {
 
       this.user.password = md5(this.password);
 
-      this.post(`/user/executeAuthentication`, this.user).then(response => {
+      this.$_maintenance_post(`/user/executeAuthentication`, this.user).then(response => {
         this.$store.commit("setUser", response.data.map.userAuthenticated);
         this.$router.push("/resumo");
       }).catch(error => {

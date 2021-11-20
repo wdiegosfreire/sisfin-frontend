@@ -8,7 +8,7 @@
     <v-spacer />
 
     <v-toolbar-items>
-      <v-btn v-if="$store.state.user.identity" text @click="encerrarSessao()">Sair</v-btn>
+      <v-btn v-if="$store.state.user.identity" text @click="executeLogout()">Log Out</v-btn>
     </v-toolbar-items>
   </v-app-bar>
 
@@ -67,7 +67,7 @@
 
       <v-divider></v-divider>
 
-      <v-list-item link @click="encerrarSessao()">
+      <v-list-item link @click="executeLogout()">
         <v-list-item-icon><v-icon>mdi-logout</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Log Out</v-list-item-title></v-list-item-content>
       </v-list-item>
@@ -77,12 +77,12 @@
 </span></template>
 
 <script>
-import api from "../../components/api/api";
+import maintenanceApi from "../../components/axios/maintenance/maintenanceApi.js";
 import message from "../../components/mixins/message";
 
 export default {
   name: "Cabecalho",
-  mixins: [api, message],
+  mixins: [maintenanceApi, message],
   data() {
     return {
       user: {},
@@ -165,8 +165,8 @@ export default {
       this.$router.push("/supermercado");
     },
 
-    encerrarSessao() {
-      this.post(`/user/encerrarSessao`, this.user).then(() => {
+    executeLogout() {
+      this.$_maintenance_post(`/user/executeLogout`, this.user).then(() => {
         this.$store.commit("setUser", {});
         this.$router.push("/");
       }).catch(error => {
