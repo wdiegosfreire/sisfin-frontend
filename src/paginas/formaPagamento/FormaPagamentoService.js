@@ -6,32 +6,32 @@ export default {
   mixins: [api, message ],
 	data() {
     return {
-      showFilterField: false,
+      showSearchField: false,
       btpFormaPagamento: {
         fopNomFormaPagamento: ""
       },
     };
   },
   methods: {
-    acessarModulo() {
+    accessModule() {
       let btpFormaPagamento = {
         user: this.$store.state.user
       }
    
-      this.post("/formaPagamento/acessarModulo", btpFormaPagamento).then(response => {
+      this.post("/formaPagamento/accessModule", btpFormaPagamento).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpFormaPagamentoList);
       }).catch(error => {
         this.$_message_handleError(error);
       });
     },
 
-    acessarCadastro() {
+    accessRegistration() {
       this.$store.commit("showGlobalDialog", true);
     },
 
-    acessarEdicao(btpFormaPagamento) {
+    accessEdition(btpFormaPagamento) {
       btpFormaPagamento.user = this.$store.state.user;
-      this.post("/formaPagamento/acessarEdicao", btpFormaPagamento).then(response => {
+      this.post("/formaPagamento/accessEdition", btpFormaPagamento).then(response => {
         this.$store.commit("setGlobalEntity", response.data.retorno.btpFormaPagamento);
         this.$store.commit("showGlobalDialog", true);
       }).catch(error => {
@@ -39,25 +39,25 @@ export default {
       });
     },
   
-    executarFiltro(filterValue) {
+    executeSearch(filterValue) {
       this.btpFormaPagamento.filter = filterValue;
       this.btpFormaPagamento.user = this.$store.state.user;
 
-      this.post("/formaPagamento/executarFiltro", this.btpFormaPagamento).then(response => {
+      this.post("/formaPagamento/executeSearch", this.btpFormaPagamento).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpFormaPagamentoList);
       }).catch(error => {
         this.$_message_handleError(error);
       });
     },
 
-    executarCadastro() {
+    executeRegistration() {
       if (!this.btpFormaPagamento.fopNomFormaPagamento.trim()) {
         this.$_message_showRequired("Nome da forma de pagamento não informado.");
           return;
       }
    
       this.btpFormaPagamento.user = this.$store.state.user;
-      this.post("/formaPagamento/executarCadastro", this.btpFormaPagamento).then(response => {
+      this.post("/formaPagamento/executeRegistration", this.btpFormaPagamento).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpFormaPagamentoList);
         this.$_message_showSuccess();
         this.fecharFormulario();
@@ -66,7 +66,7 @@ export default {
       });
     },
 
-    executarEdicao() {
+    executeEdition() {
       if (!this.btpFormaPagamento.fopCodFormaPagamento) {
         this.$_message_showWarning("Código da forma de pagamento não informado.");
         return;
@@ -78,7 +78,7 @@ export default {
       }
 
       this.btpFormaPagamento.user = this.$store.state.user;
-      this.post("/formaPagamento/executarEdicao", this.btpFormaPagamento).then(response => {
+      this.post("/formaPagamento/executeEdition", this.btpFormaPagamento).then(response => {
         this.$store.commit("setGlobalResult", response.data.retorno.btpFormaPagamentoList);
         this.$_message_showSuccess();
         this.fecharFormulario();
@@ -87,10 +87,10 @@ export default {
       });
     },
 
-    executarExclusao(btpFormaPagamento) {
+    executeExclusion(btpFormaPagamento) {
       this.$confirm("Deseja excluir permanentemente o registro selecionado?").then(() => {
         btpFormaPagamento.user = this.$store.state.user;
-        this.post("/formaPagamento/executarExclusao", btpFormaPagamento).then(response => {
+        this.post("/formaPagamento/executeExclusion", btpFormaPagamento).then(response => {
           this.$store.commit("setGlobalResult", response.data.retorno.btpFormaPagamentoList);
           this.$_message_showSuccess();
         }).catch(error => {

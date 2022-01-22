@@ -1,5 +1,5 @@
 <template>
-   <v-text-field v-model="textSearch" label="Pesquisa" @input="executarFiltro()" />
+   <v-text-field v-model="textSearch" label="Search" @input="executeSearch()" />
 </template>
 
 <script>
@@ -13,7 +13,7 @@
          }
       },
       methods: {
-         executarFiltro() {
+         executeSearch() {
             this.lastChange = new Date().getTime();
 
             setTimeout(() => {

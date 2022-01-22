@@ -19,13 +19,13 @@
                 <v-list dense width="150">
                   <v-subheader>Opções</v-subheader>
                   <v-list-item-group>
-                    <v-list-item @click="acessarEdicao(btpConta)">
+                    <v-list-item @click="accessEdition(btpConta)">
                       <v-list-item-icon><v-icon>mdi-notebook-edit-outline</v-icon></v-list-item-icon>
                       <v-list-item-content><v-list-item-title>Editar</v-list-item-title></v-list-item-content>
                     </v-list-item>
-                    <v-list-item @click="executarExclusao(btpConta)">
+                    <v-list-item @click="executeExclusion(btpConta)">
                       <v-list-item-icon><v-icon>mdi-trash-can-outline</v-icon></v-list-item-icon>
-                      <v-list-item-content><v-list-item-title>Excluir</v-list-item-title></v-list-item-content>
+                      <v-list-item-content><v-list-item-title>Delete</v-list-item-title></v-list-item-content>
                     </v-list-item>
                   </v-list-item-group>
                 </v-list>
@@ -36,7 +36,7 @@
       </v-card>
     </v-card-text>
 
-    <v-card-text v-if="btpContaList.length == 0">Nenhum resultado encontrado.</v-card-text>
+    <v-card-text v-if="btpContaList.length == 0">No results found.</v-card-text>
   </v-card>
 </template>
 

@@ -16,8 +16,8 @@
 			</v-card-text>
 
       <v-card-actions>
-        <v-btn v-if="this.btpFormaPagamento.fopCodFormaPagamento" width="150" @click="executarEdicao()">Confirmar</v-btn>
-        <v-btn v-else width="150" @click="executarCadastro()">Confirmar</v-btn>
+        <v-btn v-if="this.btpFormaPagamento.fopCodFormaPagamento" width="150" @click="executeEdition()">Confirmar</v-btn>
+        <v-btn v-else width="150" @click="executeRegistration()">Confirmar</v-btn>
 
         <v-btn width="150" @click="limparFormulario()">Limpar</v-btn>
         <v-btn width="150" @click="fecharFormulario()">Close</v-btn>
