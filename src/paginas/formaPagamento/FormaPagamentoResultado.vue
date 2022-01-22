@@ -19,11 +19,11 @@
                 <v-list dense width="150">
                   <v-subheader>Opções</v-subheader>
                   <v-list-item-group>
-                    <v-list-item @click="acessarEdicao(btpFormaPagamento)">
+                    <v-list-item @click="accessEdition(btpFormaPagamento)">
                       <v-list-item-icon><v-icon>mdi-notebook-edit-outline</v-icon></v-list-item-icon>
                       <v-list-item-content><v-list-item-title>Editar</v-list-item-title></v-list-item-content>
                     </v-list-item>
-                    <v-list-item @click="executarExclusao(btpFormaPagamento)">
+                    <v-list-item @click="executeExclusion(btpFormaPagamento)">
                       <v-list-item-icon><v-icon>mdi-trash-can-outline</v-icon></v-list-item-icon>
                       <v-list-item-content><v-list-item-title>Delete</v-list-item-title></v-list-item-content>
                     </v-list-item>

@@ -4,12 +4,12 @@
       <v-toolbar-title>Contas</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-btn icon @click.stop="acessarModulo()" title="Clique para recarregar a página"><v-icon>mdi-update</v-icon></v-btn>
-      <v-btn icon @click.stop="toggleFilterField()" title="Clique para fazer uma pesquisa"><v-icon>mdi-magnify</v-icon></v-btn>
+      <v-btn icon @click.stop="accessModule()" title="Clique para recarregar a página"><v-icon>mdi-update</v-icon></v-btn>
+      <v-btn icon @click.stop="toggleFilterField()" title="Clique para fazer uma search"><v-icon>mdi-magnify</v-icon></v-btn>
       <v-btn icon @click.stop="exibirFormulario()" title="Clique para cadastrar um novo registro"><v-icon>mdi-plus</v-icon></v-btn>
     </v-app-bar>
 
-    <df-input-filter transition="slide-x-transition" v-if="showFilterField" @type="executarFiltro" />
+    <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
 
     <conta-resultado />
     <conta-formulario />
@@ -34,14 +34,14 @@ export default {
     toggleFilterField() {
       if (this.btpConta.conTxtDescricao) {
         this.btpConta.conTxtDescricao = "";
-        this.executarFiltro();
+        this.executeSearch();
       }
 
-      this.showFilterField = !this.showFilterField;
+      this.showSearchField = !this.showSearchField;
     }
   },
   created() {
-    this.acessarModulo();
+    this.accessModule();
   },
 };
 </script>

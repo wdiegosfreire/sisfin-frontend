@@ -1,65 +1,73 @@
-import api from "../../components/api/api.js";
+import transactionApi from "../../components/axios/transaction/transactionApi.js";
 import message from "../../components/mixins/message.js";
 
 export default {
   name: "locationService",
-  mixins: [api, message ],
+  mixins: [transactionApi, message ],
 	data() {
     return {
-      showFilterField: false,
+      showSearchField: false,
       location: {
-        name: "",
-        note: ""
       },
     };
   },
   methods: {
-    acessarModulo() {
+    accessModule() {
       let location = {
-        user: this.$store.state.user
+        userIdentity: this.$store.state.user.identity
       }
    
-      this.post("/location/acessarModulo", location).then(response => {
-        this.$store.commit("setGlobalResult", response.data.retorno.locationList);
+      this.$_transaction_post("/location/accessModule", location).then(response => {
+        this.$store.commit("setGlobalResult", response.data.map.locationList);
       }).catch(error => {
         this.$_message_handleError(error);
       });
     },
 
-    acessarCadastro() {
+    accessRegistration() {
       this.$store.commit("showGlobalDialog", true);
     },
 
-    acessarEdicao(location) {
+    accessEdition(location) {
       location.user = this.$store.state.user;
-      this.post("/location/acessarEdicao", location).then(response => {
-        this.$store.commit("setGlobalEntity", response.data.retorno.location);
+      this.$_transaction_post("/location/accessEdition", location).then(response => {
+        this.$store.commit("setGlobalEntity", response.data.map.location);
         this.$store.commit("showGlobalDialog", true);
       }).catch(error => {
         this.$_message_handleError(error);
       });
     },
   
-    executarFiltro(filterValue) {
+    executeSearch(filterValue) {
       this.location.filter = filterValue;
-      this.location.user = this.$store.state.user;
+      this.location.userIdentity = this.$store.state.user.identity;
 
-      this.post("/location/executarFiltro", this.location).then(response => {
-        this.$store.commit("setGlobalResult", response.data.retorno.locationList);
+      this.$_transaction_post("/location/executeSearch", this.location).then(response => {
+        this.$store.commit("setGlobalResult", response.data.map.locationList);
       }).catch(error => {
         this.$_message_handleError(error);
       });
     },
 
-    executarCadastro() {
-      if (!this.location.name.trim()) {
+    executeRegistration() {
+      if (!this.location.name || !this.location.name.trim()) {
         this.$_message_showRequired("Missing location name.");
           return;
       }
+
+      if (!this.location.cnpj || !this.location.cnpj.trim()) {
+        this.$_message_showRequired("Missing location CNPJ.");
+          return;
+      }
+
+      if (!this.location.branch || !this.location.branch.trim()) {
+        this.$_message_showRequired("Missing location branch.");
+          return;
+      }
    
-      this.location.user = this.$store.state.user;
-      this.post("/location/executarCadastro", this.location).then(response => {
-        this.$store.commit("setGlobalResult", response.data.retorno.locationList);
+      this.location.userIdentity = this.$store.state.user.identity;
+      this.$_transaction_post("/location/executeRegistration", this.location).then(response => {
+        this.$store.commit("setGlobalResult", response.data.map.locationList);
         this.$_message_showSuccess();
         this.fecharFormulario();
       }).catch(error => {
@@ -67,20 +75,30 @@ export default {
       });
     },
 
-    executarEdicao() {
+    executeEdition() {
       if (!this.location.identity) {
-        this.$_message_showWarning("Missing location identity.");
-        return;
+        this.$_message_showRequired("Missing location identity.");
+          return;
       }
 
-      if (!this.location.name.trim()) {
-        this.$_message_showWarning("Missing location name.");
-        return;
+      if (!this.location.name || !this.location.name.trim()) {
+        this.$_message_showRequired("Mising location sname.");
+          return;
       }
 
-      this.location.user = this.$store.state.user;
-      this.post("/location/executarEdicao", this.location).then(response => {
-        this.$store.commit("setGlobalResult", response.data.retorno.locationList);
+      if (!this.location.cnpj || !this.location.cnpj.trim()) {
+        this.$_message_showRequired("Missing location CNPJ.");
+          return;
+      }
+
+      if (!this.location.branch || !this.location.branch.trim()) {
+        this.$_message_showRequired("Missing location branch.");
+          return;
+      }
+
+      this.location.userIdentity = this.$store.state.user.identity;
+      this.$_transaction_post("/location/executeEdition", this.location).then(response => {
+        this.$store.commit("setGlobalResult", response.data.map.locationList);
         this.$_message_showSuccess();
         this.fecharFormulario();
       }).catch(error => {
@@ -88,11 +106,11 @@ export default {
       });
     },
 
-    executarExclusao(location) {
+    executeExclusion(location) {
       this.$confirm("Deseja excluir permanentemente o registro selecionado?").then(() => {
-        location.user = this.$store.state.user;
-        this.post("/location/executarExclusao", location).then(response => {
-          this.$store.commit("setGlobalResult", response.data.retorno.locationList);
+        location.userIdentity = this.$store.state.user.identity;
+        this.$_transaction_post("/location/executeExclusion", location).then(response => {
+          this.$store.commit("setGlobalResult", response.data.map.locationList);
           this.$_message_showSuccess();
         }).catch(error => {
           this.$_message_handleError(error);

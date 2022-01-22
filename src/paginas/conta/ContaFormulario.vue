@@ -41,8 +41,8 @@
 			</v-card-text>
 
       <v-card-actions>
-        <v-btn v-if="this.btpConta.conCodConta" width="150" @click="executarEdicao()">Confirmar</v-btn>
-        <v-btn v-else width="150" @click="executarCadastro()">Confirmar</v-btn>
+        <v-btn v-if="this.btpConta.conCodConta" width="150" @click="executeEdition()">Confirmar</v-btn>
+        <v-btn v-else width="150" @click="executeRegistration()">Confirmar</v-btn>
 
         <v-btn width="150" @click="limparFormulario()">Limpar</v-btn>
         <v-btn width="150" @click="fecharFormulario()">Close</v-btn>
@@ -99,7 +99,7 @@ export default {
 			this.btpContaNivelTres = {};
 			this.btpConta.conNumNivel = "";
 
-			this.acessarCadastro(btpConta);
+			this.accessRegistration(btpConta);
 			this.calcularNivelFinal();
 		},
 
@@ -135,7 +135,7 @@ export default {
 		}
 	},
   created() {
-    this.acessarCadastro();
+    this.accessRegistration();
   },
   watch: {
 		"$store.state.globalEntity": "updateGlobalEntity",

@@ -9,9 +9,15 @@
 			</v-toolbar>
 
 			<v-card-text>
-				<df-grid>
+				<df-grid v-if="location.identity" >
 					<v-text-field label="Identity" readonly v-model="location.identity" />
-					<v-text-field label="Name" v-model="location.name" />
+				</df-grid>
+				<df-grid>
+					<v-text-field label="Name" v-model="location.name" :readonly="location.identity" />
+				</df-grid>
+				<df-grid>
+					<v-text-field label="CNPJ" v-model="location.cnpj" :readonly="location.identity" />
+					<v-text-field label="Branch" v-model="location.branch" />
 				</df-grid>
 				<df-grid>
 					<v-text-field label="Note" v-model="location.note" />
@@ -19,8 +25,8 @@
 			</v-card-text>
 
       <v-card-actions>
-        <v-btn v-if="this.location.identity" color="button" width="150" @click="executarEdicao()">Confirm</v-btn>
-        <v-btn v-else width="150" @click="executarCadastro()">Confirmar</v-btn>
+        <v-btn v-if="this.location.identity" color="button" width="150" @click="executeEdition()">Confirm</v-btn>
+        <v-btn v-else width="150" @click="executeRegistration()">Confirmar</v-btn>
 
         <v-btn width="150" @click="limparFormulario()">Limpar</v-btn>
         <v-btn width="150" @click="fecharFormulario()">Close</v-btn>
@@ -41,7 +47,9 @@ export default {
 	methods: {
 		limparFormulario() {
 			this.location.identity = null;
+			this.location.cnpj = "";
 			this.location.name = "";
+			this.location.branch = "";
 			this.location.note = "";
 		},
 

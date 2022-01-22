@@ -24,21 +24,21 @@
 
     <v-list dense>
       <v-subheader>TRANSACTIONS</v-subheader>
-      <v-list-item link @click="acessarModuloResumo()">
+      <v-list-item link @click="accessModuleResumo()">
         <v-list-item-icon><v-icon>mdi-text</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Summary</v-list-item-title></v-list-item-content>
       </v-list-item>
-      <v-list-item link @click="acessarModuloMovimento()">
+      <v-list-item link @click="accessModuleMovimento()">
         <v-list-item-icon><v-icon>mdi-cash-multiple</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Transactions</v-list-item-title></v-list-item-content>
       </v-list-item>
-      <v-list-item link @click="acessarModuloExtrato()">
+      <v-list-item link @click="accessModuleExtrato()">
         <v-list-item-icon><v-icon>mdi-notebook-plus-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Statements</v-list-item-title></v-list-item-content>
       </v-list-item>
 
       <v-subheader>CADASTROS</v-subheader>
-      <v-list-item link @click="acessarModuloConta()">
+      <v-list-item link @click="accessModuleConta()">
         <v-list-item-icon><v-icon>mdi-piggy-bank-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Bank Accounts</v-list-item-title></v-list-item-content>
       </v-list-item>
@@ -46,21 +46,21 @@
         <v-list-item-icon><v-icon>mdi-office-building-marker-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Locations</v-list-item-title></v-list-item-content>
       </v-list-item>
-      <v-list-item link @click="acessarModuloFormaPagamento()">
+      <v-list-item link @click="accessModuleFormaPagamento()">
         <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Payment Methods</v-list-item-title></v-list-item-content>
       </v-list-item>
 
       <v-subheader>COMING SOON</v-subheader>
-      <v-list-item link @click="acessarModuloDesejo()">
+      <v-list-item link @click="accessModuleDesejo()">
         <v-list-item-icon><v-icon>mdi-heart-half-full</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Wish List</v-list-item-title></v-list-item-content>
       </v-list-item>
-      <v-list-item link @click="acessarModuloAutomovel()">
+      <v-list-item link @click="accessModuleAutomovel()">
         <v-list-item-icon><v-icon>mdi-car</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Car Management</v-list-item-title></v-list-item-content>
       </v-list-item>
-      <v-list-item link @click="acessarModuloSupermercado()">
+      <v-list-item link @click="accessModuleSupermercado()">
         <v-list-item-icon><v-icon>mdi-cart</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Supermarket</v-list-item-title></v-list-item-content>
       </v-list-item>
@@ -129,19 +129,19 @@ export default {
       this.user = this.$store.state.user;
     },
 
-    acessarModuloResumo() {
+    accessModuleResumo() {
       this.$router.push("/resumo");
     },
 
-    acessarModuloMovimento() {
+    accessModuleMovimento() {
       this.$router.push("/movimento");
     },
 
-    acessarModuloExtrato() {
+    accessModuleExtrato() {
       this.$router.push("/extrato");
     },
 
-    acessarModuloConta() {
+    accessModuleConta() {
       this.$router.push("/conta");
     },
 
@@ -149,19 +149,19 @@ export default {
       this.$router.push("/location");
     },
 
-    acessarModuloFormaPagamento() {
+    accessModuleFormaPagamento() {
       this.$router.push("/formaPagamento");
     },
 
-    acessarModuloDesejo() {
+    accessModuleDesejo() {
       this.$router.push("/desejo");
     },
 
-    acessarModuloAutomovel() {
+    accessModuleAutomovel() {
       this.$router.push("/automovel");
     },
 
-    acessarModuloSupermercado() {
+    accessModuleSupermercado() {
       this.$router.push("/supermercado");
     },
 

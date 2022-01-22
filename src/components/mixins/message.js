@@ -26,7 +26,19 @@ export default {
       },
 
 		$_message_handleError(error) {
-			let exception = error.response.data;
+         let exception = null;
+
+         if (!error.response && error.message == "Network Error") {
+            exception = {
+               severity: "error",
+               summary: error.message,
+               messageList: ["Unable to connect with server."]
+            };
+         }
+         else {
+            exception = error.response.data;
+         }
+
          this.$_message_showMessage(exception.severity, exception.summary, exception.messageList);
 		},
 

@@ -4,12 +4,12 @@
       <v-toolbar-title>Locations</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-btn icon @click.stop="acessarModulo()" title="Click to reload page"><v-icon>mdi-update</v-icon></v-btn>
+      <v-btn icon @click.stop="accessModule()" title="Click to reload page"><v-icon>mdi-update</v-icon></v-btn>
       <v-btn icon @click.stop="toggleFilterField()" title="Click to search"><v-icon>mdi-magnify</v-icon></v-btn>
-      <v-btn icon @click.stop="acessarCadastro()" title="Click to register a new location"><v-icon>mdi-plus</v-icon></v-btn>
+      <v-btn icon @click.stop="accessRegistration()" title="Click to register a new location"><v-icon>mdi-plus</v-icon></v-btn>
     </v-app-bar>
 
-    <df-input-filter transition="slide-x-transition" v-if="showFilterField" @type="executarFiltro" />
+    <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
 
     <location-result />
     <location-form />
@@ -31,14 +31,14 @@ export default {
     toggleFilterField() {
       if (this.location.name) {
         this.location.name = "";
-        this.executarFiltro();
+        this.executeSearch();
       }
 
-      this.showFilterField = !this.showFilterField;
+      this.showSearchField = !this.showSearchField;
     }
   },
   created() {
-    this.acessarModulo();
+    this.accessModule();
   },
 };
 </script>
