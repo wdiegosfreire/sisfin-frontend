@@ -2,10 +2,15 @@ import apiInstance from "../../api/apiInstance";
 import maintenanceApiInstance from "../maintenance/maintenanceApiInstance";
 import transactionApiInstance from "../transaction/transactionApiInstance";
 
+import message from "../../mixins/message.js";
+
 export default {
 	name: "apiConfig",
+	mixins: [ message ],
 	methods: {
 		createInterceptors() {
+			this.$_message_console(process.env.VUE_APP_ENVIRONMENT);
+
 			apiInstance.interceptors.request.use((config) => {
 				this.$store.commit("setGlobalLoading", true);
 				return config;
