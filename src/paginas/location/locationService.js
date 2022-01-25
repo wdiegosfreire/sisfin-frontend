@@ -16,8 +16,13 @@ export default {
       let location = {
         userIdentity: this.$store.state.user.identity
       }
-   
+
+      this.$_message_console("Antes da requisição");
+
       this.$_transaction_post("/location/accessModule", location).then(response => {
+
+        this.$_message_console("Depois da requisição");
+
         this.$store.commit("setGlobalResult", response.data.map.locationList);
       }).catch(error => {
         this.$_message_handleError(error);
