@@ -2,7 +2,7 @@
   <v-app-bar app color="primary" dark>
     <v-app-bar-nav-icon v-if="$store.state.user.identity" @click.stop="showNavigationDrawer = !showNavigationDrawer"></v-app-bar-nav-icon>
     <v-toolbar-title :title="computedEnviroment">
-      Financial Control System - FCS v1.0.0
+      Financial Control System - FCS <span class="text-caption">v2022-02-25 2100</span>
     </v-toolbar-title>
 
     <v-spacer />
@@ -120,7 +120,7 @@ export default {
       return `${firstName} ${lastName}`;
     },
     computedEnviroment() {
-      return `Environment ${process.env.VUE_APP_ENVIRONMENT}`;
+      return `Environment ${process.env.VUE_APP_SISFIN_FRONTEND_ENVIROMENT}`;
     }
   },
   methods: {

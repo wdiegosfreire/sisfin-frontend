@@ -7,34 +7,42 @@ export default {
 	methods: {
 		createInterceptors() {
 			apiInstance.interceptors.request.use((config) => {
-				this.$store.commit("setGlobalLoading", true);
+				this.showGlobalLoading();
 				return config;
 			});
 
 			apiInstance.interceptors.response.use((response) => {
-				this.$store.commit("setGlobalLoading", false);
+				this.hideGlobalLoading();
 				return response;
 			});
 
 			maintenanceApiInstance.interceptors.request.use((config) => {
-				this.$store.commit("setGlobalLoading", true);
+				this.showGlobalLoading();
 				return config;
 			});
 
 			maintenanceApiInstance.interceptors.response.use((response) => {
-				this.$store.commit("setGlobalLoading", false);
+				this.hideGlobalLoading();
 				return response;
 			});
 
 			transactionApiInstance.interceptors.request.use((config) => {
-				this.$store.commit("setGlobalLoading", true);
+				this.showGlobalLoading();
 				return config;
 			});
 
 			transactionApiInstance.interceptors.response.use((response) => {
-				this.$store.commit("setGlobalLoading", false);
+				this.hideGlobalLoading();
 				return response;
 			});
+		},
+
+		showGlobalLoading() {
+			this.$store.commit("setGlobalLoading", true);
+		},
+
+		hideGlobalLoading() {
+			this.$store.commit("setGlobalLoading", false);
 		}
 	}
 };

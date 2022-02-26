@@ -16,7 +16,7 @@ export default {
       let location = {
         userIdentity: this.$store.state.user.identity
       }
-   
+
       this.$_transaction_post("/location/accessModule", location).then(response => {
         this.$store.commit("setGlobalResult", response.data.map.locationList);
       }).catch(error => {
