@@ -24,21 +24,23 @@ import LocationForm from "./LocationForm.vue";
 import DfInputFilter from "../../components/input/InputFilter.vue";
 
 export default {
-  name: "Location",
-  components: { LocationResult, LocationForm, DfInputFilter },
-  mixins: [locationService],
-  methods: {
-    toggleFilterField() {
-      if (this.location.name) {
-        this.location.name = "";
-        this.executeSearch();
-      }
+   name: "Location",
+   components: { LocationResult, LocationForm, DfInputFilter },
+   mixins: [locationService],
 
-      this.showSearchField = !this.showSearchField;
-    }
-  },
-  created() {
-    this.accessModule();
-  },
+   methods: {
+      toggleFilterField() {
+         if (this.location.filter) {
+            this.location.filter = "";
+            this.executeSearch();
+         }
+
+         this.showSearchField = !this.showSearchField;
+      }
+   },
+
+   created() {
+      this.accessModule();
+   },
 };
 </script>

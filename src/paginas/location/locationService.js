@@ -11,10 +11,11 @@ export default {
       },
     };
   },
+
   methods: {
     accessModule() {
       let location = {
-        userIdentity: this.$store.state.user.identity
+        userIdentity: this.$store.state.userIdentity
       }
 
       this.$_transaction_post("/location/accessModule", location).then(response => {
@@ -29,7 +30,7 @@ export default {
     },
 
     accessEdition(location) {
-      location.user = this.$store.state.user;
+      location.userIdentity = this.$store.state.userIdentity;
       this.$_transaction_post("/location/accessEdition", location).then(response => {
         this.$store.commit("setGlobalEntity", response.data.map.location);
         this.$store.commit("showGlobalDialog", true);
@@ -40,7 +41,7 @@ export default {
   
     executeSearch(filterValue) {
       this.location.filter = filterValue;
-      this.location.userIdentity = this.$store.state.user.identity;
+      this.location.userIdentity = this.$store.state.userIdentity;
 
       this.$_transaction_post("/location/executeSearch", this.location).then(response => {
         this.$store.commit("setGlobalResult", response.data.map.locationList);
@@ -65,7 +66,7 @@ export default {
           return;
       }
    
-      this.location.userIdentity = this.$store.state.user.identity;
+      this.location.userIdentity = this.$store.state.userIdentity;
       this.$_transaction_post("/location/executeRegistration", this.location).then(response => {
         this.$store.commit("setGlobalResult", response.data.map.locationList);
         this.$_message_showSuccess();
@@ -96,7 +97,7 @@ export default {
           return;
       }
 
-      this.location.userIdentity = this.$store.state.user.identity;
+      this.location.userIdentity = this.$store.state.userIdentity;
       this.$_transaction_post("/location/executeEdition", this.location).then(response => {
         this.$store.commit("setGlobalResult", response.data.map.locationList);
         this.$_message_showSuccess();
@@ -108,7 +109,7 @@ export default {
 
     executeExclusion(location) {
       this.$confirm("Deseja excluir permanentemente o registro selecionado?").then(() => {
-        location.userIdentity = this.$store.state.user.identity;
+        location.userIdentity = this.$store.state.userIdentity;
         this.$_transaction_post("/location/executeExclusion", location).then(response => {
           this.$store.commit("setGlobalResult", response.data.map.locationList);
           this.$_message_showSuccess();
