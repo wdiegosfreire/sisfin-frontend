@@ -7,7 +7,6 @@ export default {
   mixins: [maintenanceApi, message ],
   data() {
     return {
-        isProduction: false,
         password: "",
         user: {
             email: "",
@@ -31,7 +30,10 @@ export default {
       this.user.password = md5(this.password);
 
       this.$_maintenance_post(`/user/executeAuthentication`, this.user).then(response => {
-        this.$store.commit("setUser", response.data.map.userAuthenticated);
+        this.$store.commit("setUserName", response.data.map.userAuthenticated.name);
+        this.$store.commit("setUserIdentity", response.data.map.userAuthenticated.identity);
+        this.$store.commit("setSessionToken", response.data.map.token);
+
         this.$router.push("/resumo");
       }).catch(error => {
         this.$_message_handleError(error);

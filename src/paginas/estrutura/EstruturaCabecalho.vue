@@ -1,14 +1,14 @@
 <template><span>
   <v-app-bar app color="primary" dark>
-    <v-app-bar-nav-icon v-if="$store.state.user.identity" @click.stop="showNavigationDrawer = !showNavigationDrawer"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon v-if="$store.state.sessionToken" @click.stop="showNavigationDrawer = !showNavigationDrawer"></v-app-bar-nav-icon>
     <v-toolbar-title :title="computedEnviroment">
-      Financial Control System - FCS <span class="text-caption">v2022-02-25 2100</span>
+      Financial Control System - FCS <span class="text-caption">2022-03-219 1516</span>
     </v-toolbar-title>
 
     <v-spacer />
 
     <v-toolbar-items>
-      <v-btn v-if="$store.state.user.identity" text @click="executeLogout()">Log Out</v-btn>
+      <v-btn v-if="$store.state.sessionToken" text @click="executeLogout()">Log Out</v-btn>
     </v-toolbar-items>
   </v-app-bar>
 
@@ -90,7 +90,7 @@ export default {
     }
   },
   watch: {
-    "$store.state.user": "setUser"
+    "$store.userIdentity": "setUserIdentity"
   },
   computed: {
     computedInitials() {
@@ -98,21 +98,22 @@ export default {
       let firstChar = "";
       let lastChar = "";
 
-      if (this.user && this.user.name) {
-        splittedName = this.user.name.split(" ");
+      if (window.localStorage.userName) {
+        splittedName = window.localStorage.userName.split(" ");
         firstChar = splittedName[0].substring(0, 1);
         lastChar = splittedName[splittedName.length - 1].substr(0, 1);
       }
 
       return firstChar + lastChar;
     },
+
     computedName() {
       let splittedName = [];
       let firstName = "";
       let lastName = "";
 
-      if (this.user && this.user.name) {
-        splittedName = this.user.name.split(" ");
+      if (window.localStorage.userName) {
+        splittedName = window.localStorage.userName.split(" ");
         firstName = splittedName[0];
         lastName = splittedName[splittedName.length - 1];
       }
@@ -124,11 +125,6 @@ export default {
     }
   },
   methods: {
-    setUser() {
-      this.$store.commit("setUser", this.$store.state.user);
-      this.user = this.$store.state.user;
-    },
-
     accessModuleResumo() {
       this.$router.push("/resumo");
     },
@@ -167,7 +163,10 @@ export default {
 
     executeLogout() {
       this.$_maintenance_post(`/user/executeLogout`, this.user).then(() => {
-        this.$store.commit("setUser", {});
+        this.$store.commit("setUserName", "");
+        this.$store.commit("setUserIdentity", "");
+        this.$store.commit("setSessionToken", "");
+
         this.$router.push("/");
       }).catch(error => {
           this.$_message_showError(error.response);
