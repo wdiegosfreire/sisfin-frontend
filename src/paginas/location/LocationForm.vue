@@ -13,10 +13,10 @@
 					<v-text-field label="Identity" readonly v-model="location.identity" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="Name" v-model="location.name" :readonly="location.identity" />
+					<v-text-field label="Name" v-model="location.name" :readonly="Boolean(location.identity)" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="CNPJ" v-model="location.cnpj" :readonly="location.identity" />
+					<v-text-field label="CNPJ" v-model="location.cnpj" :readonly="Boolean(location.identity)" />
 					<v-text-field label="Branch" v-model="location.branch" />
 				</df-grid>
 				<df-grid>

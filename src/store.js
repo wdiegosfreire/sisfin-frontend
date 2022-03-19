@@ -10,18 +10,18 @@ export default new Vuex.Store({
 		globalDialog: false,
 		globalLoading: false,
 
-		user: {},
-		logged: false,
-		isProduction: false,
+      userName: "",
+		userIdentity: "",
+      sessionToken: "",
+
 		message: {
 			severity: "",
 			summary: "",
 			detailList: [],
 			date: new Date()
-		},
-		authToken: "",
-		userId: ""
+		}
 	},
+
 	mutations: {
 		setGlobalResult(state, payload) {
 			state.globalResult = payload;
@@ -35,30 +35,23 @@ export default new Vuex.Store({
 			state.globalLoading = payload;
 		},
 
-		// Codigo nao refatorado
-		setUser(state, payload) {
-			window.localStorage.user = payload;
-			state.user = payload;
-		},
-
-		setLogged(state, payload) {
-			window.localStorage.logged = payload;
-			state.logged = payload;
-		},
-
 		showGlobalDialog(state, payload) {
 			state.globalDialog = payload;
 		},
 
-		setAuthToken(state, payload) {
-			window.localStorage.authToken = payload;
-			state.authToken = payload;
-			state.logged = Boolean(state.authToken);
+		setUserName(state, payload) {
+			window.localStorage.userName = payload;
+			state.userName = payload;
 		},
 
-		setUserId(state, payload) {
-			window.localStorage.userId = payload;
-			state.userId = payload;
+      setUserIdentity(state, payload) {
+			window.localStorage.userIdentity = payload;
+			state.userIdentity = payload;
+		},
+
+      setSessionToken(state, payload) {
+         window.localStorage.sessionToken = payload;
+         state.sessionToken = payload;
 		},
 
 		showMessage(state, payload) {

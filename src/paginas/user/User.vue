@@ -20,11 +20,7 @@
 import userService from "./userService.js";
 
 export default {
-    name: "User",
-    // mixins: [api, message],
-    mixins: [ userService ],
-    created() {
-        this.$store.commit("setLogged", false);
-    }
+   name: "User",
+   mixins: [ userService ]
 }
 </script>
