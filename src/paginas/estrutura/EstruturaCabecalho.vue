@@ -2,7 +2,7 @@
   <v-app-bar app color="primary" dark>
     <v-app-bar-nav-icon v-if="$store.state.sessionToken" @click.stop="showNavigationDrawer = !showNavigationDrawer"></v-app-bar-nav-icon>
     <v-toolbar-title :title="computedEnviroment">
-      Financial Control System - FCS <span class="text-caption">2022-03-219 1516</span>
+      Financial Control System - FCS <span class="text-caption">2022-04-01 1605</span>
     </v-toolbar-title>
 
     <v-spacer />
