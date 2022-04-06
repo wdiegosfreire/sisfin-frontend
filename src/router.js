@@ -8,7 +8,7 @@ import Movimento from "./paginas/movimento/Movimento.vue";
 import Extrato from "./paginas/extrato/Extrato.vue";
 import Conta from "./paginas/conta/Conta.vue";
 import Location from "./paginas/location/Location.vue";
-import FormaPagamento from "./paginas/formaPagamento/FormaPagamento.vue";
+import PaymentMethod from "./paginas/paymentMethod/PaymentMethod.vue";
 import Desejo from "./paginas/desejo/Desejo.vue";
 import Automovel from "./paginas/automovel/Automovel.vue";
 import Supermercado from "./paginas/supermercado/Supermercado.vue";
@@ -22,7 +22,7 @@ const routes = [
     { path: "/extrato", name: "extrato", component: Extrato },
     { path: "/conta", name: "conta", component: Conta },
     { path: "/location", name: "location", component: Location },
-    { path: "/formaPagamento", name: "formaPagamento", component: FormaPagamento },
+    { path: "/paymentMethod", name: "paymentMethod", component: PaymentMethod },
     { path: "/desejo", name: "desejo", component: Desejo },
     { path: "/automovel", name: "automovel", component: Automovel },
     { path: "/supermercado", name: "supermercado", component: Supermercado }

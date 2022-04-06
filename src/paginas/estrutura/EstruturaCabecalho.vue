@@ -46,7 +46,7 @@
         <v-list-item-icon><v-icon>mdi-office-building-marker-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Locations</v-list-item-title></v-list-item-content>
       </v-list-item>
-      <v-list-item link @click="accessModuleFormaPagamento()">
+      <v-list-item link @click="accessModulePaymentMethod()">
         <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Payment Methods</v-list-item-title></v-list-item-content>
       </v-list-item>
@@ -145,8 +145,8 @@ export default {
       this.$router.push("/location");
     },
 
-    accessModuleFormaPagamento() {
-      this.$router.push("/formaPagamento");
+    accessModulePaymentMethod() {
+      this.$router.push("/paymentMethod");
     },
 
     accessModuleDesejo() {
