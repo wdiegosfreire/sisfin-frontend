@@ -18,12 +18,12 @@ export default {
   methods: {
     executeAuthentication() {
       if (this.user.email == "") {
-          this.$_message_showWarning("Email não informado.");
+          this.$_message_showWarning("The e-mail field is empty.");
           return;
       }
 
       if (this.password == "") {
-          this.$_message_showWarning("Senha não informada.");
+          this.$_message_showWarning("The password field is empty.");
           return;
       }
 

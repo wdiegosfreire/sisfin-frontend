@@ -2,7 +2,7 @@
   <v-app-bar app color="primary" dark>
     <v-app-bar-nav-icon v-if="$store.state.sessionToken" @click.stop="showNavigationDrawer = !showNavigationDrawer"></v-app-bar-nav-icon>
     <v-toolbar-title :title="computedEnviroment">
-      Financial Control System - FCS <span class="text-caption">2022-04-01 1605</span>
+      Financial Control System - FCS <span class="text-caption">2022-04-07 1720</span>
     </v-toolbar-title>
 
     <v-spacer />
@@ -46,7 +46,7 @@
         <v-list-item-icon><v-icon>mdi-office-building-marker-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Locations</v-list-item-title></v-list-item-content>
       </v-list-item>
-      <v-list-item link @click="accessModuleFormaPagamento()">
+      <v-list-item link @click="accessModulePaymentMethod()">
         <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Payment Methods</v-list-item-title></v-list-item-content>
       </v-list-item>
@@ -145,8 +145,8 @@ export default {
       this.$router.push("/location");
     },
 
-    accessModuleFormaPagamento() {
-      this.$router.push("/formaPagamento");
+    accessModulePaymentMethod() {
+      this.$router.push("/paymentMethod");
     },
 
     accessModuleDesejo() {
