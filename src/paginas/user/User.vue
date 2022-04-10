@@ -13,14 +13,64 @@
             <v-btn color="button" width="150" @click="executeAuthentication">Confirm</v-btn>
             <v-btn color="button" width="150" @click="resetForm">Clear</v-btn>
         </v-card-actions>
+
+         <v-card-actions v-if="maintenance">
+            <v-alert outlined prominent type="error" border="left" class="text-left">
+               The service "MAINTENANCE" is not responding. We'll try again after each 30 seconds until the service is back again.
+            </v-alert>
+         </v-card-actions>
+         <v-card-actions v-if="transaction">
+            <v-alert outlined prominent type="error" border="left" class="text-left">
+               The service "TRANSACTION" is not responding. We'll try again after each 30 seconds until the service is back again.
+            </v-alert>
+         </v-card-actions>
     </v-card>
 </template>
 
 <script>
+import maintenanceApi from "../../components/axios/maintenance/maintenanceApi.js";
+import transactionApi from "../../components/axios/transaction/transactionApi.js";
 import userService from "./userService.js";
 
 export default {
    name: "User",
-   mixins: [ userService ]
+   mixins: [ maintenanceApi, transactionApi, userService ],
+
+   data() {
+      return {
+         maintenance: false,
+         transaction: false,
+         timeoutDelay: 5000
+      }
+   },
+
+   methods: {
+      checkMicroServiceMaintenance() {
+         let _this = this;
+
+         this.$_maintenance_get(`/imrunning`).then(() => {
+            _this.maintenance = false;
+         }).catch(() => {
+            _this.maintenance = true;
+            setTimeout(function() {_this.checkMicroServiceMaintenance();}, _this.timeoutDelay);
+         });
+      },
+
+      checkMicroServiceTransaction() {
+         let _this = this;
+
+         this.$_transaction_get(`/imrunning`).then(() => {
+            _this.transaction = false;
+         }).catch(() => {
+            _this.transaction = true;
+            setTimeout(function() {_this.checkMicroServiceTransaction();}, _this.timeoutDelay);
+         });
+      }
+   },
+
+   created: function () {
+      this.checkMicroServiceMaintenance();
+      this.checkMicroServiceTransaction();
+   }
 }
 </script>
