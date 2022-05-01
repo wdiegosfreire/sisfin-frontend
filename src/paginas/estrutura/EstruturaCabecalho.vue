@@ -38,9 +38,9 @@
       </v-list-item>
 
       <v-subheader>CADASTROS</v-subheader>
-      <v-list-item link @click="accessModuleConta()">
+      <v-list-item link @click="accessModuleAccount()">
         <v-list-item-icon><v-icon>mdi-piggy-bank-outline</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Bank Accounts</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Accounts</v-list-item-title></v-list-item-content>
       </v-list-item>
       <v-list-item link @click="accessModuleLocation()">
         <v-list-item-icon><v-icon>mdi-office-building-marker-outline</v-icon></v-list-item-icon>
@@ -137,8 +137,8 @@ export default {
       this.$router.push("/extrato");
     },
 
-    accessModuleConta() {
-      this.$router.push("/conta");
+    accessModuleAccount() {
+      this.$router.push("/account");
     },
 
     accessModuleLocation() {
