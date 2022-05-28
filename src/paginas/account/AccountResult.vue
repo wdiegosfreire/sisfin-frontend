@@ -1,11 +1,11 @@
 <template>
    <v-card>
       <v-card-text>
-         <v-card outlined class="elevation-1 mb-4" v-for="account in accountList" :key="account.identity">
+         <v-card outlined class="elevation-1 mb-4" :class="getIdentation(account)" v-for="account in accountList" :key="account.identity">
             <v-card-title class="pb-0 pt-0">
                <span v-if="account.accountParent">
-                  <span v-if="account.accountParent.accountParent">{{ account.accountParent.accountParent.name }}.</span>
-                  <span>{{ account.accountParent.name }}.</span>
+                  <span v-if="account.accountParent.accountParent">{{ account.accountParent.accountParent.name }}:</span>
+                  <span>{{ account.accountParent.name }}:</span>
                </span>
                <span>{{ account.name }}</span>
             </v-card-title>
@@ -20,18 +20,18 @@
                      <v-menu offset-y>
                         <template v-slot:activator="{ on, attrs }">
                            <v-btn outlined fab small v-bind="attrs" v-on="on">
-                              <df-icon icon="menu" />
+                              <df-icon icon="fa-bars" />
                            </v-btn>
                         </template>
                         <v-list dense width="150">
                            <v-subheader>Options</v-subheader>
                            <v-list-item-group>
                               <v-list-item @click="accessEdition(account)">
-                                 <v-list-item-icon><df-icon icon="edit" /></v-list-item-icon>
+                                 <v-list-item-icon><df-icon icon="fa-pen-to-square" /></v-list-item-icon>
                                  <v-list-item-content><v-list-item-title>Edit</v-list-item-title></v-list-item-content>
                               </v-list-item>
                               <v-list-item @click="executeExclusion(account)">
-                                 <v-list-item-icon><df-icon icon="trash" /></v-list-item-icon>
+                                 <v-list-item-icon><df-icon icon="fa-trash-can" /></v-list-item-icon>
                                  <v-list-item-content><v-list-item-title>Delete</v-list-item-title></v-list-item-content>
                               </v-list-item>
                            </v-list-item-group>
@@ -64,12 +64,25 @@ export default {
          search: ""
       };
    },
+
    methods: {
       updateGlobalResult() {
          this.accountList = this.$store.state.globalResult;
+      },
+
+      getIdentation(account) {
+         let marginLeft = "";
+
+         if (account.accountParent && account.accountParent.accountParent)
+            marginLeft = "ml-16"
+         else if (account.accountParent && !account.accountParent.accountParent)
+            marginLeft = "ml-8"
+
+         return marginLeft;
       }
    },
-   watch: {
+
+watch: {
       "$store.state.globalResult": "updateGlobalResult"
    }
 };

@@ -12,23 +12,22 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
    faBars as fasBars,
    faPlus as fasPlus,
+   faWrench as fasWrench,
+   faGasPump as fasGasPump,
    faTrashCan as fasTrashCan,
+   faUtensils as fasUtensils,
+   faHeartPulse as fasHeartPulse,
+   faPenToSquare as fasPenToSquare,
    faArrowsRotate as fasArrowsRotate,
    faMagnifyingGlass as fasMagnifyingGlass
 } from '@fortawesome/free-solid-svg-icons'
-
-import {
-   faTrashCan as farTrashCan,
-   faPenToSquare as farPenToSquare
-} from '@fortawesome/free-regular-svg-icons'
 
 Vue.config.productionTip = false;
 
 Vue.use(VueSimpleAlert);
 
 library.add(
-   fasBars, fasPlus, fasTrashCan, fasArrowsRotate, fasMagnifyingGlass,
-   farTrashCan, farPenToSquare);
+   fasBars, fasPlus, fasWrench, fasGasPump, fasTrashCan, fasUtensils, fasHeartPulse, fasPenToSquare, fasArrowsRotate, fasMagnifyingGlass);
 Vue.component('fa-icon', FontAwesomeIcon);
 
 new Vue({

@@ -19,7 +19,10 @@ export default new Vuex.Store({
 			summary: "",
 			detailList: [],
 			date: new Date()
-		}
+		},
+
+      globalAccountListComboLevelOne: [],
+      globalAccountListComboLevelTwo: []
 	},
 
 	mutations: {
@@ -61,6 +64,14 @@ export default new Vuex.Store({
 				detailList: payload.detail,
 				date: new Date()
 			}
+		},
+
+      setGlobalAccountListComboLevelOne(state, payload) {
+			state.globalAccountListComboLevelOne = payload;
+		},
+
+      setGlobalAccountListComboLevelTwo(state, payload) {
+			state.globalAccountListComboLevelTwo = payload;
 		}
 	}
 });

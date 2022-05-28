@@ -21,20 +21,7 @@ export default {
 
    computed: {
       getIcon() {
-         if (this.icon == "trash")
-            return "fa-regular fa-trash-can";
-         else if (this.icon == "edit")
-            return "fa-regular fa-pen-to-square";
-         else if (this.icon == "menu")
-            return "fa-solid fa-bars";
-         else if (this.icon == "plus")
-            return "fa-solid fa-plus";
-         else if (this.icon == "search")
-            return "fa-solid fa-magnifying-glass";
-         else if (this.icon == "reload")
-            return "fa-solid fa-arrows-rotate";
-
-         return "";
+         return "fa-solid " + this.icon;
       }
    },
 };
