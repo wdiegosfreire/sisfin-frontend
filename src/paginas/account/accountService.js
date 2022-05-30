@@ -8,6 +8,7 @@ export default {
       return {
          showSearchField: false,
          account: {
+            icon: "",
             accountParent: {}
          },
 
@@ -120,6 +121,11 @@ export default {
 
          if (!this.account.level || !this.account.level.trim()) {
             this.$_message_showRequired("Missing account acronym.");
+            return;
+         }
+
+         if (!this.account.accountParent || !this.account.accountParent.identity) {
+            this.$_message_showRequired("Missing parent account.");
             return;
          }
 

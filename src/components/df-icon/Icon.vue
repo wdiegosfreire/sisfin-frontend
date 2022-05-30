@@ -1,5 +1,5 @@
 <template>
-   <fa-icon :icon="getIcon" :size="size" :spin="spin" />
+   <fa-icon :icon="getIcon" :size="size" :spin="spin" @click="$emit('click')" />
 </template>
 
 <script>
