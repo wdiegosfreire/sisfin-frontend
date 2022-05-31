@@ -6,9 +6,17 @@ import router from './router'
 
 import VueSimpleAlert from "vue-simple-alert";
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { fas } from '@fortawesome/free-solid-svg-icons';
+
 Vue.config.productionTip = false;
 
 Vue.use(VueSimpleAlert);
+
+library.add(fas);
+
+Vue.component('fa-icon', FontAwesomeIcon);
 
 new Vue({
   vuetify,
