@@ -6,7 +6,7 @@ import User from "./paginas/user/User.vue";
 import Resumo from "./paginas/resumo/Resumo.vue";
 import Movimento from "./paginas/movimento/Movimento.vue";
 import Extrato from "./paginas/extrato/Extrato.vue";
-import Conta from "./paginas/conta/Conta.vue";
+import Account from "./paginas/account/Account.vue";
 import Location from "./paginas/location/Location.vue";
 import PaymentMethod from "./paginas/paymentMethod/PaymentMethod.vue";
 import Desejo from "./paginas/desejo/Desejo.vue";
@@ -20,7 +20,7 @@ const routes = [
     { path: "/resumo", name: "resumo", component: Resumo },
     { path: "/movimento", name: "movimento", component: Movimento },
     { path: "/extrato", name: "extrato", component: Extrato },
-    { path: "/conta", name: "conta", component: Conta },
+    { path: "/account", name: "account", component: Account },
     { path: "/location", name: "location", component: Location },
     { path: "/paymentMethod", name: "paymentMethod", component: PaymentMethod },
     { path: "/desejo", name: "desejo", component: Desejo },

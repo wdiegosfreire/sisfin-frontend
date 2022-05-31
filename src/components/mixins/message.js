@@ -44,7 +44,12 @@ export default {
 
       $_message_console(message) {
          /* eslint no-console: "off" */
-         console.log(`App Log: ${JSON.stringify(message)}`);
+         console.log(`App Console: ${JSON.stringify(message)}`);
+		},
+
+      $_message_alert(message) {
+         /* eslint no-alert: "off" */
+         alert(`App Alert: ${JSON.stringify(message)}`);
 		}
    }
 }

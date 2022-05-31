@@ -51,6 +51,11 @@ export default {
 	grid-template-columns: auto 60px;
 }
 
+.df-column-auto-xs {
+	grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+	grid-auto-flow: row;
+}
+
 .df-column-auto-sm {
 	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 	grid-auto-flow: row;

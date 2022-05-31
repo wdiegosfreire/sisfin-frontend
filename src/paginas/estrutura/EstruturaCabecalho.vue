@@ -2,7 +2,7 @@
   <v-app-bar app color="primary" dark>
     <v-app-bar-nav-icon v-if="$store.state.sessionToken" @click.stop="showNavigationDrawer = !showNavigationDrawer"></v-app-bar-nav-icon>
     <v-toolbar-title :title="computedEnviroment">
-      Financial Control System - FCS <span class="text-caption">2022-04-10 1850</span>
+      Financial Control System - FCS <span class="text-caption">2022-05-31 1550</span>
     </v-toolbar-title>
 
     <v-spacer />
@@ -38,9 +38,9 @@
       </v-list-item>
 
       <v-subheader>CADASTROS</v-subheader>
-      <v-list-item link @click="accessModuleConta()">
+      <v-list-item link @click="accessModuleAccount()">
         <v-list-item-icon><v-icon>mdi-piggy-bank-outline</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Bank Accounts</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Accounts</v-list-item-title></v-list-item-content>
       </v-list-item>
       <v-list-item link @click="accessModuleLocation()">
         <v-list-item-icon><v-icon>mdi-office-building-marker-outline</v-icon></v-list-item-icon>
@@ -137,8 +137,8 @@ export default {
       this.$router.push("/extrato");
     },
 
-    accessModuleConta() {
-      this.$router.push("/conta");
+    accessModuleAccount() {
+      this.$router.push("/account");
     },
 
     accessModuleLocation() {
