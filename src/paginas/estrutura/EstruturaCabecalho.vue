@@ -23,14 +23,14 @@
     <v-divider></v-divider>
 
     <v-list dense>
-      <v-subheader>TRANSACTIONS</v-subheader>
+      <v-subheader>Activities</v-subheader>
       <v-list-item link @click="accessModuleResumo()">
         <v-list-item-icon><v-icon>mdi-text</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Summary</v-list-item-title></v-list-item-content>
       </v-list-item>
-      <v-list-item link @click="accessModuleMovimento()">
+      <v-list-item link @click="accessModuleActivity()">
         <v-list-item-icon><v-icon>mdi-cash-multiple</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Transactions</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Activities</v-list-item-title></v-list-item-content>
       </v-list-item>
       <v-list-item link @click="accessModuleExtrato()">
         <v-list-item-icon><v-icon>mdi-notebook-plus-outline</v-icon></v-list-item-icon>
@@ -129,8 +129,8 @@ export default {
       this.$router.push("/resumo");
     },
 
-    accessModuleMovimento() {
-      this.$router.push("/movimento");
+    accessModuleActivity() {
+      this.$router.push("/activity");
     },
 
     accessModuleExtrato() {
