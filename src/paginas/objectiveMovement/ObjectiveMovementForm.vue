@@ -3,29 +3,29 @@
 		<v-card class="mb-3">
 			<v-toolbar color="primary" height="35" dark flat>
 				<v-toolbar-title>
-					<span v-if="this.activity.identity">Edit Location</span>
-					<span v-else>New Location</span>
+					<span v-if="this.objectiveMovement.identity">Edit Movement</span>
+					<span v-else>New Movement</span>
 				</v-toolbar-title>
 			</v-toolbar>
 
 			<v-card-text>
-				<df-grid v-if="activity.identity" >
-					<v-text-field label="Identity" readonly v-model="activity.identity" />
+				<df-grid v-if="objectiveMovement.identity" >
+					<v-text-field label="Identity" readonly v-model="objectiveMovement.identity" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="Name" v-model="activity.name" :readonly="Boolean(activity.identity)" />
+					<v-text-field label="Name" v-model="objectiveMovement.name" :readonly="Boolean(objectiveMovement.identity)" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="CNPJ" v-model="activity.cnpj" :readonly="Boolean(activity.identity)" />
-					<v-text-field label="Branch" v-model="activity.branch" />
+					<v-text-field label="CNPJ" v-model="objectiveMovement.cnpj" :readonly="Boolean(objectiveMovement.identity)" />
+					<v-text-field label="Branch" v-model="objectiveMovement.branch" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="Note" v-model="activity.note" />
+					<v-text-field label="Note" v-model="objectiveMovement.note" />
 				</df-grid>
 			</v-card-text>
 
       <v-card-actions>
-        <v-btn v-if="this.activity.identity" color="button" width="150" @click="executeEdition()">Confirm</v-btn>
+        <v-btn v-if="this.objectiveMovement.identity" color="button" width="150" @click="executeEdition()">Confirm</v-btn>
         <v-btn v-else width="150" @click="executeRegistration()">Confirmar</v-btn>
 
         <v-btn width="150" @click="limparFormulario()">Limpar</v-btn>
@@ -36,31 +36,26 @@
 </template>
 
 <script>
-import ActivityService from "./ActivityService.js";
+import ObjectiveMovementService from "./ObjectiveMovementService.js";
 
 import DfGrid from "../../components/grid/Grid.vue";
 
 export default {
-	name: "ActivityForm",
+	name: "ObjectiveMovementForm",
 	components: { DfGrid },
-	mixins: [ActivityService],
+	mixins: [ObjectiveMovementService],
 	methods: {
 		limparFormulario() {
-			this.activity.identity = null;
-			this.activity.cnpj = "";
-			this.activity.name = "";
-			this.activity.branch = "";
-			this.activity.note = "";
+			this.objectiveMovement.identity = null;
 		},
 
 		fecharFormulario() {
 			this.limparFormulario();
 			this.$store.commit("showGlobalDialog", false);
-			
 		},
 
 		updateGlobalEntity() {
-			this.activity = this.$store.state.globalEntity;
+			this.objectiveMovement = this.$store.state.globalEntity;
 		}
 	},
 	watch: {

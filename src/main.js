@@ -4,6 +4,8 @@ import vuetify from './plugins/vuetify';
 import store from './store'
 import router from './router'
 
+import constants from "./plugins/Constants";
+
 import VueSimpleAlert from "vue-simple-alert";
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -13,6 +15,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 Vue.config.productionTip = false;
 
 Vue.use(VueSimpleAlert);
+Vue.use(constants);
 
 library.add(fas);
 

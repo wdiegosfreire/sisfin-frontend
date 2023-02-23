@@ -140,7 +140,7 @@ export default {
       },
 
       executeExclusion(account) {
-         this.$confirm("Deseja excluir permanentemente o registro selecionado?").then(() => {
+         this.$confirm("Do you want to delete the selected record?").then(() => {
             account.userIdentity = this.$store.state.userIdentity;
 
             this.$_transaction_post("/account/executeExclusion", account).then(response => {

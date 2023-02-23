@@ -5,6 +5,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
+      globalObjectiveMovementList: [],
+
 		globalResult: [],
 		globalEntity: {},
 		globalDialog: false,
@@ -26,6 +28,8 @@ export default new Vuex.Store({
 	},
 
 	mutations: {
+		setGlobalObjectiveMovementList(state, payload) { state.globalObjectiveMovementList = payload; },
+
 		setGlobalResult(state, payload) {
 			state.globalResult = payload;
 		},

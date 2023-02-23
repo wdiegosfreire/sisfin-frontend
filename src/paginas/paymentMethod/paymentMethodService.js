@@ -98,7 +98,7 @@ export default {
       },
 
       executeExclusion(paymentMethod) {
-         this.$confirm("Deseja excluir permanentemente o registro selecionado?").then(() => {
+         this.$confirm("Do you want to delete the selected record?").then(() => {
             paymentMethod.userIdentity = this.$store.state.userIdentity;
 
             this.$_transaction_post("/paymentMethod/executeExclusion", paymentMethod).then(response => {
