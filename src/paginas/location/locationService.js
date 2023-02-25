@@ -43,10 +43,12 @@ export default {
       },
   
       executeSearch(filterValue) {
-         this.location.filter = filterValue;
-         this.location.userIdentity = this.$store.state.userIdentity;
+         let location = {
+            filter: filterValue,
+            userIdentity: this.$store.state.userIdentity
+         }
 
-         this.$_transaction_post("/location/executeSearch", this.location).then(response => {
+         this.$_transaction_post("/location/executeSearch", location).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.locationList);
          }).catch(error => {
             this.$_message_handleError(error);
