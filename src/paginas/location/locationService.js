@@ -10,12 +10,11 @@ export default {
 
    data() {
       return {
-         showSearchField: false,
-         location: {},
+         showSearchField: false
       };
    },
 
-  methods: {
+   methods: {
       accessModule() {
          let location = {
             userIdentity: this.$store.state.userIdentity

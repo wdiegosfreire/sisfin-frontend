@@ -9,22 +9,22 @@
                <v-spacer></v-spacer>
                <v-menu offset-y>
                   <template v-slot:activator="{ on, attrs }">
-                  <v-btn outlined fab small v-bind="attrs" v-on="on">
-                     <df-icon icon="fa-bars" />
-                  </v-btn>
+                     <v-btn outlined fab small v-bind="attrs" v-on="on">
+                        <df-icon icon="fa-bars" />
+                     </v-btn>
                   </template>
                   <v-list dense width="150">
-                  <v-subheader>Opções</v-subheader>
-                  <v-list-item-group>
-                     <v-list-item @click="$emit('accessEdition', location)">
-                        <v-list-item-icon><df-icon icon="fa-pen-to-square" /></v-list-item-icon>
-                        <v-list-item-content><v-list-item-title>Edit</v-list-item-title></v-list-item-content>
-                     </v-list-item>
-                     <v-list-item @click="$emit('executeExclusion', location)">
-                        <v-list-item-icon><df-icon icon="fa-trash-can" /></v-list-item-icon>
-                        <v-list-item-content><v-list-item-title>Delete</v-list-item-title></v-list-item-content>
-                     </v-list-item>
-                  </v-list-item-group>
+                     <v-subheader>Options</v-subheader>
+                     <v-list-item-group>
+                        <v-list-item @click="$emit('accessEdition', location)">
+                           <v-list-item-icon><df-icon icon="fa-pen-to-square" /></v-list-item-icon>
+                           <v-list-item-content><v-list-item-title>Edit</v-list-item-title></v-list-item-content>
+                        </v-list-item>
+                        <v-list-item @click="$emit('executeExclusion', location)">
+                           <v-list-item-icon><df-icon icon="fa-trash-can" /></v-list-item-icon>
+                           <v-list-item-content><v-list-item-title>Delete</v-list-item-title></v-list-item-content>
+                        </v-list-item>
+                     </v-list-item-group>
                   </v-list>
                </v-menu>
             </v-card-title>
@@ -50,7 +50,6 @@
 import DfGrid from "../../components/grid/Grid.vue";
 import DfIcon from "../../components/df-icon/Icon.vue";
 import DfOutputText from "../../components/output/OutputText.vue";
-
 
 export default {
    name: "LocationResult",
