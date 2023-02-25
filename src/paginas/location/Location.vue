@@ -9,10 +9,19 @@
          <v-btn icon @click.stop="accessRegistration()" title="Click to register a new location"><df-icon icon="fa-plus" /></v-btn>
       </v-app-bar>
 
-    <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
+      <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
 
-    <location-result :collection="$store.state.globalResult" @accessEdition="accessEdition" @executeExclusion="executeExclusion" />
-    <location-form :location="$store.state.globalEntity" @executeRegistration="executeRegistration" @executeEdition="executeEdition" />
+      <location-result :collection="$store.state.globalResult"
+         @accessEdition="accessEdition"
+         @executeExclusion="executeExclusion"
+      />
+
+      <location-form :location="$store.state.globalEntity"
+         @executeRegistration="executeRegistration"
+         @executeEdition="executeEdition"
+         @cleanForm="cleanForm"
+         @closeForm="closeForm"
+      />
    </div>
 </template>
 

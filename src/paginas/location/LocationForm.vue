@@ -24,15 +24,15 @@
 				</df-grid>
 			</v-card-text>
 
-      <v-card-actions>
-        <v-btn v-if="this.location.identity" color="button" width="150" @click="$emit('executeEdition', location)">Confirm</v-btn>
-        <v-btn v-else width="150" @click="$emit('executeRegistration', location)">Confirmar</v-btn>
+         <v-card-actions>
+            <v-btn v-if="this.location.identity" color="button" width="150" @click="$emit('executeEdition', location)">Confirm</v-btn>
+            <v-btn v-else width="150" @click="$emit('executeRegistration', location)">Confirmar</v-btn>
 
-        <v-btn width="150" @click="limparFormulario()">Limpar</v-btn>
-        <v-btn width="150" @click="fecharFormulario()">Close</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+            <v-btn width="150" @click="$emit('cleanForm', location)">Limpar</v-btn>
+            <v-btn width="150" @click="$emit('closeForm', location)">Close</v-btn>
+         </v-card-actions>
+      </v-card>
+   </v-dialog>
 </template>
 
 <script>
@@ -48,21 +48,6 @@ export default {
          type: Object,
          required: true
       }
-   },
-
-   methods: {
-		limparFormulario() {
-			this.location.identity = null;
-			this.location.cnpj = "";
-			this.location.name = "";
-			this.location.branch = "";
-			this.location.note = "";
-		},
-
-		fecharFormulario() {
-			this.limparFormulario();
-			this.$store.commit("showGlobalDialog", false);
-		}
-	}
+   }
 };
 </script>
