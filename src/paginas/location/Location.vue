@@ -35,15 +35,15 @@ import DfInputFilter from "../../components/input/InputFilter.vue";
 
 export default {
    name: "Location",
+
    components: { LocationResult, LocationForm, DfInputFilter, DfIcon },
+
    mixins: [locationService],
 
    methods: {
       toggleFilterField() {
-         if (this.location.filter) {
-            this.location.filter = "";
+         if (this.showSearchField)
             this.executeSearch();
-         }
 
          this.showSearchField = !this.showSearchField;
       }

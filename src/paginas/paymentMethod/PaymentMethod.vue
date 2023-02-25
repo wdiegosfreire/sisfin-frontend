@@ -35,15 +35,15 @@ import DfInputFilter from "../../components/input/InputFilter.vue";
 
 export default {
    name: "PaymentMethod",
+
    components: { PaymentMethodResult, PaymentMethodForm, DfInputFilter, DfIcon },
+
    mixins: [paymentMethodService],
 
    methods: {
       toggleFilterField() {
-         if (this.paymentMethod.filter) {
-            this.paymentMethod.filter = "";
+         if (this.showSearchField)
             this.executeSearch();
-         }
 
          this.showSearchField = !this.showSearchField;
       }
