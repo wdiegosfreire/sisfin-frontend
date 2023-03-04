@@ -8,8 +8,6 @@ export default {
    mixins: [transactionApi, message ],
 	data() {
       return {
-         periodYear: "",
-         periodMonth: "",
          showSearchField: false,
          objectiveMovement: {},
          monthList: [
@@ -30,15 +28,17 @@ export default {
    },
 
    methods: {
-      accessModule() {
-         if (!this.periodYear || !this.periodMonth) {
-            this.periodYear = new Date().getFullYear();
-            this.periodMonth = new Date().getMonth() + 1;
+      accessModule(selectedMonth, selectedYear) {
+         this.$_message_console(selectedMonth + "/" + selectedYear);
+
+         if (!selectedMonth || !selectedYear) {
+            selectedMonth = new Date().getMonth() + 1;
+            selectedYear = new Date().getFullYear();
          }
 
          let objectiveMovement = {
             userIdentity: this.$store.state.userIdentity,
-            paymentDate: new Date(this.periodYear + "-" + this.periodMonth + "-01 12:00:00")
+            paymentDate: new Date(selectedYear + "-" + selectedMonth + "-01 12:00:00")
          }
 
          this.$_transaction_post("/objectiveMovement/accessModule", objectiveMovement).then(response => {

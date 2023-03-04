@@ -10,9 +10,7 @@ export default {
 
    data() {
       return {
-         showSearchField: false,
-
-         accountListComboLevelOne: [],
+         showSearchField: false
       };
    },
 

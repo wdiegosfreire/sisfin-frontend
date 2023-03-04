@@ -6,7 +6,7 @@ import Constants from "../../plugins/Constants";
 export default {
    name: "locationService",
 
-   mixins: [transactionApi, message ],
+   mixins: [ transactionApi, message ],
 
    data() {
       return {

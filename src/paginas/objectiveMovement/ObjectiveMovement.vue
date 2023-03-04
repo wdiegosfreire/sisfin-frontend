@@ -12,11 +12,15 @@
       <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
 
       <df-grid>
-         <v-select label="Month" :items="monthList" item-text="monthName" item-value="monthNumber" :v-model="periodMonth" @change="periodMonthChange($event)"></v-select>
-         <v-text-field label="Year" :v-model="periodYear" @input="periodYearChange($event)" />
+         <v-select label="Month" v-model="selectedMonth" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();"></v-select>
+         <v-text-field label="Year" v-model="selectedYear" @input="periodChange();" />
       </df-grid>
 
-      <objective-movement-result :collection="$store.state.globalResult" @accessEdition="accessEdition" @executeExclusion="executeExclusion" />
+      <objective-movement-result :collection="$store.state.globalResult"
+         @accessEdition="accessEdition"
+         @executeExclusion="executeExclusion"
+      />
+
       <objective-movement-form />
    </div>
 </template>
@@ -34,39 +38,29 @@ import message from "../../components/mixins/message.js";
 
 export default {
    name: "ObjectiveMovement",
+
    components: { ObjectiveMovementResult, ObjectiveMovementForm, DfInputFilter, DfGrid, DfIcon },
+
    mixins: [ ObjectiveMovementService, message ],
 
    data() {
       return {
-         objectiveMovementList: []
-      }
+         selectedMonth: "",
+         selectedYear: ""
+      };
    },
 
    methods: {
-      test(message) {
-         this.$_message_alert(message);
-      },
-
       toggleFilterField() {
-         if (this.objectiveMovement.filter) {
-            this.objectiveMovement.filter = "";
+         if (this.showSearchField)
             this.executeSearch();
-         }
 
          this.showSearchField = !this.showSearchField;
       },
 
-      periodMonthChange(selectedMonth) {
-         this.periodMonth = selectedMonth;
-         this.accessModule();
-      },
-
-      periodYearChange(selectedYear) {
-         if (selectedYear.length == 4) {
-            this.periodYear = selectedYear;
-            this.accessModule();
-         }
+      periodChange() {
+         if (this.selectedMonth && this.selectedYear && this.selectedYear.length == 4)
+            this.accessModule(this.selectedMonth, this.selectedYear);
       }
    },
 
