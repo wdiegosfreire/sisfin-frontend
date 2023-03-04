@@ -36,7 +36,7 @@ export default {
             };
          }
          else {
-            exception = error.response.data;
+            exception = JSON.parse(error.response.data.message);
          }
 
          this.$_message_showMessage(exception.severity, exception.summary, exception.messageList);
@@ -44,7 +44,7 @@ export default {
 
       $_message_console(message) {
          /* eslint no-console: "off" */
-         console.log(`App Console: ${JSON.stringify(message)}`);
+         console.log(JSON.stringify(message));
 		},
 
       $_message_alert(message) {

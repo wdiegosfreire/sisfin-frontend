@@ -5,6 +5,7 @@
 <script>
 export default {
    name: "DfIcon",
+
    props: {
       icon: {
          type: String,

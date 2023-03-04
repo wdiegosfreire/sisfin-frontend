@@ -1,43 +1,42 @@
 import transactionApi from "../../components/axios/transaction/transactionApi.js";
 import message from "../../components/mixins/message.js";
 
+import Constants from "../../plugins/Constants";
+
 export default {
    name: "accountService",
+
    mixins: [ transactionApi, message ],
+
    data() {
       return {
          showSearchField: false,
-         account: {
-            icon: "",
-            accountParent: {}
-         },
 
-         levelSufix: "",
-         levelPrefix: "",
          accountListComboLevelOne: [],
-         accountListComboLevelTwo: [],
-         accountComboLevelOneSelected: {},
-         accountComboLevelTwoSelected: {}
       };
    },
 
    methods: {
       accessModule() {
-         let account = {userIdentity: this.$store.state.userIdentity};
+         let account = {
+            userIdentity: this.$store.state.userIdentity
+         };
 
          this.$_transaction_post("/account/accessModule", account).then(response => {
-            this.$store.commit("setGlobalResult", response.data.map.accountList);
+            this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.accountList);
          }).catch(error => {
             this.$_message_handleError(error);
          });
       },
 
-      accessRegistration() {
-         let account = {userIdentity: this.$store.state.userIdentity};
+      accessRegistration(accountComboLevelOneSelected) {
+         let account = {
+            userIdentity: this.$store.state.userIdentity
+         };
 
-         if (this.accountComboLevelOneSelected) {
-            this.accountComboLevelOneSelected.userIdentity = this.$store.state.userIdentity;
-            account = this.accountComboLevelOneSelected;
+         if (accountComboLevelOneSelected) {
+            accountComboLevelOneSelected.userIdentity = this.$store.state.userIdentity;
+            account = accountComboLevelOneSelected;
          }
 
          this.$_transaction_post("/account/accessRegistration", account).then(response => {
@@ -52,99 +51,61 @@ export default {
 
       accessEdition(account) {
          account.userIdentity = this.$store.state.userIdentity;
-
          this.$_transaction_post("/account/accessEdition", account).then(response => {
-            this.$store.commit("setGlobalEntity", response.data.map.account);
-            this.$store.commit("showGlobalDialog", true);
+            this.$store.commit(Constants.store.SET_GLOBAL_ENTITY, response.data.map.account);
+            this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
          }).catch(error => {
             this.$_message_handleError(error);
          });
       },
   
       executeSearch(filterValue) {
-         this.account.filter = filterValue;
-         this.account.userIdentity = this.$store.state.userIdentity;
+         let account = {
+            filter: filterValue,
+            userIdentity: this.$store.state.userIdentity
+         }
 
-         this.$_transaction_post("/account/executeSearch", this.account).then(response => {
-            this.$store.commit("setGlobalResult", response.data.map.accountList);
+         this.$_transaction_post("/account/executeSearch", account).then(response => {
+            this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.accountList);
          }).catch(error => {
             this.$_message_handleError(error);
          });
       },
 
-      executeRegistration() {
-         if (!this.accountComboLevelOneSelected || !this.accountComboLevelOneSelected.identity) {
-            this.$_message_showRequired("Missing first level account.");
+      executeRegistration(account) {
+         if (this.isMissingRequiredFields(account))
             return;
-         }
 
-         if (!this.levelPrefix || !this.levelPrefix.trim()) {
-            this.$_message_showRequired("Missing prefix level.");
-            return;
-         }
-
-         if (!this.levelSufix || !this.levelSufix.trim()) {
-            this.$_message_showRequired("Missing sufix level.");
-            return;
-         }
-
-         if (!this.account.level || !this.account.level.trim()) {
-            this.$_message_showRequired("Missing account acronym.");
-            return;
-         }
-
-         if (!this.account.name || !this.account.name.trim()) {
-            this.$_message_showRequired("Missing account name.");
-            return;
-         }
-
-         this.account.userIdentity = this.$store.state.userIdentity;
-         this.$_transaction_post("/account/executeRegistration", this.account).then(response => {
-            this.$store.commit("setGlobalResult", response.data.map.accountList);
+         account.userIdentity = this.$store.state.userIdentity;
+         this.$_transaction_post("/account/executeRegistration", account).then(response => {
+            this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.accountList);
+            this.closeForm(account);
             this.$_message_showSuccess();
-            this.fecharFormulario();
          }).catch(error => {
             this.$_message_handleError(error);
          });
       },
 
-      executeEdition() {
-         if (!this.account.identity) {
-            this.$_message_showRequired("Missing account identity.");
+      executeEdition(account) {
+         if (this.isMissingIdentity(account) || this.isMissingRequiredFields(account))
             return;
-         }
 
-         if (!this.account.name || !this.account.name.trim()) {
-            this.$_message_showRequired("Mising account name.");
-            return;
-         }
-
-         if (!this.account.level || !this.account.level.trim()) {
-            this.$_message_showRequired("Missing account acronym.");
-            return;
-         }
-
-         if (!this.account.accountParent || !this.account.accountParent.identity) {
-            this.$_message_showRequired("Missing parent account.");
-            return;
-         }
-
-         this.account.userIdentity = this.$store.state.userIdentity;
-         this.$_transaction_post("/account/executeEdition", this.account).then(response => {
-            this.$store.commit("setGlobalResult", response.data.map.accountList);
+         account.userIdentity = this.$store.state.userIdentity;
+         this.$_transaction_post("/account/executeEdition", account).then(response => {
+            this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.accountList);
+            this.closeForm(location);
             this.$_message_showSuccess();
-            this.fecharFormulario();
          }).catch(error => {
             this.$_message_handleError(error);
          });
       },
 
       executeExclusion(account) {
-         this.$confirm("Do you want to delete the selected record?").then(() => {
+         this.$confirm(Constants.message.DELETE).then(() => {
             account.userIdentity = this.$store.state.userIdentity;
 
             this.$_transaction_post("/account/executeExclusion", account).then(response => {
-               this.$store.commit("setGlobalResult", response.data.map.accountList);
+               this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.accountList);
                this.$_message_showSuccess();
             }).catch(error => {
                this.$_message_handleError(error);
@@ -152,16 +113,65 @@ export default {
          });
       },
 
-      isNumber(evt) {
-         evt = (evt) ? evt : window.event;
-         var charCode = (evt.which) ? evt.which : evt.keyCode;
+      updateParentAccount(account, accountParent) {
+         account.accountParent = null;
 
-         if (charCode < 48 || charCode > 57) {
-           evt.preventDefault();
+         if (account && accountParent)
+            account.accountParent = accountParent;
+      },
+
+      isMissingIdentity(account) {
+         if (!account.identity) {
+            this.$_message_showRequired("Missing account identity.");
+            return true;
          }
-         else {
-           return true;
+
+         return false;
+      },
+
+      isMissingRequiredFields(account) {
+         if (!account.accountParent || !account.accountParent.identity) {
+            this.$_message_showRequired("Missing account parent.");
+            return;
          }
-       }
+
+         if (!account.name || !account.name.trim()) {
+            this.$_message_showRequired("Missing account name.");
+            return;
+         }
+
+         return false;
+      },
+
+      cleanForm(account) {
+         if (!account.identity) {
+            account.name = "";
+            account.level = "";
+            account.icon = "";
+            account.accountParent = null;
+
+            this.$store.commit("setGlobalAccountListComboLevelTwo", []);
+         }
+
+         account.note = "";
+      },
+
+      closeForm(account) {
+         account.identity = "";
+         account.name = "";
+         account.level = "";
+         account.icon = "";
+         account.note = "";
+         account.accountParent = null;
+
+         this.$store.commit("setGlobalAccountListComboLevelTwo", []);
+         this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, false);
+      },
+
+      setIcon(account, faIcon) {
+         account.icon = faIcon;
+         account.name += " ";
+         account.name = account.name.trim();
+      }
    }
 }
