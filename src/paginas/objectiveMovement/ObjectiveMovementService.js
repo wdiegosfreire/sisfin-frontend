@@ -9,7 +9,6 @@ export default {
 	data() {
       return {
          showSearchField: false,
-         objectiveMovement: {},
          monthList: [
             {monthName: "January", monthNumber: "01"},
             {monthName: "February", monthNumber: "02"},
@@ -28,18 +27,16 @@ export default {
    },
 
    methods: {
-      accessModule(selectedMonth, selectedYear) {
-         this.$_message_console(selectedMonth + "/" + selectedYear);
-
-         if (!selectedMonth || !selectedYear) {
-            selectedMonth = new Date().getMonth() + 1;
-            selectedYear = new Date().getFullYear();
+      accessModule() {
+         if (!this.$store.state.globalMonth || !this.$store.state.globalYear) {
+            this.$_message_showError("Period not found");
+            return;
          }
 
          let objectiveMovement = {
             userIdentity: this.$store.state.userIdentity,
-            paymentDate: new Date(selectedYear + "-" + selectedMonth + "-01 12:00:00")
-         }
+            paymentDate: new Date(this.$store.state.globalYear + "-" + this.$store.state.globalMonth + "-01 12:00:00")
+         };
 
          this.$_transaction_post("/objectiveMovement/accessModule", objectiveMovement).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.objectiveMovementList);
@@ -48,10 +45,25 @@ export default {
          });
       },
 
+      // Not ok
       accessRegistration() {
-         this.$store.commit("showGlobalDialog", true);
+         let objectiveMovement = {
+            userIdentity: this.$store.state.userIdentity
+         };
+
+         this.$_transaction_post("/objectiveMovement/accessRegistration", objectiveMovement).then(response => {
+            this.$_message_console(response);
+
+            // Mock of locationListCombo
+            this.$store.commit("setGlobalLocationListCombo", [ {identity: 1, name: "Location 01"}, {identity: 2, name: "Location 02"} ]);
+
+            this.$store.commit("showGlobalDialog", true);
+         }).catch(error => {
+            this.$_message_handleError(error);
+         });
       },
 
+      // Not ok
       accessEdition(objectiveMovement) {
          objectiveMovement.userIdentity = this.$store.state.userIdentity;
          this.$_transaction_post("/objectiveMovement/accessEdition", objectiveMovement).then(response => {
@@ -63,16 +75,20 @@ export default {
       },
   
       executeSearch(filterValue) {
-         this.objectiveMovement.filter = filterValue;
-         this.objectiveMovement.userIdentity = this.$store.state.userIdentity;
+         let objectiveMovement = {
+            filter: filterValue,
+            userIdentity: this.$store.state.userIdentity,
+            paymentDate: new Date(this.$store.state.globalYear + "-" + this.$store.state.globalMonth + "-01 12:00:00")
+         }
 
-         this.$_transaction_post("/objectiveMovement/executeSearch", this.objectiveMovement).then(response => {
+         this.$_transaction_post("/objectiveMovement/executeSearch", objectiveMovement).then(response => {
             this.$store.commit("setGlobalResult", response.data.map.objectiveMovementList);
          }).catch(error => {
             this.$_message_handleError(error);
          });
       },
 
+      // Not ok
       executeRegistration() {
          if (!this.objectiveMovement.name || !this.objectiveMovement.name.trim()) {
             this.$_message_showRequired("Missing movement name.");
@@ -99,6 +115,7 @@ export default {
          });
       },
 
+      // Not ok
       executeEdition() {
          if (!this.objectiveMovement.identity) {
             this.$_message_showRequired("Missing movement identity.");
@@ -120,6 +137,7 @@ export default {
          });
       },
 
+      // Not ok
       executeExclusion(objectiveMovement) {
          this.$confirm("Do you want to delete the selected record?").then(() => {
             objectiveMovement.userIdentity = this.$store.state.userIdentity;
@@ -130,6 +148,20 @@ export default {
                this.$_message_handleError(error);
             });
          });
+      },
+
+      // Not ok
+      cleanForm(objectiveMovement) {
+         if (!objectiveMovement.identity) {
+            this.$_message_console(objectiveMovement);
+         }
+      },
+
+      // Not ok
+      closeForm(objectiveMovement) {
+         this.$_message_console(objectiveMovement);
+
+         this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, false);
       }
    }
 }

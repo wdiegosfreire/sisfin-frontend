@@ -24,7 +24,6 @@
          @cleanForm="cleanForm"
          @closeForm="closeForm"
          @setIcon="setIcon"
-
       />
    </div>
 </template>

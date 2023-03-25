@@ -5,7 +5,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-      globalObjectiveMovementList: [],
+      globalObjectiveMovement: {
+         objective: {}
+      },
+
+      globalMonth: "",
+      globalYear: "",
 
 		globalResult: [],
 		globalEntity: {},
@@ -24,27 +29,18 @@ export default new Vuex.Store({
 		},
 
       globalAccountListComboLevelOne: [],
-      globalAccountListComboLevelTwo: []
+      globalAccountListComboLevelTwo: [],
+      globalLocationListCombo: []
 	},
 
 	mutations: {
-		setGlobalObjectiveMovementList(state, payload) { state.globalObjectiveMovementList = payload; },
+      setGlobalYear(state, payload) { state.globalYear = payload; },
+      setGlobalMonth(state, payload) { state.globalMonth = payload; },
+		setGlobalResult(state, payload) { state.globalResult = payload; },
+		setGlobalEntity(state, payload) { state.globalEntity = payload; },
+		setGlobalLoading(state, payload) { state.globalLoading = payload; },
 
-		setGlobalResult(state, payload) {
-			state.globalResult = payload;
-		},
-
-		setGlobalEntity(state, payload) {
-			state.globalEntity = payload;
-		},
-
-		setGlobalLoading(state, payload) {
-			state.globalLoading = payload;
-		},
-
-		showGlobalDialog(state, payload) {
-			state.globalDialog = payload;
-		},
+		showGlobalDialog(state, payload) { state.globalDialog = payload; },
 
 		setUserName(state, payload) {
 			window.localStorage.userName = payload;
@@ -76,6 +72,10 @@ export default new Vuex.Store({
 
       setGlobalAccountListComboLevelTwo(state, payload) {
 			state.globalAccountListComboLevelTwo = payload;
+		},
+
+      setGlobalLocationListCombo(state, payload) {
+			state.globalLocationListCombo = payload;
 		}
 	}
 });

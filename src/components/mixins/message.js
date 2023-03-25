@@ -2,23 +2,23 @@ export default {
    name: "message",
    methods: {
       $_message_showInfo(message) {
-         this.$store.commit("showMessage", { severity: "info", summary: "Informação", detail: [message] });
+         this.$store.commit("showMessage", { severity: "info", summary: "Information", detail: [message] });
       },
 
       $_message_showError(message) {
-         this.$store.commit("showMessage", { severity: "error", summary: "Erro", detail: [message] });
+         this.$store.commit("showMessage", { severity: "error", summary: "Error", detail: [message] });
       },
 
       $_message_showWarning(message) {
-         this.$store.commit("showMessage", { severity: "warning", summary: "Alerta", detail: [message] });
+         this.$store.commit("showMessage", { severity: "warning", summary: "Warning", detail: [message] });
       },
 
       $_message_showRequired(message) {
-         this.$store.commit("showMessage", { severity: "warning", summary: "Campo Obrigatório", detail: [message] });
+         this.$store.commit("showMessage", { severity: "warning", summary: "Required Field", detail: [message] });
       },
 
       $_message_showSuccess() {
-         this.$store.commit("showMessage", { severity: "success", summary: "Sucesso", detail: ["Operação executada com sucesso."] });
+         this.$store.commit("showMessage", { severity: "success", summary: "Success", detail: ["Operation performed successfully."] });
       },
 
       $_message_showMessage(severity, summary, messageList) {
