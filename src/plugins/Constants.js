@@ -6,5 +6,8 @@ export default Object.freeze({
       SET_GLOBAL_ENTITY: "setGlobalEntity",
       SET_GLOBAL_RESULT: "setGlobalResult",
       SHOW_GLOBAL_DIALOG: "showGlobalDialog",
+   },
+   layout: {
+      defaultModalWidth: "1000"
    }
- })
+})

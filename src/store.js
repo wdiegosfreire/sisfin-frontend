@@ -28,9 +28,12 @@ export default new Vuex.Store({
 			date: new Date()
 		},
 
+      globalLocationListCombo: [],
+      globalAccountListComboSource: [],
+      globalAccountListComboTarget: [],
+      globalPaymentMethodListCombo: [],
       globalAccountListComboLevelOne: [],
       globalAccountListComboLevelTwo: [],
-      globalLocationListCombo: []
 	},
 
 	mutations: {
@@ -66,16 +69,12 @@ export default new Vuex.Store({
 			}
 		},
 
-      setGlobalAccountListComboLevelOne(state, payload) {
-			state.globalAccountListComboLevelOne = payload;
-		},
-
-      setGlobalAccountListComboLevelTwo(state, payload) {
-			state.globalAccountListComboLevelTwo = payload;
-		},
-
-      setGlobalLocationListCombo(state, payload) {
-			state.globalLocationListCombo = payload;
-		}
+      
+      setGlobalLocationListCombo(state, payload) { state.globalLocationListCombo = payload; },
+      setGlobalAccountListComboSource(state, payload) { state.globalAccountListComboSource = payload; },
+      setGlobalAccountListComboTarget(state, payload) { state.globalAccountListComboTarget = payload; },
+      setGlobalPaymentMethodListCombo(state, payload) { state.globalPaymentMethodListCombo = payload; },
+      setGlobalAccountListComboLevelOne(state, payload) { state.globalAccountListComboLevelOne = payload; },
+      setGlobalAccountListComboLevelTwo(state, payload) { state.globalAccountListComboLevelTwo = payload; },
 	}
 });

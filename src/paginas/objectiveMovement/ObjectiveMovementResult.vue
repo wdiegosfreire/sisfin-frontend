@@ -3,7 +3,7 @@
       <v-card-text>
          <v-card outlined class="elevation-1 mb-4" v-for="objectiveMovement in collection" :key="objectiveMovement.identity">
             <v-card-title>
-               <span>{{ objectiveMovement.objective ? objectiveMovement.objective.description : "" }}: R$ {{ objectiveMovement.value }}</span>
+               <span>{{ objectiveMovement.objective ? objectiveMovement.objective.description : "" }}: {{ objectiveMovement.value | currency }}</span>
 
                <v-spacer></v-spacer>
                <v-menu offset-y>
@@ -32,14 +32,16 @@
 
             <v-card-text>
                <df-grid>
+                  <df-output-text class="text-left" label="Account Source">{{ objectiveMovement.accountSource | traceAccount }}</df-output-text>
+                  <df-output-text class="text-left" label="Account Target">{{ objectiveMovement.accountTarget | traceAccount }}</df-output-text>
+               </df-grid>
+               <df-grid column="auto-sm">
                   <df-output-text class="text-left" label="Identity">{{ objectiveMovement.identity }}</df-output-text>
                   <df-output-text class="text-left" label="Registration Date">{{ objectiveMovement.registrationDate | moment("DD/MM/YYYY HH:mm") }}</df-output-text>
                   <df-output-text class="text-left" label="Due Date">{{ objectiveMovement.dueDate | moment("DD/MM/YYYY") }}</df-output-text>
                   <df-output-text class="text-left" label="Payment Date">{{ objectiveMovement.paymentDate | moment("DD/MM/YYYY") }}</df-output-text>
                   <df-output-text class="text-left" label="Installment">{{ objectiveMovement.installment }}</df-output-text>
                   <df-output-text class="text-left" label="Payment Method">{{ objectiveMovement.paymentMethod ? objectiveMovement.paymentMethod.name : "" }}</df-output-text>
-                  <df-output-text class="text-left" label="Account Source">{{ objectiveMovement.accountSource ? objectiveMovement.accountSource.name : "" }}</df-output-text>
-                  <df-output-text class="text-left" label="Account Target">{{ objectiveMovement.accountTarget ? objectiveMovement.accountTarget.name : "" }}</df-output-text>
                   <df-output-text class="text-left" label="Location">{{ objectiveMovement.objective && objectiveMovement.objective.location ? objectiveMovement.objective.location.name : "" }}</df-output-text>
                </df-grid>
             </v-card-text>

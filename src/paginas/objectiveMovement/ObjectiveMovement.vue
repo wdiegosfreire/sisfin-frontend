@@ -12,16 +12,33 @@
       <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
 
       <df-grid>
-         <v-select label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();"></v-select>
-         <v-text-field label="Year" v-model="year" @input="periodChange();" />
+         <df-grid column="frac-45">
+            <v-select label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();" :disabled="ignoreMonth"></v-select>
+            <v-switch v-model="ignoreMonth" inset></v-switch>
+         </df-grid>
+         <df-grid column="frac-45">
+            <v-text-field label="Year" v-model="year" @input="periodChange();" :disabled="ignoreYear" />
+            <v-switch v-model="ignoreYear" inset></v-switch>
+         </df-grid>
       </df-grid>
 
-      <objective-movement-result :collection="$store.state.globalResult"
+      <objective-movement-result
+         :collection="$store.state.globalResult"
+
          @accessEdition="accessEdition"
          @executeExclusion="executeExclusion"
       />
 
-      <objective-movement-form :objective-movement="$store.state.globalEntity" :location-list-combo="$store.state.globalLocationListCombo"
+      <objective-movement-form
+         :objective-movement="$store.state.globalEntity"
+         :location-list-combo="$store.state.globalLocationListCombo"
+         :payment-method-list-combo="$store.state.globalPaymentMethodListCombo"
+         :account-list-combo-source="$store.state.globalAccountListComboSource"
+         :account-list-combo-target="$store.state.globalAccountListComboTarget"
+
+         @validateSelectedSource="validateSelectedSource"
+         @validateSelectedTarget="validateSelectedTarget"
+         @executeRegistration="executeRegistration"
          @cleanForm="cleanForm"
          @closeForm="closeForm"
       />
@@ -49,7 +66,9 @@ export default {
    data() {
       return {
          month: "",
-         year: ""
+         year: "",
+         ignoreMonth: false,
+         ignoreYear: false
       };
    },
 
@@ -73,6 +92,9 @@ export default {
 
    created() {
       this.$store.commit("setGlobalEntity", {
+         paymentMethod: {},
+         accountSource: {},
+         accountTarget: {},
          objective: {
             location: {}
          }

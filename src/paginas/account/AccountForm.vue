@@ -1,5 +1,5 @@
 <template>
-   <v-dialog persistent v-model="$store.state.globalDialog" width="900">
+   <v-dialog persistent v-model="$store.state.globalDialog" width="1000">
       <v-card class="mb-3">
          <v-toolbar color="primary" height="35" dark flat>
             <v-toolbar-title>

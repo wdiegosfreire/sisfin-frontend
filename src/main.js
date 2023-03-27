@@ -23,9 +23,28 @@ library.add(fas);
 
 Vue.component('fa-icon', FontAwesomeIcon);
 
+Vue.filter('currency', function (value) {
+   const formatter = new Intl.NumberFormat("pt-BR", {
+      style: 'currency',
+      currency: 'BRL',
+   });
+
+   return formatter.format(value);
+});
+
+Vue.filter('traceAccount', function (account) {
+   let result = "";
+
+   if (account && account.accountParent && account.accountParent.accountParent) {
+      result += `${account.accountParent.accountParent.name} :: ${account.accountParent.name} :: ${account.name}`;
+   }
+   
+   return result;
+});
+
 new Vue({
-  vuetify,
-  store,
-  router,
-  render: h => h(App)
+   vuetify,
+   store,
+   router,
+   render: h => h(App)
 }).$mount('#app')
