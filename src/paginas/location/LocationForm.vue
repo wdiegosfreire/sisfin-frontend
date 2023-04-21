@@ -24,47 +24,30 @@
 				</df-grid>
 			</v-card-text>
 
-      <v-card-actions>
-        <v-btn v-if="this.location.identity" color="button" width="150" @click="executeEdition()">Confirm</v-btn>
-        <v-btn v-else width="150" @click="executeRegistration()">Confirmar</v-btn>
+         <v-card-actions>
+            <v-btn v-if="this.location.identity" color="button" width="150" @click="$emit('executeEdition', location)">Confirm</v-btn>
+            <v-btn v-else width="150" @click="$emit('executeRegistration', location)">Confirm</v-btn>
 
-        <v-btn width="150" @click="limparFormulario()">Limpar</v-btn>
-        <v-btn width="150" @click="fecharFormulario()">Close</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+            <v-btn width="150" @click="$emit('cleanForm', location)">Clear</v-btn>
+            <v-btn width="150" @click="$emit('closeForm', location)">Close</v-btn>
+         </v-card-actions>
+      </v-card>
+   </v-dialog>
 </template>
 
 <script>
-import locationService from "./locationService.js";
-
 import DfGrid from "../../components/grid/Grid.vue";
 
 export default {
 	name: "LocationForm",
+
 	components: { DfGrid },
-	mixins: [locationService],
-	methods: {
-		limparFormulario() {
-			this.location.identity = null;
-			this.location.cnpj = "";
-			this.location.name = "";
-			this.location.branch = "";
-			this.location.note = "";
-		},
 
-		fecharFormulario() {
-			this.limparFormulario();
-			this.$store.commit("showGlobalDialog", false);
-			
-		},
-
-		updateGlobalEntity() {
-			this.location = this.$store.state.globalEntity;
-		}
-	},
-	watch: {
-		"$store.state.globalEntity": "updateGlobalEntity",
-	},
+   props: {
+      location: {
+         type: Object,
+         required: true
+      }
+   }
 };
 </script>

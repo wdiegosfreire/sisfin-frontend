@@ -36,7 +36,7 @@ export default {
 
 			return gridStyle;
 		}
-	},
+	}
 }
 </script>
 
@@ -89,6 +89,10 @@ export default {
 
 .df-column-fixed-5 {
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.df-column-frac-45 {
+	grid-template-columns: 0.8fr 0.2fr;
 }
 
 .df-fluid input[type=text], input[type=password], input[type=email], .df-fluid input[type=button], input[type=number], .df-fluid input[type=file], .df-fluid select, .df-fluid button, .df-fluid textarea {
