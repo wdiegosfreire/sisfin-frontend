@@ -5,6 +5,13 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
+      globalObjectiveMovement: {
+         objective: {}
+      },
+
+      globalMonth: "",
+      globalYear: "",
+
 		globalResult: [],
 		globalEntity: {},
 		globalDialog: false,
@@ -21,26 +28,22 @@ export default new Vuex.Store({
 			date: new Date()
 		},
 
+      globalLocationListCombo: [],
+      globalAccountListComboSource: [],
+      globalAccountListComboTarget: [],
+      globalPaymentMethodListCombo: [],
       globalAccountListComboLevelOne: [],
-      globalAccountListComboLevelTwo: []
+      globalAccountListComboLevelTwo: [],
 	},
 
 	mutations: {
-		setGlobalResult(state, payload) {
-			state.globalResult = payload;
-		},
+      setGlobalYear(state, payload) { state.globalYear = payload; },
+      setGlobalMonth(state, payload) { state.globalMonth = payload; },
+		setGlobalResult(state, payload) { state.globalResult = payload; },
+		setGlobalEntity(state, payload) { state.globalEntity = payload; },
+		setGlobalLoading(state, payload) { state.globalLoading = payload; },
 
-		setGlobalEntity(state, payload) {
-			state.globalEntity = payload;
-		},
-
-		setGlobalLoading(state, payload) {
-			state.globalLoading = payload;
-		},
-
-		showGlobalDialog(state, payload) {
-			state.globalDialog = payload;
-		},
+		showGlobalDialog(state, payload) { state.globalDialog = payload; },
 
 		setUserName(state, payload) {
 			window.localStorage.userName = payload;
@@ -66,12 +69,12 @@ export default new Vuex.Store({
 			}
 		},
 
-      setGlobalAccountListComboLevelOne(state, payload) {
-			state.globalAccountListComboLevelOne = payload;
-		},
-
-      setGlobalAccountListComboLevelTwo(state, payload) {
-			state.globalAccountListComboLevelTwo = payload;
-		}
+      
+      setGlobalLocationListCombo(state, payload) { state.globalLocationListCombo = payload; },
+      setGlobalAccountListComboSource(state, payload) { state.globalAccountListComboSource = payload; },
+      setGlobalAccountListComboTarget(state, payload) { state.globalAccountListComboTarget = payload; },
+      setGlobalPaymentMethodListCombo(state, payload) { state.globalPaymentMethodListCombo = payload; },
+      setGlobalAccountListComboLevelOne(state, payload) { state.globalAccountListComboLevelOne = payload; },
+      setGlobalAccountListComboLevelTwo(state, payload) { state.globalAccountListComboLevelTwo = payload; },
 	}
 });

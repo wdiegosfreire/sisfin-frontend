@@ -19,6 +19,14 @@ export default {
       },
       $_transaction_delete(url) {
          return transactionApiInstance.delete(url + this.tokenParam);
-      }
+      },
+
+      async $_transaction_post_sync(url, data) {
+         try {
+            return await transactionApiInstance.post(url + this.tokenParam, data);
+         } catch (error) {
+            return error;
+         }
+      },
    }
 }

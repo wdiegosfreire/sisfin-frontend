@@ -11,12 +11,24 @@
 
       <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
 
-      <account-result />
-      <account-form />
+      <account-result :collection="$store.state.globalResult"
+         @accessEdition="accessEdition"
+         @executeExclusion="executeExclusion"
+      />
+
+      <account-form :account="$store.state.globalEntity" :account-list-combo-level-one="$store.state.globalAccountListComboLevelOne" :account-list-combo-level-two="$store.state.globalAccountListComboLevelTwo"
+         @updateParentAccount="updateParentAccount"
+         @executeRegistration="executeRegistration"
+         @accessRegistration="accessRegistration"
+         @executeEdition="executeEdition"
+         @cleanForm="cleanForm"
+         @closeForm="closeForm"
+         @setIcon="setIcon"
+      />
    </div>
 </template>
 
-<script>
+<script lang="js">
 import accountService from "./accountService.js";
 import AccountResult from "./AccountResult.vue";
 import AccountForm from "./AccountForm.vue";
@@ -26,15 +38,15 @@ import DfInputFilter from "../../components/input/InputFilter.vue";
 
 export default {
    name: "Account",
+
    components: { AccountResult, AccountForm, DfInputFilter, DfIcon },
+
    mixins: [accountService],
 
    methods: {
       toggleFilterField() {
-         if (this.account.filter) {
-            this.account.filter = "";
+         if (this.showSearchField)
             this.executeSearch();
-         }
 
          this.showSearchField = !this.showSearchField;
       }
