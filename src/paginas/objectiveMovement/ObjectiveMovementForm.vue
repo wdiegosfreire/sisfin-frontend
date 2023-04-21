@@ -23,12 +23,12 @@
                </v-select>
             </df-grid>
             <df-grid>
-               <v-text-field label="Due Date" v-model="objectiveMovement.dueDate" />
-               <v-text-field label="Payment date" v-model="objectiveMovement.paymentDate" />
+               <v-text-field label="Due Date" v-model="objectiveMovement.dueDate" type="date" />
+               <v-text-field label="Payment date" v-model="objectiveMovement.paymentDate" type="date" />
             </df-grid>
             <df-grid>
-               <v-text-field label="Value" v-model="objectiveMovement.value" />
-               <v-text-field label="Installment" v-model="objectiveMovement.installment" />
+               <v-text-field label="Value" v-model="objectiveMovement.value" :rules="[rules.floatNumber]" />
+               <v-text-field label="Installment" v-model="objectiveMovement.installment" :rules="[rules.integerNumber]" />
             </df-grid>
             <df-grid>
                <v-select label="Source Account" v-model="objectiveMovement.accountSource" :items="accountListComboSource" return-object @change="$emit('validateSelectedSource', objectiveMovement)">
@@ -85,6 +85,19 @@ export default {
       accountListComboTarget: {
          type: Array,
          required: true
+      }
+   },
+
+   data() {
+      return {
+         rules: {
+            integerNumber: value => {
+               return (/^\d+$/.test(value)) || 'Only numbers allowed.';
+            },
+            floatNumber: value => {
+               return (/^\d+$/.test(value)) || 'Only numbers allowed.';
+            }
+         }
       }
    },
 

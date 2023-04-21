@@ -91,9 +91,13 @@ export default {
       executeRegistration(objectiveMovement) {
          if (this.isMissingRequiredFields(objectiveMovement))
             return;
+
+         
    
-         this.objectiveMovement.userIdentity = this.$store.state.userIdentity;
-         this.$_transaction_post("/objectiveMovement/executeRegistration", this.objectiveMovement).then(response => {
+         objectiveMovement.userIdentity = this.$store.state.userIdentity;
+         objectiveMovement.dueDate = new Date(objectiveMovement.dueDate + " 12:00:00");
+         objectiveMovement.paymentDate = new Date(objectiveMovement.paymentDate + " 12:00:00");
+         this.$_transaction_post("/objectiveMovement/executeRegistration", objectiveMovement).then(response => {
             this.$store.commit("setGlobalResult", response.data.map.objectiveMovementList);
             this.$_message_showSuccess();
             this.fecharFormulario();
@@ -107,8 +111,8 @@ export default {
          if (this.isMissingIdentity(objectiveMovement) || this.isMissingRequiredFields(objectiveMovement))
             return;
 
-         this.objectiveMovement.userIdentity = this.$store.state.userIdentity;
-         this.$_transaction_post("/objectiveMovement/executeEdition", this.objectiveMovement).then(response => {
+         objectiveMovement.userIdentity = this.$store.state.userIdentity;
+         this.$_transaction_post("/objectiveMovement/executeEdition", objectiveMovement).then(response => {
             this.$store.commit("setGlobalResult", response.data.map.objectiveMovementList);
             this.$_message_showSuccess();
             this.fecharFormulario();
@@ -142,42 +146,47 @@ export default {
       isMissingRequiredFields(objectiveMovement) {
          if (!objectiveMovement.objective || !objectiveMovement.objective.description || !objectiveMovement.objective.description.trim()) {
             this.$_message_showRequired("Missing movement description.");
-            return;
+            return true;
          }
 
-         if (!objectiveMovement.objective || !objectiveMovement.objective.location || objectiveMovement.objective.location.identity) {
+         if (!objectiveMovement.objective || !objectiveMovement.objective.location || !objectiveMovement.objective.location.identity) {
             this.$_message_showRequired("Missing location.");
-            return;
+            return true;
          }
 
          if (!objectiveMovement.paymentMethod || !objectiveMovement.paymentMethod.identity) {
             this.$_message_showRequired("Missing payment method.");
-            return;
+            return true;
          }
 
          if (!objectiveMovement.dueDate) {
-            this.$_message_showRequired("Missing movement description.");
-            return;
+            this.$_message_showRequired("Missing due date.");
+            return true;
+         }
+
+         if (!objectiveMovement.paymentDate) {
+            this.$_message_showRequired("Missing payment date.");
+            return true;
          }
 
          if (!objectiveMovement.value || !objectiveMovement.value.trim()) {
-            this.$_message_showRequired("Missing movement description.");
-            return;
+            this.$_message_showRequired("Missing value.");
+            return true;
          }
 
          if (!objectiveMovement.installment || !objectiveMovement.installment.trim()) {
             this.$_message_showRequired("Missing installment.");
-            return;
+            return true;
          }
 
          if (!objectiveMovement.accountSource || !objectiveMovement.accountSource.identity) {
             this.$_message_showRequired("Missing source account.");
-            return;
+            return true;
          }
 
          if (!objectiveMovement.accountTarget || !objectiveMovement.accountTarget.identity) {
             this.$_message_showRequired("Missing source account.");
-            return;
+            return true;
          }
 
          return false;
@@ -216,6 +225,7 @@ export default {
             this.$_message_showRequired(errorMessage);
             objectiveMovement.accountSource = {};
             objectiveMovement.accountTarget = {};
+
             return;
          }
       },
@@ -232,7 +242,18 @@ export default {
       // Not ok
       cleanForm(objectiveMovement) {
          if (!objectiveMovement.identity) {
-            this.$_message_console(objectiveMovement);
+            objectiveMovement.registrationDate = "";
+            objectiveMovement.dueDate = "";
+            objectiveMovement.paymentDate = "";
+            objectiveMovement.value = "";
+            objectiveMovement.installment = "";
+
+            objectiveMovement.paymentMethod = {};
+            objectiveMovement.accountSource = {};
+            objectiveMovement.accountTarget = {};
+
+            objectiveMovement.objective.description = "";
+            objectiveMovement.objective.location = {};
          }
       },
 

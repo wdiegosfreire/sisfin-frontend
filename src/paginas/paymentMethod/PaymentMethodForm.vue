@@ -31,7 +31,7 @@
    </v-dialog>
 </template>
 
-<script>
+<script lang="js">
 import DfGrid from "../../components/grid/Grid.vue";
 
 export default {

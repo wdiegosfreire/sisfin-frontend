@@ -52,7 +52,7 @@
    </v-card>
 </template>
 
-<script>
+<script lang="js">
 import DfGrid from "../../components/grid/Grid.vue";
 import DfIcon from "../../components/df-icon/Icon.vue";
 import DfOutputText from "../../components/output/OutputText.vue";
