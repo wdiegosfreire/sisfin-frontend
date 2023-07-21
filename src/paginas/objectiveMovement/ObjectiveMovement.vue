@@ -36,8 +36,6 @@
          :account-list-combo-source="$store.state.globalAccountListComboSource"
          :account-list-combo-target="$store.state.globalAccountListComboTarget"
 
-         @validateSelectedSource="validateSelectedSource"
-         @validateSelectedTarget="validateSelectedTarget"
          @executeRegistration="executeRegistration"
          @cleanForm="cleanForm"
          @closeForm="closeForm"
@@ -92,11 +90,12 @@ export default {
 
    created() {
       this.$store.commit("setGlobalEntity", {
-         paymentMethod: {},
          accountSource: {},
-         accountTarget: {},
+         accountTargetTemp: {},
+         paymentMethod: {},
          objective: {
-            location: {}
+            location: {},
+            objectiveItemList: []
          }
       });
 

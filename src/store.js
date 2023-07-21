@@ -34,6 +34,9 @@ export default new Vuex.Store({
       globalPaymentMethodListCombo: [],
       globalAccountListComboLevelOne: [],
       globalAccountListComboLevelTwo: [],
+
+      money2: { decimal: ',', thousands: '.', prefix: 'R$ ', precision: 2 },
+      money3: { decimal: ',', thousands: '.', prefix: 'R$ ', precision: 3 }
 	},
 
 	mutations: {

@@ -8,8 +8,8 @@ import constants from "./plugins/Constants";
 
 import VueSimpleAlert from "vue-simple-alert";
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
 Vue.config.productionTip = false;
@@ -23,10 +23,15 @@ library.add(fas);
 
 Vue.component('fa-icon', FontAwesomeIcon);
 
-Vue.filter('currency', function (value) {
+Vue.filter('currency', function (value, precision) {
+   if (!precision || (precision != 2 && precision != 3))
+      precision = 2;
+
    const formatter = new Intl.NumberFormat("pt-BR", {
       style: 'currency',
       currency: 'BRL',
+      minimumFractionDigits: precision,
+      maximumFractionDigits: precision
    });
 
    return formatter.format(value);

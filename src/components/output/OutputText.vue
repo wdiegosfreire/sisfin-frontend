@@ -8,11 +8,12 @@
 <script>
 export default {
    name: "DfOutputText",
+
    props: {
       label: {
-         type: String,
-      },
-   },
+         type: String
+      }
+   }
 };
 </script>
 

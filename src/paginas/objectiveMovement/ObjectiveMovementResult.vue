@@ -31,11 +31,11 @@
             <v-divider></v-divider>
 
             <v-card-text>
-               <df-grid>
-                  <df-output-text class="text-left" label="Account Source">{{ objectiveMovement.accountSource | traceAccount }}</df-output-text>
-                  <df-output-text class="text-left" label="Account Target">{{ objectiveMovement.accountTarget | traceAccount }}</df-output-text>
+               
+               <df-grid spaced>
+                  <df-output-text class="text-left" label="Source">{{ objectiveMovement.accountSource | traceAccount }}</df-output-text>
                </df-grid>
-               <df-grid column="auto-sm">
+               <df-grid spaced column="auto-sm">
                   <df-output-text class="text-left" label="Identity">{{ objectiveMovement.identity }}</df-output-text>
                   <df-output-text class="text-left" label="Registration Date">{{ objectiveMovement.registrationDate | moment("DD/MM/YYYY HH:mm") }}</df-output-text>
                   <df-output-text class="text-left" label="Due Date">{{ objectiveMovement.dueDate | moment("DD/MM/YYYY") }}</df-output-text>
@@ -44,6 +44,13 @@
                   <df-output-text class="text-left" label="Payment Method">{{ objectiveMovement.paymentMethod ? objectiveMovement.paymentMethod.name : "" }}</df-output-text>
                   <df-output-text class="text-left" label="Location">{{ objectiveMovement.objective && objectiveMovement.objective.location ? objectiveMovement.objective.location.name : "" }}</df-output-text>
                </df-grid>
+
+               <objective-movement-result-objective-item-list :collection="objectiveMovement.objective.objectiveItemList" dense />
+
+               <objective-movement-result-objective-movement-list dense
+                  :collection="objectiveMovement.objective.objectiveMovementList"
+                  :installment="objectiveMovement.installment"
+               />
             </v-card-text>
          </v-card>
       </v-card-text>
@@ -57,10 +64,13 @@ import DfGrid from "../../components/grid/Grid.vue";
 import DfIcon from "../../components/df-icon/Icon.vue";
 import DfOutputText from "../../components/output/OutputText.vue";
 
+import ObjectiveMovementResultObjectiveItemList from "./ObjectiveMovementResultObjectiveItemList.vue";
+import ObjectiveMovementResultObjectiveMovementList from "./ObjectiveMovementResultObjectiveMovementList.vue";
+
 export default {
    name: "ObjectiveMovementResult",
 
-   components: { DfGrid, DfOutputText, DfIcon },
+   components: { DfGrid, DfOutputText, DfIcon, ObjectiveMovementResultObjectiveItemList, ObjectiveMovementResultObjectiveMovementList },
 
    props: {
       collection: {
@@ -71,8 +81,31 @@ export default {
 
    data() {
       return {
-         search: ""
+         search: "",
+         objectiveMovementList: []
       };
-   }
+   },
+
+   methods: {
+      bolinha() {
+         alert("bolinha");
+
+         this.objectiveMovementList.push(
+            {
+               identity: 1,
+               installment: 1,
+               value: 666
+            }
+         );
+
+         this.objectiveMovementList.push(
+            {
+               identity: 2,
+               installment: 2,
+               value: 777
+            }
+         )
+      }
+   },
 };
 </script>

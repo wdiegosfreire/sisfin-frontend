@@ -29,7 +29,7 @@ export default {
 				gridStyle += ` df-column-${this.column}`;
 
 			if (this.spaced)
-				gridStyle += ` mb-2`;
+				gridStyle += ` df-grid-margin-bottom`;
 
 			if (this.fluid)
 				gridStyle += ` df-fluid`;
@@ -45,6 +45,10 @@ export default {
 	display: grid;
 	grid-row-gap: 8px;
 	grid-column-gap: 8px;
+}
+
+.df-grid-margin-bottom {
+   margin-bottom: 8px;
 }
 
 .df-column-menu {
@@ -91,9 +95,10 @@ export default {
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
-.df-column-frac-45 {
-	grid-template-columns: 0.8fr 0.2fr;
-}
+.df-column-frac-15 { grid-template-columns: 0.2fr 0.8fr; }
+.df-column-frac-25 { grid-template-columns: 0.4fr 0.6fr; }
+.df-column-frac-35 { grid-template-columns: 0.6fr 0.4fr; }
+.df-column-frac-45 { grid-template-columns: 0.8fr 0.2fr; }
 
 .df-fluid input[type=text], input[type=password], input[type=email], .df-fluid input[type=button], input[type=number], .df-fluid input[type=file], .df-fluid select, .df-fluid button, .df-fluid textarea {
 	width: 100% !important;

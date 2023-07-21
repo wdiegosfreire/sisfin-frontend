@@ -16,7 +16,7 @@
 					<v-text-field label="Name" v-model="location.name" :readonly="Boolean(location.identity)" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="CNPJ" v-model="location.cnpj" :readonly="Boolean(location.identity)" />
+					<v-text-field label="CNPJ" v-model="location.cnpj" :readonly="Boolean(location.identity)" v-mask="['##.###.###/####-##']" />
 					<v-text-field label="Branch" v-model="location.branch" />
 				</df-grid>
 				<df-grid>
@@ -38,10 +38,14 @@
 <script>
 import DfGrid from "../../components/grid/Grid.vue";
 
+import { mask } from 'vue-the-mask';
+
 export default {
 	name: "LocationForm",
 
 	components: { DfGrid },
+
+   directives: { mask },
 
    props: {
       location: {
