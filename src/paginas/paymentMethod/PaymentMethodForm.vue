@@ -16,7 +16,7 @@
                <v-text-field label="Name" v-model="paymentMethod.name" :readonly="Boolean(paymentMethod.identity)" />
             </df-grid>
             <df-grid>
-               <v-text-field label="Acronym" v-model="paymentMethod.acronym" />
+               <v-text-field label="Acronym" v-model="paymentMethod.acronym" v-mask="['AAA']" />
             </df-grid>
          </v-card-text>
 
@@ -34,10 +34,14 @@
 <script lang="js">
 import DfGrid from "../../components/grid/Grid.vue";
 
+import { mask } from 'vue-the-mask';
+
 export default {
    name: "PaymentMethodForm",
 
    components: { DfGrid },
+
+   directives: { mask },
 
    props: {
       paymentMethod: {

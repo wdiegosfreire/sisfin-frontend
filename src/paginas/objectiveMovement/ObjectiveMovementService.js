@@ -1,11 +1,14 @@
 import transactionApi from "../../components/axios/transaction/transactionApi.js";
+
+// Mixins
+import format from "../../components/mixins/format.js";
 import message from "../../components/mixins/message.js";
 
 import Constants from "../../plugins/Constants";
 
 export default {
    name: "objectiveMovementService",
-   mixins: [transactionApi, message ],
+   mixins: [transactionApi, message, format ],
 	data() {
       return {
          showSearchField: false,
@@ -67,6 +70,11 @@ export default {
          objectiveMovement.userIdentity = this.$store.state.userIdentity;
          this.$_transaction_post("/objectiveMovement/accessEdition", objectiveMovement).then(response => {
             this.$store.commit("setGlobalEntity", response.data.map.objectiveMovement);
+            this.$store.commit("setGlobalLocationListCombo", response.data.map.locationListCombo);
+            this.$store.commit("setGlobalPaymentMethodListCombo", response.data.map.paymentMethodListCombo);
+            this.$store.commit("setGlobalAccountListComboSource", response.data.map.accountListComboSource);
+            this.$store.commit("setGlobalAccountListComboTarget", response.data.map.accountListComboTarget);
+
             this.$store.commit("showGlobalDialog", true);
          }).catch(error => {
             this.$_message_handleError(error);
@@ -87,20 +95,39 @@ export default {
          });
       },
 
-      // Not ok
       executeRegistration(objectiveMovement) {
-         if (this.isMissingRequiredFields(objectiveMovement))
+         if (this.isMissingRequiredFields(objectiveMovement)) {
             return;
+         }
 
-         
-   
          objectiveMovement.userIdentity = this.$store.state.userIdentity;
-         objectiveMovement.dueDate = new Date(objectiveMovement.dueDate + " 12:00:00");
-         objectiveMovement.paymentDate = new Date(objectiveMovement.paymentDate + " 12:00:00");
+         objectiveMovement.dueDate = new Date(this.$_format_toAmericanDate(objectiveMovement.dueDate) + " 12:00:00");
+         objectiveMovement.paymentDate = new Date(this.$_format_toAmericanDate(objectiveMovement.paymentDate) + " 12:00:00");
+
+         if (!objectiveMovement.objective.objectiveItemList || objectiveMovement.objective.objectiveItemList.length == 0) {
+            let objectiveItemDefault = {
+               description: objectiveMovement.objective.description,
+               sequential: "1",
+               amount: 1,
+               unitaryValue: objectiveMovement.value,
+               totalValue: objectiveMovement.value
+            }
+
+            objectiveMovement.objective.objectiveItemList.push(objectiveItemDefault);
+         }
+
+         if (this.isTotalValueDifferentToTotalItems(objectiveMovement)) {
+            return;
+         }
+
+         for (let objectiveItem of objectiveMovement.objective.objectiveItemList) {
+            objectiveItem.userIdentity = this.$store.state.userIdentity;
+         }
+
          this.$_transaction_post("/objectiveMovement/executeRegistration", objectiveMovement).then(response => {
             this.$store.commit("setGlobalResult", response.data.map.objectiveMovementList);
+            this.closeForm(objectiveMovement);
             this.$_message_showSuccess();
-            this.fecharFormulario();
          }).catch(error => {
             this.$_message_handleError(error);
          });
@@ -149,6 +176,11 @@ export default {
             return true;
          }
 
+         if (!objectiveMovement || !objectiveMovement.accountSource || !objectiveMovement.accountSource.identity) {
+            this.$_message_showRequired("Missing source account.");
+            return true;
+         }
+
          if (!objectiveMovement.objective || !objectiveMovement.objective.location || !objectiveMovement.objective.location.identity) {
             this.$_message_showRequired("Missing location.");
             return true;
@@ -164,79 +196,33 @@ export default {
             return true;
          }
 
-         if (!objectiveMovement.paymentDate) {
-            this.$_message_showRequired("Missing payment date.");
-            return true;
-         }
-
-         if (!objectiveMovement.value || !objectiveMovement.value.trim()) {
-            this.$_message_showRequired("Missing value.");
-            return true;
-         }
-
-         if (!objectiveMovement.installment || !objectiveMovement.installment.trim()) {
+         if (!objectiveMovement.installment) {
             this.$_message_showRequired("Missing installment.");
             return true;
          }
 
-         if (!objectiveMovement.accountSource || !objectiveMovement.accountSource.identity) {
-            this.$_message_showRequired("Missing source account.");
-            return true;
-         }
-
-         if (!objectiveMovement.accountTarget || !objectiveMovement.accountTarget.identity) {
-            this.$_message_showRequired("Missing source account.");
+         if (!objectiveMovement.value) {
+            this.$_message_showRequired("Missing value. You must add at least one item.");
             return true;
          }
 
          return false;
       },
 
-      // Not ok
-      validateSelectedSource(objectiveMovement) {
-         let errorMessage = "";
+      isTotalValueDifferentToTotalItems(objectiveMovement) {
+         let totalItems = 0;
+         let totalMovement = objectiveMovement.value;
 
-         if (!objectiveMovement || !objectiveMovement.accountSource || objectiveMovement.accountSource.level.length != 9)
-            errorMessage = "Please, select a final source account.";
-         else if (objectiveMovement.accountSource.level.startsWith("03."))
-            errorMessage = `Accounts with level "03." can't be used as source account.`;
-         else if (this.validateAccountCombination(objectiveMovement) != "")
-            errorMessage = this.validateAccountCombination(objectiveMovement);
-
-         if (errorMessage) {
-            this.$_message_showRequired(errorMessage);
-            objectiveMovement.accountSource = {};
-            objectiveMovement.accountTarget = {};
-            return;
+         for (let objectiveItem of objectiveMovement.objective.objectiveItemList) {
+            totalItems += Number(objectiveItem.totalValue.toFixed(2));
          }
-      },
 
-      validateSelectedTarget(objectiveMovement) {
-         let errorMessage = "";
-
-         if (!objectiveMovement || !objectiveMovement.accountTarget || objectiveMovement.accountTarget.level.length != 9)
-            errorMessage = "Please, select a final source account.";
-         else if (objectiveMovement.accountTarget.level.startsWith("02."))
-            errorMessage = `Accounts with level "02." can't be used as target account.`;
-         else if (this.validateAccountCombination(objectiveMovement) != "")
-            errorMessage = this.validateAccountCombination(objectiveMovement);
-
-         if (errorMessage) {
-            this.$_message_showRequired(errorMessage);
-            objectiveMovement.accountSource = {};
-            objectiveMovement.accountTarget = {};
-
-            return;
+         if (totalMovement !== totalItems) {
+            this.$_message_showError("The movement total value is different of items total value.");
+            return true;
          }
-      },
 
-      validateAccountCombination(objectiveMovement) {
-         if (objectiveMovement.accountSource.level.startsWith("02.") && objectiveMovement.accountTarget.level.startsWith("03."))
-            return `The combination levels "02." as source and "03." as target is invalid.`;
-         else if (objectiveMovement.accountSource.level === objectiveMovement.accountTarget.level)
-            return `The same account can't be used as source and target.`;
-
-         return "";
+         return false;
       },
 
       // Not ok
@@ -245,21 +231,33 @@ export default {
             objectiveMovement.registrationDate = "";
             objectiveMovement.dueDate = "";
             objectiveMovement.paymentDate = "";
-            objectiveMovement.value = "";
-            objectiveMovement.installment = "";
+            objectiveMovement.value = 0;
+            objectiveMovement.installment = 0;
 
             objectiveMovement.paymentMethod = {};
             objectiveMovement.accountSource = {};
-            objectiveMovement.accountTarget = {};
 
             objectiveMovement.objective.description = "";
             objectiveMovement.objective.location = {};
+            objectiveMovement.objective.objectiveItemList = [];
          }
       },
 
       // Not ok
       closeForm(objectiveMovement) {
-         this.$_message_console(objectiveMovement);
+         objectiveMovement.identity = "";
+         objectiveMovement.registrationDate = "";
+         objectiveMovement.dueDate = "";
+         objectiveMovement.paymentDate = "";
+         objectiveMovement.value = 0;
+         objectiveMovement.installment = 0;
+
+         objectiveMovement.paymentMethod = {};
+         objectiveMovement.accountSource = {};
+
+         objectiveMovement.objective.description = "";
+         objectiveMovement.objective.location = {};
+         objectiveMovement.objective.objectiveItemList = [];
 
          this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, false);
       }
