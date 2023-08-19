@@ -31,7 +31,6 @@
             <v-divider></v-divider>
 
             <v-card-text>
-               
                <df-grid spaced>
                   <df-output-text class="text-left" label="Source">{{ objectiveMovement.accountSource | traceAccount }}</df-output-text>
                </df-grid>

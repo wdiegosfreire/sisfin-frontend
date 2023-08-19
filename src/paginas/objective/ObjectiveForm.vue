@@ -1,0 +1,442 @@
+<template>
+	<v-dialog persistent v-model="$store.state.globalDialog" width="1000">
+		<v-card class="mb-3">
+			<v-toolbar color="primary" height="35" dark flat>
+				<v-toolbar-title>
+					<span v-if="this.objective.identity">Edit Objective</span>
+					<span v-else>New Objective</span>
+				</v-toolbar-title>
+			</v-toolbar>
+
+         <v-card-text>
+            <input type="hidden" v-model.number="objective.value" />
+
+            <v-tabs fixed-tabs>
+               <v-tab>Objective</v-tab>
+               <v-tab-item>
+                  <v-text-field v-if="objective.identity" label="Identity" readonly v-model="objective.identity" />
+                  <v-text-field label="Description" v-model="objective.description" :readonly="isIdentityPresent" />
+
+                  <v-select label="Location" v-model="objective.location" :items="locationListCombo" return-object>
+                     <template v-slot:selection="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
+                     <template v-slot:item="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
+                  </v-select>
+               </v-tab-item>
+
+               <!-- Movements registration form -->
+               <v-tab>Movements</v-tab>
+               <v-tab-item>
+                  <df-grid column="frac-15">
+                     <v-text-field label="Installment" v-model.number="objectiveMovementForm.installment" v-mask="['###']"></v-text-field>
+                     <v-select label="Payment Method" v-model="objectiveMovementForm.paymentMethod" :items="paymentMethodListCombo" return-object>
+                        <template v-slot:selection="{ item }">{{ item.name }} - {{ item.acronym }}</template>
+                        <template v-slot:item="{ item }">{{ item.name }} - {{ item.acronym }}</template>
+                     </v-select>
+                  </df-grid>
+                  <df-grid>
+                     <v-select label="Source" v-model="objectiveMovementForm.accountSource" :items="accountListComboSource" return-object @change="validateSelectedSource()">
+                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
+                        <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                     </v-select>
+                  </df-grid>
+                  <df-grid column="auto-sm">
+                     <v-text-field label="Due Date" v-model="objectiveMovementForm.dueDate" v-mask="['##/##/####']"></v-text-field>
+                     <v-text-field label="Payment date" v-model="objectiveMovementForm.paymentDate" v-mask="['##/##/####']"></v-text-field>
+                     <v-text-field label="Value" v-model.number="objectiveMovementForm.value" prefix="R$"></v-text-field>
+                     <v-btn @click="addNewMovement()">Add</v-btn>
+                  </df-grid>
+
+                  <v-data-table :headers="headerMovement" :items="objective.objectiveMovementList" :items-per-page="10" dense>
+                     <template v-slot:[`item.actions`]="{ item }"><v-icon small @click="deleteOneMovement(item)">mdi-delete</v-icon></template>
+                     <template v-slot:footer></template>
+                  </v-data-table>
+               </v-tab-item>
+
+               <!-- Items registration form -->
+               <v-tab>Items</v-tab>
+               <v-tab-item>
+                  <df-grid column="frac-15">
+                     <v-text-field label="Sequential" v-model="objectiveItemForm.sequential" tabindex="-1" v-mask="['####']"></v-text-field>
+                     <v-text-field label="Description" v-model="objectiveItemForm.description" append-icon="mdi-map-marker" @click:append="copyDescriptionFromObjective()"></v-text-field>
+                  </df-grid>
+                  <df-grid column="auto-sm">
+                     <v-select label="Target" v-model="objectiveItemForm.accountTarget" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
+                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
+                        <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                     </v-select>
+                  </df-grid>
+                  <df-grid column="auto-sm">
+                     <v-text-field label="Amount" v-model.number="objectiveItemForm.amount" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
+                     <v-text-field label="Unitary Value" v-model.number="objectiveItemForm.unitaryValue" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
+                     <v-text-field label="Total" v-model.number="objectiveItemForm.totalValue" prefix="R$" readonly tabindex="-1" />
+                     <v-btn @click="addNewItem()">Add</v-btn>
+                  </df-grid>
+
+                  <v-data-table :headers="headerItem" :items="objective.objectiveItemList" :items-per-page="10" dense>
+                     <template v-slot:[`item.actions`]="{ item }"><v-icon small @click="deleteOneItem(item)">mdi-delete</v-icon></template>
+                     <template v-slot:footer></template>
+                  </v-data-table>
+               </v-tab-item>
+            </v-tabs>
+         </v-card-text>
+
+         <v-card-text>
+            <table>
+               <tr>
+                  <td><h3>Total of Movements: {{ totalAllMovements | currency }}</h3></td>
+                  <td rowspan="2"><df-icon v-if="showTotalAlert" icon="fa-warning" size="3x" color="orange" title="Total of movements is diferent of total of items!" /></td>
+               </tr>
+               <tr>
+                  <td><h3>Total of Items: {{ totalAllItems | currency }}</h3></td>
+               </tr>
+            </table>
+         </v-card-text>
+
+         <v-card-actions>
+            <v-btn v-if="this.objective.identity" color="button" width="150" @click="$emit('executeEdition', objective)">Confirm</v-btn>
+            <v-btn v-else width="150" @click="executeRegistration">Confirm</v-btn>
+
+            <v-btn width="150" @click="cleanForm">Clear</v-btn>
+            <v-btn width="150" @click="$emit('closeForm', objective)">Close</v-btn>
+         </v-card-actions>
+      </v-card>
+   </v-dialog>
+</template>
+
+<script>
+//Components
+import DfGrid from "../../components/grid/Grid.vue";
+import DfIcon from "../../components/df-icon/Icon.vue";
+
+// Mixins
+import format from "../../components/mixins/format.js";
+import message from "../../components/mixins/message.js";
+
+// Directives
+import { mask } from 'vue-the-mask';
+
+export default {
+	name: "ObjectiveForm",
+
+	components: { DfGrid, DfIcon },
+
+   directives: { mask},
+
+   mixins: [ format, message ],
+
+   data() {
+      return {
+         totalAllMovements: 0,
+         totalAllItems: 0,
+         showTotalAlert: false,
+
+         objectiveMovementForm: {
+            dueDate: "01/08/2023",
+            paymentDate: "01/08/2023",
+            installment: this.objective.objectiveMovementList.length + 1,
+            paymentMethod: {}
+         },
+
+         objectiveItemForm: {
+            description: "",
+            sequential: this.objective.objectiveItemList.length + 1,
+            unitaryValue: 0,
+            amount: 0,
+            totalValue: 0,
+         },
+
+         headerMovement: [
+            { text: "#", value: "installment" },
+            { text: "Payment Method", value: "paymentMethod.name" },
+            { text: "Source", value: "accountSource.name" },
+            { text: "Due Date", value: "dueDate" },
+            { text: "Due Date", value: "paymentDate" },
+            { text: "Value", value: "value" },
+            { text: "Actions", value: "actions", align: "center", sortable: false }
+         ],
+
+         headerItem: [
+            { text: "#", value: "sequential" },
+            { text: "Description", value: "description" },
+            { text: "Target", value: "accountTarget.name" },
+            { text: "Amount", value: "amount", align: "end" },
+            { text: "", value: "plus", align: "end" },
+            { text: "Value", value: "unitaryValue", align: "end" },
+            { text: "", value: "equal", align: 'end' },
+            { text: "Total", value: "totalValue", align: "end" },
+            { text: "Actions", value: "actions", align: "center", sortable: false }
+         ]
+      }
+   },
+
+   props: {
+      objective: {
+         type: Object,
+         required: true,
+      },
+      locationListCombo: {
+         type: Array,
+         required: true
+      },
+      paymentMethodListCombo: {
+         type: Array,
+         required: true
+      },
+      accountListComboSource: {
+         type: Array,
+         required: true
+      },
+      accountListComboTarget: {
+         type: Array,
+         required: true
+      }
+   },
+
+   methods: {
+      calculateItemTotalValue() {
+         if (this.objectiveItemForm) {
+            let amount = this.objectiveItemForm.amount;
+            let unitaryValue = this.objectiveItemForm.unitaryValue;
+            this.objectiveItemForm.totalValue = Number((unitaryValue * amount).toFixed(2));
+         }
+      },
+
+      addNewMovement() {
+         if (!this.objectiveMovementForm.installment) {
+            this.$_message_showRequired("Missing movement installment.");
+            return false;
+         }
+
+         if (!this.objectiveMovementForm.paymentMethod) {
+            this.$_message_showRequired("Missing movement payment method.");
+            return false;
+         }
+
+         if (!this.objectiveMovementForm.accountSource) {
+            this.$_message_showRequired("Missing movement account source.");
+            return false;
+         }
+
+         if (!this.objectiveMovementForm.dueDate) {
+            this.$_message_showRequired("Missing movement due date.");
+            return false;
+         }
+
+         if (!this.objectiveMovementForm.value) {
+            this.$_message_showRequired("Missing movement value.");
+            return false;
+         }
+
+         this.objective.objectiveMovementList.push(
+            {
+               identity: this.objectiveMovementForm.identity,
+               installment: this.objectiveMovementForm.installment,
+               paymentMethod: this.objectiveMovementForm.paymentMethod,
+               accountSource: this.objectiveMovementForm.accountSource,
+               dueDate: this.objectiveMovementForm.dueDate,
+               paymentDate: this.objectiveMovementForm.paymentDate,
+               value: this.objectiveMovementForm.value
+            }
+         );
+
+         this.calculateTotalAllMovements();
+         this.resetObjectiveMovementForm();
+      },
+
+      addNewItem() {
+         if (!this.objectiveItemForm.sequential) {
+            this.$_message_showRequired("Missing item sequential.");
+            return false;
+         }
+
+         if (!this.objectiveItemForm.description) {
+            this.$_message_showRequired("Missing item description.");
+            return false;
+         }
+
+         if (!this.objectiveItemForm.accountTarget) {
+            this.$_message_showRequired("Missing target account.");
+            return false;
+         }
+
+         if (!this.objectiveItemForm.amount) {
+            this.$_message_showRequired("Missing item amount.");
+            return false;
+         }
+
+         if (!this.objectiveItemForm.unitaryValue) {
+            this.$_message_showRequired("Missing item unitary value.");
+            return false;
+         }
+
+         if (!this.objectiveItemForm.totalValue) {
+            this.$_message_showRequired("Missing item total value.");
+            return false;
+         }
+
+         this.objective.objectiveItemList.push(
+            {
+               identity: this.objectiveItemForm.identity,
+               description: this.objectiveItemForm.description,
+               sequential: this.objectiveItemForm.sequential,
+               unitaryValue: this.objectiveItemForm.unitaryValue,
+               amount: this.objectiveItemForm.amount,
+               totalValue: this.objectiveItemForm.totalValue,
+               accountTarget: this.objectiveItemForm.accountTarget,
+   
+               plus: "x",
+               equal: "="
+            }
+         );
+
+         this.calculateTotalAllItems();
+         this.resetObjectiveItemForm();
+      },
+
+      deleteOneMovement(movement) {
+         let index = this.objective.objectiveMovementList.indexOf(movement);
+         this.objective.objectiveMovementList.splice(index, 1);
+         this.objectiveMovementForm.installment = this.objective.objectiveMovementList.length + 1;
+
+         let i = 0;
+         for (const objectiveMovement of this.objective.objectiveMovementList) {
+            objectiveMovement.installment = ++i;
+         }
+
+         this.calculateTotalAllItems();
+      },
+
+      deleteOneItem(item) {
+         let index = this.objective.objectiveItemList.indexOf(item);
+         this.objective.objectiveItemList.splice(index, 1);
+         this.objectiveItemForm.sequential = this.objective.objectiveItemList.length + 1;
+
+         let i = 0;
+         for (const objectiveItem of this.objective.objectiveItemList) {
+            objectiveItem.sequential = ++i;
+         }
+
+         this.calculateTotalAllItems();
+      },
+
+      calculateTotalAllMovements() {
+         this.totalAllMovements = 0;
+         for (let objectiveMovement of this.objective.objectiveMovementList) {
+            let totalValueTemp = Number((objectiveMovement.value).toFixed(2));
+            this.totalAllMovements += totalValueTemp;
+         }
+
+         this.showTotalAlert = false;
+         if (this.totalAllMovements !== this.totalAllItems) {
+            this.showTotalAlert = true;
+         }
+      },
+
+      calculateTotalAllItems() {
+         this.totalAllItems = 0;
+         for (let objectiveItem of this.objective.objectiveItemList) {
+            let totalValueTemp = Number((objectiveItem.unitaryValue * objectiveItem.amount).toFixed(2));
+            this.totalAllItems += totalValueTemp;
+
+            objectiveItem.plus =  "x";
+            objectiveItem.equal = "=";
+            objectiveItem.totalValue = totalValueTemp;
+         }
+
+         this.showTotalAlert = false;
+         if (this.totalAllMovements !== this.totalAllItems) {
+            this.showTotalAlert = true;
+         }
+      },
+
+      validateSelectedSource() {
+         let errorMessage = "";
+
+         if (!this.objectiveMovementForm || !this.objectiveMovementForm.accountSource || this.objectiveMovementForm.accountSource.level.length != 9)
+            errorMessage = "Please, select a final source account.";
+         else if (this.objectiveMovementForm.accountSource.level.startsWith("03."))
+            errorMessage = `Accounts with level "03." can't be used as source account.`;
+
+         if (errorMessage) {
+            this.$_message_showRequired(errorMessage);
+            this.objectiveMovementForm.accountSource = {};
+
+            return;
+         }
+      },
+
+      validateSelectedTarget() {
+         let errorMessage = "";
+
+         if (!this.objectiveItemForm || !this.objectiveItemForm.accountTarget || this.objectiveItemForm.accountTarget.level.length != 9)
+            errorMessage = "Please, select a final target account.";
+         else if (this.objectiveItemForm.accountTarget.level.startsWith("02."))
+            errorMessage = `Accounts with level "02." can't be used as target account.`;
+
+         if (errorMessage) {
+            this.$_message_showRequired(errorMessage);
+            this.objectiveItemForm.accountTarget = {};
+
+            return;
+         }
+      },
+
+      copyDescriptionFromObjective() {
+         if (this.objective.description)
+            this.objectiveItemForm.description = this.objective.description;
+         else
+            this.$_message_showWarning("Objective description not found.");
+      },
+
+      cleanForm() {
+         this.resetObjectiveMovementForm();
+         this.resetObjectiveItemForm();
+         this.$emit("cleanForm", this.objective);
+      },
+
+      resetObjectiveMovementForm() {
+         this.objectiveMovementForm = {
+            paymentMethod: {},
+            accountSource: {},
+            dueDate: "",
+            paymentDate: "",
+            value: 0
+         };
+      },
+
+      resetObjectiveItemForm() {
+         this.objectiveItemForm = {
+            description: "",
+            accountTarget: {},
+            amount: 0,
+            unitaryValue: 0,
+            totalValue: 0
+         }
+      },
+
+      executeRegistration() {
+         if (this.objective.description == "") { this.$_message_showRequired("Missing objective description."); return; }
+         if (!this.objective.location.identity) { this.$_message_showRequired("Missing objective location."); return; }
+         if (this.objective.objectiveMovementList.length == 0) { this.$_message_showRequired("Missing movements."); return; }
+         if (this.objective.objectiveItemList.length == 0) { this.$_message_showRequired("Missing items."); return }
+         if (this.totalAllMovements !== this.totalAllItems) { this.$_message_showRequired("Total of movements is diferent of total of items."); return; }
+
+         this.$emit("executeRegistration", this.objective);
+      }
+   },
+
+   beforeUpdate() {
+      this.objectiveMovementForm.installment = this.objective.objectiveMovementList.length + 1
+      this.calculateTotalAllMovements();
+
+      this.objectiveItemForm.sequential = this.objective.objectiveItemList.length + 1
+      this.calculateTotalAllItems();
+   },
+
+   computed: {
+      isIdentityPresent() {
+         return this.objective.identity ? true : false;
+      }
+   }
+};
+</script>

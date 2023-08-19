@@ -28,6 +28,10 @@
         <v-list-item-icon><v-icon>mdi-text</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Summary</v-list-item-title></v-list-item-content>
       </v-list-item>
+      <v-list-item link @click="accessModuleObjective()">
+        <v-list-item-icon><v-icon>mdi-cash-multiple</v-icon></v-list-item-icon>
+        <v-list-item-content><v-list-item-title>Objectives</v-list-item-title></v-list-item-content>
+      </v-list-item>
       <v-list-item link @click="accessModuleObjectiveMovement()">
         <v-list-item-icon><v-icon>mdi-cash-multiple</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Movements</v-list-item-title></v-list-item-content>
@@ -127,6 +131,10 @@ export default {
   methods: {
     accessModuleResumo() {
       this.$router.push("/resumo");
+    },
+
+    accessModuleObjective() {
+      this.$router.push("/objective");
     },
 
     accessModuleObjectiveMovement() {

@@ -4,6 +4,7 @@ import Router from "vue-router";
 import User from "./paginas/user/User.vue";
 
 import Resumo from "./paginas/resumo/Resumo.vue";
+import Objective from "./paginas/objective/Objective.vue";
 import ObjectiveMovement from "./paginas/objectiveMovement/ObjectiveMovement.vue";
 import Extrato from "./paginas/extrato/Extrato.vue";
 import Account from "./paginas/account/Account.vue";
@@ -18,6 +19,7 @@ Vue.use(Router);
 const routes = [
     { path: "/", name: "user", component: User },
     { path: "/resumo", name: "resumo", component: Resumo },
+    { path: "/objective", name: "objective", component: Objective },
     { path: "/objectiveMovement", name: "objectiveMovement", component: ObjectiveMovement },
     { path: "/extrato", name: "extrato", component: Extrato },
     { path: "/account", name: "account", component: Account },
