@@ -70,8 +70,6 @@ export default {
          });
       },
 
-      accessEdition() {},
-      executeExclusion() {},
       executeRegistration(objective) {
          objective.userIdentity = this.$store.state.userIdentity;
 
@@ -83,6 +81,7 @@ export default {
          this.$_transaction_post("/objective/executeRegistration", objective).then(response => {
             this.$store.commit("setGlobalResult", response.data.map.objectiveList);
             this.$_message_showSuccess();
+            this.accessModule();
          }).catch(error => {
             this.$_message_handleError(error);
          });
@@ -95,6 +94,53 @@ export default {
          objective.objectiveMovementList = [];
       },
 
-      closeForm() {}
+      closeForm(objective) {
+         this.cleanForm(objective);
+         this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, false);
+      },
+
+      accessEdition(objective) {
+         objective.userIdentity = this.$store.state.userIdentity;
+
+         this.$_transaction_post("/objective/accessEdition", objective).then(response => {
+            this.$store.commit("setGlobalEntity", response.data.map.objective);
+            this.$store.commit("setGlobalLocationListCombo", response.data.map.locationListCombo);
+            this.$store.commit("setGlobalPaymentMethodListCombo", response.data.map.paymentMethodListCombo);
+            this.$store.commit("setGlobalAccountListComboSource", response.data.map.accountListComboSource);
+            this.$store.commit("setGlobalAccountListComboTarget", response.data.map.accountListComboTarget);
+
+            this.$store.commit("showGlobalDialog", true);
+         }).catch(error => {
+            this.$_message_handleError(error);
+         });
+      },
+
+      executeEdition(objective) {
+         objective.userIdentity = this.$store.state.userIdentity;
+
+         for (let objectiveMovement of objective.objectiveMovementList) {
+            objectiveMovement.dueDate = new Date(this.$_format_toAmericanDate(objectiveMovement.dueDate) + " 12:00:00");
+            objectiveMovement.paymentDate = new Date(this.$_format_toAmericanDate(objectiveMovement.paymentDate) + " 12:00:00");
+         }
+
+         this.$_transaction_post("/objective/executeEdition", objective).then(response => {
+            this.$store.commit("setGlobalResult", response.data.map.objectiveList);
+            this.$_message_showSuccess();
+            this.accessModule();
+         }).catch(error => {
+            this.$_message_handleError(error);
+         });
+      },
+
+      executeExclusion(objective) {
+         objective.userIdentity = this.$store.state.userIdentity;
+
+         this.$_transaction_post("/objective/executeExclusion", objective).then(() => {
+            this.$_message_showSuccess();
+            this.accessModule();
+         }).catch(error => {
+            this.$_message_handleError(error);
+         });
+      }
    }
 }

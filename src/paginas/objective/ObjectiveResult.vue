@@ -5,7 +5,7 @@
          <span v-for="objective in collection" :key="objective.identity">
             <span v-for="objectiveMovement in objective.objectiveMovementList" :key="objectiveMovement.identity">
 
-               <v-card outlined class="elevation-1 mb-4" v-if="objectiveMovement.inPeriod">
+               <v-card v-if="objectiveMovement.inPeriod" outlined class="elevation-1 mb-4">
                   <v-card-title>
                      <span>{{ objective.description }}: {{ objectiveMovement.value | currency }}</span>
 
@@ -48,8 +48,20 @@
                         <df-output-text class="text-left" label="Location">{{ objective.location ? objective.location.name : "" }}</df-output-text>
                      </df-grid>
 
-                     <objective-result-objective-item-list :collection="objective.objectiveItemList" dense />
-                     <objective-result-objective-movement-list :collection="objective.objectiveMovementList" dense />
+                     <v-expansion-panels focusable class="mb-1">
+                        <v-expansion-panel>
+                           <v-expansion-panel-header>Items</v-expansion-panel-header>
+                           <v-expansion-panel-content>
+                              <objective-item-result :collection="objective.objectiveItemList" dense />
+                           </v-expansion-panel-content>
+                        </v-expansion-panel>
+                        <v-expansion-panel>
+                           <v-expansion-panel-header>Movements</v-expansion-panel-header>
+                           <v-expansion-panel-content>
+                              <objective-movement-result :collection="objective.objectiveMovementList" dense />
+                           </v-expansion-panel-content>
+                        </v-expansion-panel>
+                     </v-expansion-panels>
                   </v-card-text>
                </v-card>
 
@@ -67,13 +79,13 @@ import DfGrid from "../../components/grid/Grid.vue";
 import DfIcon from "../../components/df-icon/Icon.vue";
 import DfOutputText from "../../components/output/OutputText.vue";
 
-import ObjectiveResultObjectiveItemList from "./ObjectiveResultObjectiveItemList.vue";
-import ObjectiveResultObjectiveMovementList from "./ObjectiveResultObjectiveMovementList.vue";
+import ObjectiveItemResult from "./ObjectiveItemResult";
+import ObjectiveMovementResult from "./ObjectiveMovementResult";
 
 export default {
    name: "ObjectiveMovementResult",
 
-   components: { DfGrid, DfOutputText, DfIcon, ObjectiveResultObjectiveItemList, ObjectiveResultObjectiveMovementList },
+   components: { DfGrid, DfOutputText, DfIcon, ObjectiveItemResult, ObjectiveMovementResult },
 
    props: {
       collection: {
@@ -84,8 +96,7 @@ export default {
 
    data() {
       return {
-         search: "",
-         objectiveMovementList: []
+         search: ""
       };
    },
 

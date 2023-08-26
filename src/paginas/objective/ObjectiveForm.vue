@@ -46,10 +46,7 @@
                      <v-btn @click="addNewMovement()">Add</v-btn>
                   </df-grid>
 
-                  <v-data-table :headers="headerMovement" :items="objective.objectiveMovementList" :items-per-page="10" dense>
-                     <template v-slot:[`item.actions`]="{ item }"><v-icon small @click="deleteOneMovement(item)">mdi-delete</v-icon></template>
-                     <template v-slot:footer></template>
-                  </v-data-table>
+                  <objective-movement-result :collection="objective.objectiveMovementList" @deleteOneMovement="deleteOneMovement" dense enable-delete />
                </v-tab-item>
 
                <!-- Items registration form -->
@@ -72,10 +69,7 @@
                      <v-btn @click="addNewItem()">Add</v-btn>
                   </df-grid>
 
-                  <v-data-table :headers="headerItem" :items="objective.objectiveItemList" :items-per-page="10" dense>
-                     <template v-slot:[`item.actions`]="{ item }"><v-icon small @click="deleteOneItem(item)">mdi-delete</v-icon></template>
-                     <template v-slot:footer></template>
-                  </v-data-table>
+                  <objective-item-result :collection="objective.objectiveItemList" @deleteOneItem="deleteOneItem" dense enable-delete />
                </v-tab-item>
             </v-tabs>
          </v-card-text>
@@ -97,7 +91,7 @@
             <v-btn v-else width="150" @click="executeRegistration">Confirm</v-btn>
 
             <v-btn width="150" @click="cleanForm">Clear</v-btn>
-            <v-btn width="150" @click="$emit('closeForm', objective)">Close</v-btn>
+            <v-btn width="150" @click="closeForm">Close</v-btn>
          </v-card-actions>
       </v-card>
    </v-dialog>
@@ -107,6 +101,8 @@
 //Components
 import DfGrid from "../../components/grid/Grid.vue";
 import DfIcon from "../../components/df-icon/Icon.vue";
+import ObjectiveItemResult from "./ObjectiveItemResult";
+import ObjectiveMovementResult from "./ObjectiveMovementResult";
 
 // Mixins
 import format from "../../components/mixins/format.js";
@@ -118,7 +114,7 @@ import { mask } from 'vue-the-mask';
 export default {
 	name: "ObjectiveForm",
 
-	components: { DfGrid, DfIcon },
+	components: { DfGrid, DfIcon, ObjectiveItemResult, ObjectiveMovementResult },
 
    directives: { mask},
 
@@ -129,6 +125,7 @@ export default {
          totalAllMovements: 0,
          totalAllItems: 0,
          showTotalAlert: false,
+         movementDateUpdated: false,
 
          objectiveMovementForm: {
             dueDate: "01/08/2023",
@@ -143,29 +140,7 @@ export default {
             unitaryValue: 0,
             amount: 0,
             totalValue: 0,
-         },
-
-         headerMovement: [
-            { text: "#", value: "installment" },
-            { text: "Payment Method", value: "paymentMethod.name" },
-            { text: "Source", value: "accountSource.name" },
-            { text: "Due Date", value: "dueDate" },
-            { text: "Due Date", value: "paymentDate" },
-            { text: "Value", value: "value" },
-            { text: "Actions", value: "actions", align: "center", sortable: false }
-         ],
-
-         headerItem: [
-            { text: "#", value: "sequential" },
-            { text: "Description", value: "description" },
-            { text: "Target", value: "accountTarget.name" },
-            { text: "Amount", value: "amount", align: "end" },
-            { text: "", value: "plus", align: "end" },
-            { text: "Value", value: "unitaryValue", align: "end" },
-            { text: "", value: "equal", align: 'end' },
-            { text: "Total", value: "totalValue", align: "end" },
-            { text: "Actions", value: "actions", align: "center", sortable: false }
-         ]
+         }
       }
    },
 
@@ -394,6 +369,11 @@ export default {
          this.$emit("cleanForm", this.objective);
       },
 
+      closeForm() {
+         this.cleanForm();
+         this.$emit('closeForm', this.objective);
+      },
+
       resetObjectiveMovementForm() {
          this.objectiveMovementForm = {
             paymentMethod: {},
@@ -415,13 +395,48 @@ export default {
       },
 
       executeRegistration() {
-         if (this.objective.description == "") { this.$_message_showRequired("Missing objective description."); return; }
-         if (!this.objective.location.identity) { this.$_message_showRequired("Missing objective location."); return; }
-         if (this.objective.objectiveMovementList.length == 0) { this.$_message_showRequired("Missing movements."); return; }
-         if (this.objective.objectiveItemList.length == 0) { this.$_message_showRequired("Missing items."); return }
-         if (this.totalAllMovements !== this.totalAllItems) { this.$_message_showRequired("Total of movements is diferent of total of items."); return; }
+         if (this.validateFormData()) {
+            this.$emit("executeRegistration", this.objective);
+            this.closeForm();
+         }
+      },
 
-         this.$emit("executeRegistration", this.objective);
+      executeEdition() {
+         if (this.validateFormData()) {
+            this.$emit("executeEdition", this.objective);
+            this.closeForm();
+         }
+      },
+
+      validateFormData() {
+         if (this.objective.description == "") { this.$_message_showRequired("Missing objective description."); return false; }
+         if (!this.objective.location.identity) { this.$_message_showRequired("Missing objective location."); return false; }
+         if (this.objective.objectiveMovementList.length == 0) { this.$_message_showRequired("Missing movements."); return false; }
+         if (this.objective.objectiveItemList.length == 0) { this.$_message_showRequired("Missing items."); return false }
+         if (this.totalAllMovements !== this.totalAllItems) { this.$_message_showRequired("Total of movements is diferent of total of items."); return false; }
+
+         return true;
+      },
+
+      formatToBrazilianDate(unformatedDate) {
+         if (!unformatedDate) {
+            return "";
+         }
+         else if (unformatedDate.length == 10) {
+            return unformatedDate;
+         }
+
+
+         unformatedDate = new Date(unformatedDate);
+
+         let day = unformatedDate.getDate();
+         let month = unformatedDate.getMonth() + 1;
+         let year = unformatedDate.getFullYear();
+
+         day = day.toString().padStart(2, "0");
+         month = month.toString().padStart(2, "0");
+
+         return `${day}/${month}/${year}`;
       }
    },
 
@@ -431,6 +446,11 @@ export default {
 
       this.objectiveItemForm.sequential = this.objective.objectiveItemList.length + 1
       this.calculateTotalAllItems();
+
+      for (let objectiveMovement of this.objective.objectiveMovementList) {
+         objectiveMovement.dueDate = this.formatToBrazilianDate(objectiveMovement.dueDate);
+         objectiveMovement.paymentDate = this.formatToBrazilianDate(objectiveMovement.paymentDate);
+      }
    },
 
    computed: {

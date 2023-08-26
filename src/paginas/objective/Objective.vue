@@ -37,6 +37,7 @@
          :account-list-combo-target="$store.state.globalAccountListComboTarget"
 
          @executeRegistration="executeRegistration"
+         @executeEdition="executeEdition"
          @cleanForm="cleanForm"
          @closeForm="closeForm"
       />
