@@ -79,8 +79,8 @@ import DfGrid from "../../components/grid/Grid.vue";
 import DfIcon from "../../components/df-icon/Icon.vue";
 import DfOutputText from "../../components/output/OutputText.vue";
 
-import ObjectiveItemResult from "./ObjectiveItemResult";
-import ObjectiveMovementResult from "./ObjectiveMovementResult";
+import ObjectiveItemResult from "./ObjectiveItemResult.vue";
+import ObjectiveMovementResult from "./ObjectiveMovementResult.vue";
 
 export default {
    name: "ObjectiveMovementResult",
