@@ -21,13 +21,13 @@
             <td>{{ objectiveMovement.dueDate | moment("DD/MM/YYYY") }}</td>
             <td>{{ objectiveMovement.paymentDate | moment("DD/MM/YYYY") }}</td>
             <td>{{ objectiveMovement.paymentMethod.name }}</td>
-            <td class="currency-column">{{ objectiveMovement.value | currency }}</td>
+            <td class="text-right">{{ objectiveMovement.value | currency }}</td>
             <td v-if="enableEdit"><df-icon @click="$emit('editOneMovement', objectiveMovement)" icon="fa-pen" size="sm" title="Click to edit this movement." /></td>
-            <td v-if="enableDelete"><df-icon @click="$emit('deleteOneMovement', objectiveMovement)" icon="fa-trash" size="sm" title="Click to delete this movement." /></td>
+            <td v-if="enableDelete"><df-icon @click="deleteOneMovement(objectiveMovement)" icon="fa-trash" size="sm" title="Click to delete this movement." /></td>
          </tr>
          <tr>
             <td colspan="6"></td>
-            <td class="currency-column">{{ movementTotalValue | currency }}</td>
+            <td class="text-right">{{ movementTotalValue | currency }}</td>
          </tr>
       </tbody>
    </v-simple-table>
@@ -75,6 +75,16 @@ export default {
          }
 
          this.$emit("setMovementTotalValue", this.movementTotalValue);
+      },
+
+      deleteOneMovement(movement) {
+         let index = this.collection.indexOf(movement);
+         this.collection.splice(index, 1);
+
+         let i = 0;
+         for (const objectiveMovement of this.collection) {
+            objectiveMovement.installment = ++i;
+         }
       }
    },
 
@@ -89,16 +99,6 @@ export default {
 </script>
 
 <style lang="css">
-.currency-column {
-	width: 100px;
-   text-align: right;
-}
-
-.sign-column {
-	width: 50px;
-   text-align: right;
-}
-
 th {
    white-space: nowrap;
 }

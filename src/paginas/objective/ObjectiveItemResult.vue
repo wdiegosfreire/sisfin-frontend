@@ -5,11 +5,11 @@
             <th>#</th>
             <th>DESCRIPTION</th>
             <th>TARGET</th>
-            <th class="currency-header">AMOUNT (R$)</th>
+            <th class="text-right">AMOUNT (R$)</th>
             <th></th>
-            <th class="currency-header">VALUE (R$)</th>
+            <th class="text-right">VALUE (R$)</th>
             <th></th>
-            <th class="currency-header">TOTAL (R$)</th>
+            <th class="text-right">TOTAL (R$)</th>
             <th v-if="enableEdit"></th>
             <th v-if="enableDelete"></th>
          </tr>
@@ -19,17 +19,17 @@
             <td>{{ objectiveItem.sequential }}</td>
             <td>{{ objectiveItem.description }}</td>
             <td>{{ objectiveItem.accountTarget | traceAccount }}</td>
-            <td class="currency-column">{{ objectiveItem.amount | currency(3) }}</td>
-            <td class="sign-column">x</td>
-            <td class="currency-column">{{ objectiveItem.unitaryValue | currency }}</td>
-            <td class="sign-column">=</td>
-            <td class="currency-column">{{ objectiveItem.totalValue | currency }}</td>
+            <td class="text-right">{{ objectiveItem.amount | currency(3) }}</td>
+            <td class="text-right">x</td>
+            <td class="text-right">{{ objectiveItem.unitaryValue | currency }}</td>
+            <td class="text-right">=</td>
+            <td class="text-right">{{ objectiveItem.totalValue | currency }}</td>
             <td v-if="enableEdit"><df-icon @click="$emit('editOneMovement', objectiveItem)" icon="fa-pen" size="sm" title="Click to edit this movement." /></td>
-            <td v-if="enableDelete"><df-icon @click="$emit('deleteOneItem', objectiveItem)" icon="fa-trash" size="sm" title="Click to delete this item." /></td>
+            <td v-if="enableDelete"><df-icon @click="deleteOneItem(objectiveItem)" icon="fa-trash" size="sm" title="Click to delete this item." /></td>
          </tr>
          <tr>
             <td colspan="7"></td>
-            <td class="currency-column">{{ itemTotalValue | currency }}</td>
+            <td class="text-right">{{ itemTotalValue | currency }}</td>
          </tr>
       </tbody>
    </v-simple-table>
@@ -77,6 +77,16 @@ export default {
          }
 
          this.$emit("setItemTotalValue", this.itemTotalValue);
+      },
+
+      deleteOneItem(item) {
+         let index = this.collection.indexOf(item);
+         this.collection.splice(index, 1);
+
+         let i = 0;
+         for (const objectiveItem of this.collection) {
+            objectiveItem.sequential = ++i;
+         }
       }
    },
 
@@ -91,20 +101,6 @@ export default {
 </script>
 
 <style lang="css">
-.currency-header {
-   text-align: right;
-}
-
-.currency-column {
-	width: 100px;
-   text-align: right;
-}
-
-.sign-column {
-	width: 50px;
-   text-align: right;
-}
-
 th {
    white-space: nowrap;
 }

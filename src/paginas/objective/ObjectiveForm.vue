@@ -46,7 +46,6 @@
                   <objective-item-result dense enable-delete
                      :collection="objective.objectiveItemList"
 
-                     @deleteOneItem="deleteOneItem"
                      @setItemTotalValue="getItemTotalValue"
                   />
                </v-tab-item>
@@ -77,7 +76,6 @@
                   <objective-movement-result dense enable-delete
                      :collection="objective.objectiveMovementList"
 
-                     @deleteOneMovement="deleteOneMovement"
                      @setMovementTotalValue="getMovementTotalValue"
                   />
                </v-tab-item>
@@ -274,28 +272,6 @@ export default {
          );
 
          this.resetObjectiveItemForm();
-      },
-
-      deleteOneMovement(movement) {
-         let index = this.objective.objectiveMovementList.indexOf(movement);
-         this.objective.objectiveMovementList.splice(index, 1);
-         this.objectiveMovementForm.installment = this.objective.objectiveMovementList.length + 1;
-
-         let i = 0;
-         for (const objectiveMovement of this.objective.objectiveMovementList) {
-            objectiveMovement.installment = ++i;
-         }
-      },
-
-      deleteOneItem(item) {
-         let index = this.objective.objectiveItemList.indexOf(item);
-         this.objective.objectiveItemList.splice(index, 1);
-         this.objectiveItemForm.sequential = this.objective.objectiveItemList.length + 1;
-
-         let i = 0;
-         for (const objectiveItem of this.objective.objectiveItemList) {
-            objectiveItem.sequential = ++i;
-         }
       },
 
       validateSelectedSource() {
