@@ -23,6 +23,34 @@
                   </v-select>
                </v-tab-item>
 
+               <!-- Items registration form -->
+               <v-tab>Items</v-tab>
+               <v-tab-item>
+                  <df-grid column="frac-15">
+                     <v-text-field label="Sequential" v-model="objectiveItemForm.sequential" tabindex="-1" v-mask="['####']"></v-text-field>
+                     <v-text-field label="Description" v-model="objectiveItemForm.description" append-icon="mdi-map-marker" @click:append="copyDescriptionFromObjective()"></v-text-field>
+                  </df-grid>
+                  <df-grid column="auto-sm">
+                     <v-select label="Target" v-model="objectiveItemForm.accountTarget" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
+                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
+                        <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                     </v-select>
+                  </df-grid>
+                  <df-grid column="auto-sm">
+                     <v-text-field label="Amount" v-model.number="objectiveItemForm.amount" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
+                     <v-text-field label="Unitary Value" v-model.number="objectiveItemForm.unitaryValue" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
+                     <v-text-field label="Total" v-model.number="objectiveItemForm.totalValue" prefix="R$" readonly tabindex="-1" />
+                     <v-btn @click="addNewItem()">Add</v-btn>
+                  </df-grid>
+
+                  <objective-item-result dense enable-delete
+                     :collection="objective.objectiveItemList"
+
+                     @deleteOneItem="deleteOneItem"
+                     @setItemTotalValue="getItemTotalValue"
+                  />
+               </v-tab-item>
+
                <!-- Movements registration form -->
                <v-tab>Movements</v-tab>
                <v-tab-item>
@@ -46,30 +74,12 @@
                      <v-btn @click="addNewMovement()">Add</v-btn>
                   </df-grid>
 
-                  <objective-movement-result :collection="objective.objectiveMovementList" @deleteOneMovement="deleteOneMovement" dense enable-delete />
-               </v-tab-item>
+                  <objective-movement-result dense enable-delete
+                     :collection="objective.objectiveMovementList"
 
-               <!-- Items registration form -->
-               <v-tab>Items</v-tab>
-               <v-tab-item>
-                  <df-grid column="frac-15">
-                     <v-text-field label="Sequential" v-model="objectiveItemForm.sequential" tabindex="-1" v-mask="['####']"></v-text-field>
-                     <v-text-field label="Description" v-model="objectiveItemForm.description" append-icon="mdi-map-marker" @click:append="copyDescriptionFromObjective()"></v-text-field>
-                  </df-grid>
-                  <df-grid column="auto-sm">
-                     <v-select label="Target" v-model="objectiveItemForm.accountTarget" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
-                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-                        <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
-                     </v-select>
-                  </df-grid>
-                  <df-grid column="auto-sm">
-                     <v-text-field label="Amount" v-model.number="objectiveItemForm.amount" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
-                     <v-text-field label="Unitary Value" v-model.number="objectiveItemForm.unitaryValue" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
-                     <v-text-field label="Total" v-model.number="objectiveItemForm.totalValue" prefix="R$" readonly tabindex="-1" />
-                     <v-btn @click="addNewItem()">Add</v-btn>
-                  </df-grid>
-
-                  <objective-item-result :collection="objective.objectiveItemList" @deleteOneItem="deleteOneItem" dense enable-delete />
+                     @deleteOneMovement="deleteOneMovement"
+                     @setMovementTotalValue="getMovementTotalValue"
+                  />
                </v-tab-item>
             </v-tabs>
          </v-card-text>
@@ -214,7 +224,6 @@ export default {
             }
          );
 
-         this.calculateTotalAllMovements();
          this.resetObjectiveMovementForm();
       },
 
@@ -264,7 +273,6 @@ export default {
             }
          );
 
-         this.calculateTotalAllItems();
          this.resetObjectiveItemForm();
       },
 
@@ -277,8 +285,6 @@ export default {
          for (const objectiveMovement of this.objective.objectiveMovementList) {
             objectiveMovement.installment = ++i;
          }
-
-         this.calculateTotalAllItems();
       },
 
       deleteOneItem(item) {
@@ -289,38 +295,6 @@ export default {
          let i = 0;
          for (const objectiveItem of this.objective.objectiveItemList) {
             objectiveItem.sequential = ++i;
-         }
-
-         this.calculateTotalAllItems();
-      },
-
-      calculateTotalAllMovements() {
-         this.totalAllMovements = 0;
-         for (let objectiveMovement of this.objective.objectiveMovementList) {
-            let totalValueTemp = Number((objectiveMovement.value).toFixed(2));
-            this.totalAllMovements += totalValueTemp;
-         }
-
-         this.showTotalAlert = false;
-         if (this.totalAllMovements !== this.totalAllItems) {
-            this.showTotalAlert = true;
-         }
-      },
-
-      calculateTotalAllItems() {
-         this.totalAllItems = 0;
-         for (let objectiveItem of this.objective.objectiveItemList) {
-            let totalValueTemp = Number((objectiveItem.unitaryValue * objectiveItem.amount).toFixed(2));
-            this.totalAllItems += totalValueTemp;
-
-            objectiveItem.plus =  "x";
-            objectiveItem.equal = "=";
-            objectiveItem.totalValue = totalValueTemp;
-         }
-
-         this.showTotalAlert = false;
-         if (this.totalAllMovements !== this.totalAllItems) {
-            this.showTotalAlert = true;
          }
       },
 
@@ -426,7 +400,6 @@ export default {
             return unformatedDate;
          }
 
-
          unformatedDate = new Date(unformatedDate);
 
          let day = unformatedDate.getDate();
@@ -437,15 +410,22 @@ export default {
          month = month.toString().padStart(2, "0");
 
          return `${day}/${month}/${year}`;
+      },
+
+      getItemTotalValue(itemTotalValue) {
+         this.totalAllItems = itemTotalValue;
+         this.showTotalAlert = this.totalAllMovements !== this.totalAllItems;
+      },
+
+      getMovementTotalValue(movementTotalValue) {
+         this.totalAllMovements = movementTotalValue;
+         this.showTotalAlert = this.totalAllMovements !== this.totalAllItems;
       }
    },
 
    beforeUpdate() {
-      this.objectiveMovementForm.installment = this.objective.objectiveMovementList.length + 1
-      this.calculateTotalAllMovements();
-
-      this.objectiveItemForm.sequential = this.objective.objectiveItemList.length + 1
-      this.calculateTotalAllItems();
+      this.objectiveItemForm.sequential = this.objective.objectiveItemList.length + 1;
+      this.objectiveMovementForm.installment = this.objective.objectiveMovementList.length + 1;
 
       for (let objectiveMovement of this.objective.objectiveMovementList) {
          objectiveMovement.dueDate = this.formatToBrazilianDate(objectiveMovement.dueDate);

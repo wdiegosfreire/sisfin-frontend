@@ -9,6 +9,7 @@
             <th>PAYMENT DATE</th>
             <th>PAYMENT METHOD</th>
             <th class="text-right">VALUE (R$)</th>
+            <th v-if="enableEdit"></th>
             <th v-if="enableDelete"></th>
          </tr>
       </thead>
@@ -21,7 +22,8 @@
             <td>{{ objectiveMovement.paymentDate | moment("DD/MM/YYYY") }}</td>
             <td>{{ objectiveMovement.paymentMethod.name }}</td>
             <td class="currency-column">{{ objectiveMovement.value | currency }}</td>
-            <td v-if="enableDelete"><df-icon @click="$emit('deleteOneMovement', objectiveMovement)" icon="fa-trash" size="small" title="Click to delete this movement." /></td>
+            <td v-if="enableEdit"><df-icon @click="$emit('editOneMovement', objectiveMovement)" icon="fa-pen" size="sm" title="Click to edit this movement." /></td>
+            <td v-if="enableDelete"><df-icon @click="$emit('deleteOneMovement', objectiveMovement)" icon="fa-trash" size="sm" title="Click to delete this movement." /></td>
          </tr>
          <tr>
             <td colspan="6"></td>
@@ -48,6 +50,10 @@ export default {
          type: Boolean,
          default: false
       },
+      enableEdit: {
+         type: Boolean,
+         default: false
+      },
       enableDelete: {
          type: Boolean,
          default: false
@@ -67,6 +73,8 @@ export default {
             this.movementTotalValue += objectiveMovement.value;
             objectiveMovement.currentInstallment = this.installment == objectiveMovement.installment;
          }
+
+         this.$emit("setMovementTotalValue", this.movementTotalValue);
       }
    },
 
@@ -89,5 +97,9 @@ export default {
 .sign-column {
 	width: 50px;
    text-align: right;
+}
+
+th {
+   white-space: nowrap;
 }
 </style>

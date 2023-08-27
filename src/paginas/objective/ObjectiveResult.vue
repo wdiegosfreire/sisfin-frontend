@@ -83,7 +83,7 @@ import ObjectiveItemResult from "./ObjectiveItemResult.vue";
 import ObjectiveMovementResult from "./ObjectiveMovementResult.vue";
 
 export default {
-   name: "ObjectiveMovementResult",
+   name: "ObjectiveResult",
 
    components: { DfGrid, DfOutputText, DfIcon, ObjectiveItemResult, ObjectiveMovementResult },
 

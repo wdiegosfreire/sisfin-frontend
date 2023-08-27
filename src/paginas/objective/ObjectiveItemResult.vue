@@ -10,6 +10,7 @@
             <th class="currency-header">VALUE (R$)</th>
             <th></th>
             <th class="currency-header">TOTAL (R$)</th>
+            <th v-if="enableEdit"></th>
             <th v-if="enableDelete"></th>
          </tr>
       </thead>
@@ -23,11 +24,12 @@
             <td class="currency-column">{{ objectiveItem.unitaryValue | currency }}</td>
             <td class="sign-column">=</td>
             <td class="currency-column">{{ objectiveItem.totalValue | currency }}</td>
-            <td v-if="enableDelete"><df-icon @click="$emit('deleteOneItem', objectiveItem)" icon="fa-trash" size="small" title="Click to delete this item." /></td>
+            <td v-if="enableEdit"><df-icon @click="$emit('editOneMovement', objectiveItem)" icon="fa-pen" size="sm" title="Click to edit this movement." /></td>
+            <td v-if="enableDelete"><df-icon @click="$emit('deleteOneItem', objectiveItem)" icon="fa-trash" size="sm" title="Click to delete this item." /></td>
          </tr>
          <tr>
             <td colspan="7"></td>
-            <td class="currency-column">{{ movementTotalValue | currency }}</td>
+            <td class="currency-column">{{ itemTotalValue | currency }}</td>
          </tr>
       </tbody>
    </v-simple-table>
@@ -50,6 +52,10 @@ export default {
          type: Boolean,
          default: false
       },
+      enableEdit: {
+         type: Boolean,
+         default: false
+      },
       enableDelete: {
          type: Boolean,
          default: false
@@ -58,17 +64,19 @@ export default {
 
    data() {
       return {
-         movementTotalValue: 0
+         itemTotalValue: 0
       }
    },
 
    methods: {
       calculateTotalValueForEachItem() {
-         this.movementTotalValue = 0;
+         this.itemTotalValue = 0;
          for (let objectiveItem of this.collection) {
             objectiveItem.totalValue = Number((objectiveItem.unitaryValue * objectiveItem.amount).toFixed(2));
-            this.movementTotalValue += objectiveItem.totalValue;
+            this.itemTotalValue += objectiveItem.totalValue;
          }
+
+         this.$emit("setItemTotalValue", this.itemTotalValue);
       }
    },
 
@@ -85,8 +93,8 @@ export default {
 <style lang="css">
 .currency-header {
    text-align: right;
-   white-space: nowrap;
 }
+
 .currency-column {
 	width: 100px;
    text-align: right;
@@ -95,5 +103,9 @@ export default {
 .sign-column {
 	width: 50px;
    text-align: right;
+}
+
+th {
+   white-space: nowrap;
 }
 </style>
