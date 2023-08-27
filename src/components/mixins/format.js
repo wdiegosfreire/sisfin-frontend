@@ -20,20 +20,16 @@ export default {
       },
 
       $_format_numberToCurrency(value, precision) {
-         if (!precision)
+         if (!precision || (precision != 2 && precision != 3))
             precision = 2
 
          const formatter = new Intl.NumberFormat("pt-BR", {
-            maximumFractionDigits: precision,
-            style: 'currency',
-            currency: 'BRL',
+            style: 'decimal',
+            minimumFractionDigits: precision,
+            maximumFractionDigits: precision
          });
 
-         value = formatter.format(value);
-         if (value.indexOf("R$") != -1)
-            value = value.split("R$")[1].trim();
-      
-         return value;
+         return formatter.format(value);
       },
 
       $_format_toAmericanDate(value) {

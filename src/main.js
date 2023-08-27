@@ -28,8 +28,7 @@ Vue.filter('currency', function (value, precision) {
       precision = 2;
 
    const formatter = new Intl.NumberFormat("pt-BR", {
-      style: 'currency',
-      currency: 'BRL',
+      style: 'decimal',
       minimumFractionDigits: precision,
       maximumFractionDigits: precision
    });
