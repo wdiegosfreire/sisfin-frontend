@@ -50,6 +50,10 @@
         <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Payment Methods</v-list-item-title></v-list-item-content>
       </v-list-item>
+      <v-list-item link @click="accessModuleBank()">
+        <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
+        <v-list-item-content><v-list-item-title>Banks</v-list-item-title></v-list-item-content>
+      </v-list-item>
 
       <v-subheader>COMING SOON</v-subheader>
       <v-list-item link @click="accessModuleDesejo()">
@@ -147,6 +151,10 @@ export default {
 
     accessModulePaymentMethod() {
       this.$router.push("/paymentMethod");
+    },
+
+    accessModuleBank() {
+      this.$router.push("/bank");
     },
 
     accessModuleDesejo() {

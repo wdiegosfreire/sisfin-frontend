@@ -9,6 +9,7 @@ import Extrato from "./paginas/extrato/Extrato.vue";
 import Account from "./paginas/account/Account.vue";
 import Location from "./paginas/location/Location.vue";
 import PaymentMethod from "./paginas/paymentMethod/PaymentMethod.vue";
+import Bank from "./paginas/statement/bank/Bank.vue";
 import Desejo from "./paginas/desejo/Desejo.vue";
 import Automovel from "./paginas/automovel/Automovel.vue";
 import Supermercado from "./paginas/supermercado/Supermercado.vue";
@@ -23,6 +24,7 @@ const routes = [
     { path: "/account", name: "account", component: Account },
     { path: "/location", name: "location", component: Location },
     { path: "/paymentMethod", name: "paymentMethod", component: PaymentMethod },
+    { path: "/bank", name: "bank", component: Bank },
     { path: "/desejo", name: "desejo", component: Desejo },
     { path: "/automovel", name: "automovel", component: Automovel },
     { path: "/supermercado", name: "supermercado", component: Supermercado }
