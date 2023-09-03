@@ -2,7 +2,7 @@
   <v-app-bar app color="primary" dark>
     <v-app-bar-nav-icon v-if="$store.state.sessionToken" @click.stop="showNavigationDrawer = !showNavigationDrawer"></v-app-bar-nav-icon>
     <v-toolbar-title :title="computedEnviroment">
-      Financial Control System - FCS <span class="text-caption">2022-05-31 1557</span>
+      Financial Control System - FCS <span class="text-caption">Docker 001</span>
     </v-toolbar-title>
 
     <v-spacer />
@@ -23,14 +23,14 @@
     <v-divider></v-divider>
 
     <v-list dense>
-      <v-subheader>TRANSACTIONS</v-subheader>
+      <v-subheader>Activities</v-subheader>
       <v-list-item link @click="accessModuleResumo()">
         <v-list-item-icon><v-icon>mdi-text</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Summary</v-list-item-title></v-list-item-content>
       </v-list-item>
-      <v-list-item link @click="accessModuleMovimento()">
+      <v-list-item link @click="accessModuleObjective()">
         <v-list-item-icon><v-icon>mdi-cash-multiple</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Transactions</v-list-item-title></v-list-item-content>
+        <v-list-item-content><v-list-item-title>Objectives</v-list-item-title></v-list-item-content>
       </v-list-item>
       <v-list-item link @click="accessModuleExtrato()">
         <v-list-item-icon><v-icon>mdi-notebook-plus-outline</v-icon></v-list-item-icon>
@@ -129,8 +129,8 @@ export default {
       this.$router.push("/resumo");
     },
 
-    accessModuleMovimento() {
-      this.$router.push("/movimento");
+    accessModuleObjective() {
+      this.$router.push("/objective");
     },
 
     accessModuleExtrato() {
