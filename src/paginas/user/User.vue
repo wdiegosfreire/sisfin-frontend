@@ -87,9 +87,11 @@ export default {
    },
 
    created: function () {
-      this.checkMicroServiceMaintenance();
-      this.checkMicroServiceTransaction();
-      this.checkMicroServiceStatement();
+      if (process.env.VUE_APP_SISFIN_FRONTEND_ENVIROMENT != "default") {
+         this.checkMicroServiceMaintenance();
+         this.checkMicroServiceTransaction();
+         this.checkMicroServiceStatement();
+      }
    }
 }
 </script>

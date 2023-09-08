@@ -32,7 +32,7 @@
         <v-list-item-icon><v-icon>mdi-cash-multiple</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Objectives</v-list-item-title></v-list-item-content>
       </v-list-item>
-      <v-list-item link @click="accessModuleExtrato()">
+      <v-list-item link @click="accessModuleStatement()">
         <v-list-item-icon><v-icon>mdi-notebook-plus-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Statements</v-list-item-title></v-list-item-content>
       </v-list-item>
@@ -53,6 +53,10 @@
       <v-list-item link @click="accessModuleBank()">
         <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Banks</v-list-item-title></v-list-item-content>
+      </v-list-item>
+      <v-list-item link @click="accessModuleStatementType()">
+        <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
+        <v-list-item-content><v-list-item-title>Statement Types</v-list-item-title></v-list-item-content>
       </v-list-item>
 
       <v-subheader>COMING SOON</v-subheader>
@@ -137,8 +141,8 @@ export default {
       this.$router.push("/objective");
     },
 
-    accessModuleExtrato() {
-      this.$router.push("/extrato");
+    accessModuleStatement() {
+      this.$router.push("/statement");
     },
 
     accessModuleAccount() {
@@ -155,6 +159,10 @@ export default {
 
     accessModuleBank() {
       this.$router.push("/bank");
+    },
+
+    accessModuleStatementType() {
+      this.$router.push("/statementType");
     },
 
     accessModuleDesejo() {

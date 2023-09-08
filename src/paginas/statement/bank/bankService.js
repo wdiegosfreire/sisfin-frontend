@@ -58,11 +58,11 @@ export default {
          if (this.isMissingRequiredFields(bank))
             return;
 
-            bank.userIdentity = this.$store.state.userIdentity;
-         this.$_statement_post("/bank/executeRegistration", bank).then(response => {
-            this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.bankList);
+         bank.userIdentity = this.$store.state.userIdentity;
+         this.$_statement_post("/bank/executeRegistration", bank).then(() => {
             this.closeForm(bank);
             this.$_message_showSuccess();
+            this.accessModule();
          }).catch(error => {
             this.$_message_handleError(error);
          });
@@ -72,11 +72,11 @@ export default {
          if (this.isMissingIdentity(bank) || this.isMissingRequiredFields(bank))
             return;
 
-            bank.userIdentity = this.$store.state.userIdentity;
-         this.$_statement_post("/bank/executeEdition", bank).then(response => {
-            this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.bankList);
+         bank.userIdentity = this.$store.state.userIdentity;
+         this.$_statement_post("/bank/executeEdition", bank).then(() => {
             this.closeForm(bank);
             this.$_message_showSuccess();
+            this.accessModule();
          }).catch(error => {
             this.$_message_handleError(error);
          });
@@ -86,9 +86,9 @@ export default {
          this.$confirm(Constants.message.DELETE).then(() => {
             bank.userIdentity = this.$store.state.userIdentity;
 
-            this.$_statement_post("/bank/executeExclusion", bank).then(response => {
-               this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.bankList);
+            this.$_statement_post("/bank/executeExclusion", bank).then(() => {
                this.$_message_showSuccess();
+               this.accessModule();
             }).catch(error => {
                this.$_message_handleError(error);
             });
@@ -120,7 +120,7 @@ export default {
       },
 
       closeForm(bank) {
-         bank.identity = "";
+         bank.identity = null;
          bank.name = "";
 
          this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, false);

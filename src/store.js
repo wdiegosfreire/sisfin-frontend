@@ -28,6 +28,7 @@ export default new Vuex.Store({
 			date: new Date()
 		},
 
+      globalBankListCombo: [],
       globalLocationListCombo: [],
       globalAccountListComboSource: [],
       globalAccountListComboTarget: [],
@@ -73,6 +74,7 @@ export default new Vuex.Store({
 		},
 
       
+      setGlobalBankListCombo(state, payload) { state.globalBankListCombo = payload; },
       setGlobalLocationListCombo(state, payload) { state.globalLocationListCombo = payload; },
       setGlobalAccountListComboSource(state, payload) { state.globalAccountListComboSource = payload; },
       setGlobalAccountListComboTarget(state, payload) { state.globalAccountListComboTarget = payload; },
