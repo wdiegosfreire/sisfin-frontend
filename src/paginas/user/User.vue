@@ -24,29 +24,22 @@
                The service "TRANSACTION" is not responding. We'll try again after each 30 seconds until the service is back again.
             </v-alert>
          </v-card-actions>
-         <v-card-actions v-if="statement">
-            <v-alert outlined prominent type="error" border="left" class="text-left">
-               The service "STATEMENT" is not responding. We'll try again after each 30 seconds until the service is back again.
-            </v-alert>
-         </v-card-actions>
     </v-card>
 </template>
 
 <script>
 import maintenanceApi from "../../components/axios/maintenance/maintenanceApi.js";
 import transactionApi from "../../components/axios/transaction/transactionApi.js";
-import statementApi from "../../components/axios/statement/statementApi.js";
 import userService from "./userService.js";
 
 export default {
    name: "User",
-   mixins: [ maintenanceApi, transactionApi, statementApi, userService ],
+   mixins: [ maintenanceApi, transactionApi, userService ],
 
    data() {
       return {
          maintenance: false,
          transaction: false,
-         statement: false,
          timeoutDelay: 30000
       }
    },
@@ -72,17 +65,6 @@ export default {
             _this.transaction = true;
             setTimeout(function() {_this.checkMicroServiceTransaction();}, _this.timeoutDelay);
          });
-      },
-
-      checkMicroServiceStatement() {
-         let _this = this;
-
-         this.$_statement_get(`/imrunning`).then(() => {
-            _this.statement = false;
-         }).catch(() => {
-            _this.statement = true;
-            setTimeout(function() {_this.checkMicroServiceStatement();}, _this.timeoutDelay);
-         });
       }
    },
 
@@ -90,7 +72,6 @@ export default {
       if (process.env.VUE_APP_SISFIN_FRONTEND_ENVIROMENT != "default") {
          this.checkMicroServiceMaintenance();
          this.checkMicroServiceTransaction();
-         this.checkMicroServiceStatement();
       }
    }
 }

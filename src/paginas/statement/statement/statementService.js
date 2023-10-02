@@ -1,4 +1,4 @@
-import statementApi from "../../../components/axios/statement/statementApi.js";
+import transactionApi from "../../../components/axios/transaction/transactionApi.js";
 import message from "../../../components/mixins/message.js";
 
 import Constants from "../../../plugins/Constants";
@@ -6,7 +6,7 @@ import Constants from "../../../plugins/Constants";
 export default {
    name: "statementService",
 
-   mixins: [ statementApi, message ],
+   mixins: [ transactionApi, message ],
 
    data() {
       return {
@@ -20,7 +20,7 @@ export default {
             userIdentity: this.$store.state.userIdentity
          }
 
-         this.$_statement_post("/statement/accessModule", statement).then(response => {
+         this.$_transaction_post("/statement/accessModule", statement).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.statementList);
          }).catch(error => {
             this.$_message_handleError(error);
@@ -34,7 +34,7 @@ export default {
 
       accessEdition(statement) {
          statement.userIdentity = this.$store.state.userIdentity;
-         this.$_statement_post("/statement/accessEdition", statement).then(response => {
+         this.$_transaction_post("/statement/accessEdition", statement).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_ENTITY, response.data.map.statement);
             this.$store.commit("setGlobalBankListCombo", response.data.map.bankListCombo);
 
@@ -50,7 +50,7 @@ export default {
             userIdentity: this.$store.state.userIdentity
          }
 
-         this.$_statement_post("/statement/executeSearch", statement).then(response => {
+         this.$_transaction_post("/statement/executeSearch", statement).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.statementList);
          }).catch(error => {
             this.$_message_handleError(error);
@@ -72,7 +72,7 @@ export default {
 
          statement.statementFile = await toBase64(statement.statementFile);
 
-         this.$_statement_post("/statement/executeRegistration", statement).then(() => {
+         this.$_transaction_post("/statement/executeRegistration", statement).then(() => {
             this.closeForm(statement);
             this.$_message_showSuccess();
             this.accessModule();
@@ -88,7 +88,7 @@ export default {
             return;
 
          // statement.userIdentity = this.$store.state.userIdentity;
-         // this.$_statement_post("/statement/executeEdition", statement).then(() => {
+         // this.$_transaction_post("/statement/executeEdition", statement).then(() => {
          //    this.closeForm(statement);
          //    this.$_message_showSuccess();
          //    this.accessModule();
@@ -101,7 +101,7 @@ export default {
          this.$confirm(Constants.message.DELETE).then(() => {
             statement.userIdentity = this.$store.state.userIdentity;
 
-            this.$_statement_post("/statement/executeExclusion", statement).then(() => {
+            this.$_transaction_post("/statement/executeExclusion", statement).then(() => {
                this.$_message_showSuccess();
                this.accessModule();
             }).catch(error => {

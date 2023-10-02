@@ -3,7 +3,7 @@
       <v-card-text>
          <v-card outlined class="elevation-1 mb-4" v-for="statement in collection" :key="statement.identity">
             <v-card-title>
-               <span>{{ statement.month }}/{{ statement.year }} :: {{ statement.statementType.bank.name }} :: {{ statement.statementType.name }}</span>
+               <span>{{ statement.month }}/{{ statement.year }} :: {{ statement.statementType ? statement.statementType.bank.name : "" }} :: {{ statement.statementType ? statement.statementType.name : "" }}</span>
 
                <v-spacer></v-spacer>
                <v-menu offset-y>

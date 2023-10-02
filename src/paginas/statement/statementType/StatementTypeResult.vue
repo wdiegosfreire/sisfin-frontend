@@ -33,7 +33,7 @@
             <v-card-text>
                <df-grid>
                   <df-output-text class="text-left" label="Identity">{{ statementType.identity }}</df-output-text>
-                  <df-output-text class="text-left" label="Bank">{{ statementType.bank.name }}</df-output-text>
+                  <df-output-text class="text-left" label="Bank">{{ statementType.bank ? statementType.bank.name : "" }}</df-output-text>
                </df-grid>
             </v-card-text>
          </v-card>

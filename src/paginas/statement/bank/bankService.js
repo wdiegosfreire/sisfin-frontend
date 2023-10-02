@@ -1,4 +1,4 @@
-import statementApi from "../../../components/axios/statement/statementApi.js";
+import transactionApi from "../../../components/axios/transaction/transactionApi.js";
 import message from "../../../components/mixins/message.js";
 
 import Constants from "../../../plugins/Constants";
@@ -6,7 +6,7 @@ import Constants from "../../../plugins/Constants";
 export default {
    name: "bankService",
 
-   mixins: [ statementApi, message ],
+   mixins: [ transactionApi, message ],
 
    data() {
       return {
@@ -20,7 +20,7 @@ export default {
             userIdentity: this.$store.state.userIdentity
          }
 
-         this.$_statement_post("/bank/accessModule", bank).then(response => {
+         this.$_transaction_post("/bank/accessModule", bank).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.bankList);
          }).catch(error => {
             this.$_message_handleError(error);
@@ -33,7 +33,7 @@ export default {
 
       accessEdition(bank) {
          bank.userIdentity = this.$store.state.userIdentity;
-         this.$_statement_post("/bank/accessEdition", bank).then(response => {
+         this.$_transaction_post("/bank/accessEdition", bank).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_ENTITY, response.data.map.bank);
             this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
          }).catch(error => {
@@ -47,7 +47,7 @@ export default {
             userIdentity: this.$store.state.userIdentity
          }
 
-         this.$_statement_post("/bank/executeSearch", bank).then(response => {
+         this.$_transaction_post("/bank/executeSearch", bank).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.bankList);
          }).catch(error => {
             this.$_message_handleError(error);
@@ -59,7 +59,7 @@ export default {
             return;
 
          bank.userIdentity = this.$store.state.userIdentity;
-         this.$_statement_post("/bank/executeRegistration", bank).then(() => {
+         this.$_transaction_post("/bank/executeRegistration", bank).then(() => {
             this.closeForm(bank);
             this.$_message_showSuccess();
             this.accessModule();
@@ -73,7 +73,7 @@ export default {
             return;
 
          bank.userIdentity = this.$store.state.userIdentity;
-         this.$_statement_post("/bank/executeEdition", bank).then(() => {
+         this.$_transaction_post("/bank/executeEdition", bank).then(() => {
             this.closeForm(bank);
             this.$_message_showSuccess();
             this.accessModule();
@@ -86,7 +86,7 @@ export default {
          this.$confirm(Constants.message.DELETE).then(() => {
             bank.userIdentity = this.$store.state.userIdentity;
 
-            this.$_statement_post("/bank/executeExclusion", bank).then(() => {
+            this.$_transaction_post("/bank/executeExclusion", bank).then(() => {
                this.$_message_showSuccess();
                this.accessModule();
             }).catch(error => {

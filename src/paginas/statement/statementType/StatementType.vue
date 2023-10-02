@@ -54,9 +54,10 @@ export default {
 
    created() {
       this.$store.commit("setGlobalEntity", {
-         description: "",
-         objectiveMovementList: [],
-         objectiveItemList: []
+         identity: null,
+         name: null,
+         bank: {},
+         userIdentity: null
       });
 
       this.accessModule();

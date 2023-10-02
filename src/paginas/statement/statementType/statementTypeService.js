@@ -1,4 +1,4 @@
-import statementApi from "../../../components/axios/statement/statementApi.js";
+import transactionApi from "../../../components/axios/transaction/transactionApi.js";
 import message from "../../../components/mixins/message.js";
 
 import Constants from "../../../plugins/Constants";
@@ -6,7 +6,7 @@ import Constants from "../../../plugins/Constants";
 export default {
    name: "statementTypeService",
 
-   mixins: [ statementApi, message ],
+   mixins: [ transactionApi, message ],
 
    data() {
       return {
@@ -20,7 +20,7 @@ export default {
             userIdentity: this.$store.state.userIdentity
          }
 
-         this.$_statement_post("/statementType/accessModule", statementType).then(response => {
+         this.$_transaction_post("/statementType/accessModule", statementType).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.statementTypeList);
          }).catch(error => {
             this.$_message_handleError(error);
@@ -32,7 +32,7 @@ export default {
             userIdentity: this.$store.state.userIdentity
          };
 
-         this.$_statement_post("/statementType/accessRegistration", statementType).then(response => {
+         this.$_transaction_post("/statementType/accessRegistration", statementType).then(response => {
             this.$store.commit("setGlobalBankListCombo", response.data.map.bankListCombo);
 
             this.$store.commit("showGlobalDialog", true);
@@ -43,7 +43,7 @@ export default {
 
       accessEdition(statementType) {
          statementType.userIdentity = this.$store.state.userIdentity;
-         this.$_statement_post("/statementType/accessEdition", statementType).then(response => {
+         this.$_transaction_post("/statementType/accessEdition", statementType).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_ENTITY, response.data.map.statementType);
             this.$store.commit("setGlobalBankListCombo", response.data.map.bankListCombo);
 
@@ -59,7 +59,7 @@ export default {
             userIdentity: this.$store.state.userIdentity
          }
 
-         this.$_statement_post("/statementType/executeSearch", statementType).then(response => {
+         this.$_transaction_post("/statementType/executeSearch", statementType).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.statementTypeList);
          }).catch(error => {
             this.$_message_handleError(error);
@@ -71,7 +71,7 @@ export default {
             return;
 
          statementType.userIdentity = this.$store.state.userIdentity;
-         this.$_statement_post("/statementType/executeRegistration", statementType).then(() => {
+         this.$_transaction_post("/statementType/executeRegistration", statementType).then(() => {
             this.closeForm(statementType);
             this.$_message_showSuccess();
             this.accessModule();
@@ -85,7 +85,7 @@ export default {
             return;
 
          statementType.userIdentity = this.$store.state.userIdentity;
-         this.$_statement_post("/statementType/executeEdition", statementType).then(() => {
+         this.$_transaction_post("/statementType/executeEdition", statementType).then(() => {
             this.closeForm(statementType);
             this.$_message_showSuccess();
             this.accessModule();
@@ -98,7 +98,7 @@ export default {
          this.$confirm(Constants.message.DELETE).then(() => {
             statementType.userIdentity = this.$store.state.userIdentity;
 
-            this.$_statement_post("/statementType/executeExclusion", statementType).then(() => {
+            this.$_transaction_post("/statementType/executeExclusion", statementType).then(() => {
                this.$_message_showSuccess();
                this.accessModule();
             }).catch(error => {
