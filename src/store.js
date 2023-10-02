@@ -31,8 +31,8 @@ export default new Vuex.Store({
       globalBankListCombo: [],
       globalLocationListCombo: [],
       globalAccountListComboSource: [],
-      globalAccountListComboTarget: [],
       globalPaymentMethodListCombo: [],
+      globalAccountListComboTarget: [],
       globalAccountListComboLevelOne: [],
       globalAccountListComboLevelTwo: [],
 

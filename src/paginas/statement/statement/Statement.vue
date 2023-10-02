@@ -16,10 +16,7 @@
          @executeExclusion="executeExclusion"
       />
 
-      <statement-form
-         :statement="$store.state.globalEntity"
-         :bank-list-combo="$store.state.globalBankListCombo"
-
+      <statement-form :statement="$store.state.globalEntity"
          @executeRegistration="executeRegistration"
          @executeEdition="executeEdition"
          @cleanForm="cleanForm"
@@ -54,9 +51,14 @@ export default {
 
    created() {
       this.$store.commit("setGlobalEntity", {
-         description: "",
-         objectiveMovementList: [],
-         objectiveItemList: []
+         year: null,
+         month: null,
+         openingBalance: null,
+         closingBalance: null,
+         isClosed: false,
+         statementType: {},
+         userIdentity: null,
+         statementFile: null
       });
 
       this.accessModule();

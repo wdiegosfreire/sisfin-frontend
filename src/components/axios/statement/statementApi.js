@@ -11,8 +11,8 @@ export default {
       $_statement_get(url) {
          return statementApiInstance.get(url + this.tokenParam);
       },
-      $_statement_post(url, data) {
-         return statementApiInstance.post(url + this.tokenParam, data);
+      $_statement_post(url, data, options) {
+         return statementApiInstance.post(url + this.tokenParam, data, options);
       },
       $_statement_put(url, data) {
          return statementApiInstance.put(url + this.tokenParam, data);

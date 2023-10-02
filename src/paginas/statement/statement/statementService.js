@@ -28,17 +28,8 @@ export default {
       },
 
       accessRegistration() {
-         let statement = {
-            userIdentity: this.$store.state.userIdentity
-         };
-
-         this.$_statement_post("/statement/accessRegistration", statement).then(response => {
-            this.$store.commit("setGlobalBankListCombo", response.data.map.bankListCombo);
-
-            this.$store.commit("showGlobalDialog", true);
-         }).catch(error => {
-            this.$_message_handleError(error);
-         });
+         this.$store.commit(Constants.store.SET_GLOBAL_ENTITY, {identity: null, statementFile: null});
+         this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
       },
 
       accessEdition(statement) {
@@ -66,11 +57,21 @@ export default {
          });
       },
 
-      executeRegistration(statement) {
+      async executeRegistration(statement) {
          if (this.isMissingRequiredFields(statement))
             return;
 
          statement.userIdentity = this.$store.state.userIdentity;
+
+         const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+         });
+
+         statement.statementFile = await toBase64(statement.statementFile);
+
          this.$_statement_post("/statement/executeRegistration", statement).then(() => {
             this.closeForm(statement);
             this.$_message_showSuccess();
@@ -81,17 +82,19 @@ export default {
       },
 
       executeEdition(statement) {
+         this.$_message_console(statement);
+
          if (this.isMissingIdentity(statement) || this.isMissingRequiredFields(statement))
             return;
 
-         statement.userIdentity = this.$store.state.userIdentity;
-         this.$_statement_post("/statement/executeEdition", statement).then(() => {
-            this.closeForm(statement);
-            this.$_message_showSuccess();
-            this.accessModule();
-         }).catch(error => {
-            this.$_message_handleError(error);
-         });
+         // statement.userIdentity = this.$store.state.userIdentity;
+         // this.$_statement_post("/statement/executeEdition", statement).then(() => {
+         //    this.closeForm(statement);
+         //    this.$_message_showSuccess();
+         //    this.accessModule();
+         // }).catch(error => {
+         //    this.$_message_handleError(error);
+         // });
       },
 
       executeExclusion(statement) {
@@ -117,8 +120,8 @@ export default {
       },
 
       isMissingRequiredFields(statement) {
-         if (!statement.name || !statement.name.trim()) {
-            this.$_message_showRequired("Mising statement sname.");
+         if (!statement.statementFile) {
+            this.$_message_showRequired("Mising statement file.");
             return true;
          }
 
@@ -126,17 +129,11 @@ export default {
       },
 
       cleanForm(statement) {
-         if (!statement.identity) {
-            statement.name = "";
-         }
+         statement.statementFile = null;
       },
 
       closeForm(statement) {
-         statement.identity = null;
-         statement.name = null;
-         statement.bank = null;
-
-         this.$store.commit("setGlobalBankListCombo", []);
+         statement.statementFile = null;
          this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, false);
       }
    }

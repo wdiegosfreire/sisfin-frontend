@@ -91,9 +91,11 @@ export default {
 
    created() {
       this.$store.commit("setGlobalEntity", {
-         identity: "",
-         name: "",
-         bank: {}
+         identity: null,
+         description: null,
+         location: {},
+         objectiveMovementList: [],
+         objectiveItemList: []
       });
 
       let newDate = new Date();

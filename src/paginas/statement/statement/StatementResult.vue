@@ -3,7 +3,7 @@
       <v-card-text>
          <v-card outlined class="elevation-1 mb-4" v-for="statement in collection" :key="statement.identity">
             <v-card-title>
-               <span>{{ statement.month }}/{{ statement.year }}</span>
+               <span>{{ statement.month }}/{{ statement.year }} :: {{ statement.statementType.bank.name }} :: {{ statement.statementType.name }}</span>
 
                <v-spacer></v-spacer>
                <v-menu offset-y>
@@ -31,12 +31,11 @@
             <v-divider></v-divider>
 
             <v-card-text>
-               <df-grid>
+               <df-grid column="auto-sm">
                   <df-output-text class="text-left" label="Identity">{{ statement.identity }}</df-output-text>
-                  <df-output-text class="text-left" label="Bank">{{ statement.statementType.bank.name }} :: {{ statement.statementType.name }}</df-output-text>
                   <df-output-text class="text-left" label="Opening Balance">{{ statement.openingBalance | currency }}</df-output-text>
                   <df-output-text class="text-left" label="Closing Balance">{{ statement.closingBalance | currency }}</df-output-text>
-                  <df-output-text class="text-left" label="Status">{{ statement.isClosed }}</df-output-text>
+                  <df-output-text class="text-left" label="Status">{{ statement.isClosed ? "Closed" : "Opened" }}</df-output-text>
                </df-grid>
             </v-card-text>
          </v-card>
