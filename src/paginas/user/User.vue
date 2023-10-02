@@ -40,7 +40,7 @@ export default {
       return {
          maintenance: false,
          transaction: false,
-         timeoutDelay: 5000
+         timeoutDelay: 30000
       }
    },
 
@@ -69,8 +69,10 @@ export default {
    },
 
    created: function () {
-      this.checkMicroServiceMaintenance();
-      this.checkMicroServiceTransaction();
+      if (process.env.VUE_APP_SISFIN_FRONTEND_ENVIROMENT != "default") {
+         this.checkMicroServiceMaintenance();
+         this.checkMicroServiceTransaction();
+      }
    }
 }
 </script>
