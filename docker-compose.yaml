@@ -7,7 +7,7 @@ services:
     container_name: con_sisfin_frontend_dev
     restart: always
     ports:
-      - 8180:8180
+      - 80:8180
     networks:
       - net_sisfin_dev
     volumes:
