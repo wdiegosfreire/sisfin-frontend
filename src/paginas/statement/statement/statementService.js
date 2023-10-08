@@ -35,10 +35,12 @@ export default {
       accessEdition(statement) {
          statement.userIdentity = this.$store.state.userIdentity;
          this.$_transaction_post("/statement/accessEdition", statement).then(response => {
-            this.$store.commit(Constants.store.SET_GLOBAL_ENTITY, response.data.map.statement);
-            this.$store.commit("setGlobalBankListCombo", response.data.map.bankListCombo);
+            this.$store.commit("setGlobalEntity", response.data.map.statement);
+            this.$store.commit("setGlobalLocationListCombo", response.data.map.locationListCombo);
+            this.$store.commit("setGlobalAccountListComboSource", response.data.map.accountListComboSource);
+            this.$store.commit("setGlobalAccountListComboTarget", response.data.map.accountListComboTarget);
 
-            this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
+            this.$store.commit("showGlobalDialog", true);
          }).catch(error => {
             this.$_message_handleError(error);
          });

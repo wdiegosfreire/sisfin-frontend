@@ -34,6 +34,7 @@ export default {
 
          this.$_transaction_post("/statementType/accessRegistration", statementType).then(response => {
             this.$store.commit("setGlobalBankListCombo", response.data.map.bankListCombo);
+            this.$store.commit("setGlobalAccountListComboSource", response.data.map.accountListComboSource);
 
             this.$store.commit("showGlobalDialog", true);
          }).catch(error => {
@@ -46,6 +47,7 @@ export default {
          this.$_transaction_post("/statementType/accessEdition", statementType).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_ENTITY, response.data.map.statementType);
             this.$store.commit("setGlobalBankListCombo", response.data.map.bankListCombo);
+            this.$store.commit("setGlobalAccountListComboSource", response.data.map.accountListComboSource);
 
             this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
          }).catch(error => {
@@ -135,6 +137,7 @@ export default {
          statementType.identity = null;
          statementType.name = null;
          statementType.bank = null;
+         statementType.accountSource = null;
 
          this.$store.commit("setGlobalBankListCombo", []);
          this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, false);

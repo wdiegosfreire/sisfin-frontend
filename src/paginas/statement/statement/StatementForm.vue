@@ -14,10 +14,11 @@
          <span v-else>
             <v-card-title>{{ statement.month }}/{{ statement.year }} :: {{ statement.statementType.bank.name }} :: {{ statement.statementType.name }}</v-card-title>
             <v-card-text>
-               <df-grid column="auto-sm" spaced>
+               <df-grid column="auto-md" spaced>
                   <df-output-text label="Identity">{{ statement.identity }}</df-output-text>
                   <df-output-text label="Opening Balance">{{ statement.openingBalance | currency }}</df-output-text>
                   <df-output-text label="Closing Balance">{{ statement.closingBalance | currency }}</df-output-text>
+                  <df-output-text label="Source">{{ statement.statementType.accountSource | traceAccount }}</df-output-text>
                   <df-output-text label="Status">{{ statement.isClosed ? "Closed" : "Opened" }}</df-output-text>
                </df-grid>
             </v-card-text>
@@ -36,6 +37,23 @@
                               <df-output-text label="Status">{{ statementItem.isExported ? "Exported" : "Pending" }}</df-output-text>
                               <df-output-text label="Operation Type" :color="statementItem.operationType == 'D' ? '#FF0000' : '#00FF00'">{{ statementItem.operationType == "D" ? "Outcoming" : "Incoming" }}</df-output-text>
                               <df-output-text label="Document Number">{{ statementItem.documentNumber ? statementItem.documentNumber : "-"}}</df-output-text>
+                           </df-grid>
+                           <df-grid>
+                              <v-text-field label="Test" v-model="statementItem.accountSource.identity" :value="statement.statementType.accountSource.identity"></v-text-field>
+                              <!-- <v-select label="Source" v-model="statementItem.accountSource" :items="accountListComboSource" :value="statementItem.operationType == 'D' ? statement.statementType.accountSource : null" return-object>
+                                 <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
+                                 <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                              </v-select> -->
+                              <v-select label="Target" :items="accountListComboTarget" :value="statementItem.operationType != 'D' ? statement.statementType.accountSource : null" return-object>
+                                 <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
+                                 <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                              </v-select>
+                           </df-grid>
+                           <df-grid>
+                              <v-select label="Location" :items="locationListCombo" return-object>
+                                 <template v-slot:selection="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
+                                 <template v-slot:item="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
+                              </v-select>
                            </df-grid>
                            <df-grid>
                               <a href="#" @click="executeEdition(statementItem)">Exportar e gerar movimento</a>
@@ -76,6 +94,18 @@ export default {
    props: {
       statement: {
          type: Object,
+         required: true
+      },
+      locationListCombo: {
+         type: Array,
+         required: true
+      },
+      accountListComboSource: {
+         type: Array,
+         required: true
+      },
+      accountListComboTarget: {
+         type: Array,
          required: true
       }
    },
