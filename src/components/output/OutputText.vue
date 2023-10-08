@@ -1,7 +1,7 @@
 <template>
    <div role="container">
       <div role="label" class="bold" v-if="label">{{ label }}</div>
-      <div role="value"><slot></slot></div>
+      <div role="value" :style="`color: ${color}`"><slot></slot></div>
    </div>
 </template>
 
@@ -10,9 +10,8 @@ export default {
    name: "DfOutputText",
 
    props: {
-      label: {
-         type: String
-      }
+      label: { type: String },
+      color: { type: String }
    }
 };
 </script>

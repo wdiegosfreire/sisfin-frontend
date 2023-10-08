@@ -47,7 +47,7 @@
 <script>
 import objectiveService from "./objectiveService.js";
 import ObjectiveResult from "./ObjectiveResult.vue";
-import ObjectiveForm from "./ObjectiveForm.vue";
+import ObjectiveForm from "./ObjectiveForm";
 
 import DfGrid from "../../components/grid/Grid.vue";
 import DfIcon from "../../components/df-icon/Icon.vue";
@@ -91,7 +91,9 @@ export default {
 
    created() {
       this.$store.commit("setGlobalEntity", {
-         description: "",
+         identity: null,
+         description: null,
+         location: {},
          objectiveMovementList: [],
          objectiveItemList: []
       });
