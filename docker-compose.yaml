@@ -11,7 +11,8 @@ services:
     networks:
       - net_sisfin_dev
     volumes:
-      - "C:\\development\\projects\\sisfin-docker-workspace\\sisfin-frontend:/app"
+      - ./:/srv/app
+    working_dir: /srv/app
 
 networks:
   net_sisfin_dev:
