@@ -31,7 +31,7 @@
                            <df-grid spaced>
                               <df-output-text label="Description">{{ index + 1 }}. {{ statementItem.description }}</df-output-text>
                            </df-grid>
-                           <df-grid column="auto-sm">
+                           <df-grid column="auto-sm" spaced>
                               <df-output-text label="Date">{{ statementItem.movementDate | moment("DD/MM/YYYY") }}</df-output-text>
                               <df-output-text label="Value">{{ statementItem.movementValue | currency }}</df-output-text>
                               <df-output-text label="Status">{{ statementItem.isExported ? "Exported" : "Pending" }}</df-output-text>
@@ -39,18 +39,17 @@
                               <df-output-text label="Document Number">{{ statementItem.documentNumber ? statementItem.documentNumber : "-"}}</df-output-text>
                            </df-grid>
                            <df-grid>
-                              <v-text-field label="Test" v-model="statementItem.accountSource.identity" :value="statement.statementType.accountSource.identity"></v-text-field>
-                              <!-- <v-select label="Source" v-model="statementItem.accountSource" :items="accountListComboSource" :value="statementItem.operationType == 'D' ? statement.statementType.accountSource : null" return-object>
+                              <v-select label="Source Account" v-model="statementItem.accountSource" :items="accountListComboSource" clearable return-object>
                                  <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
                                  <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
-                              </v-select> -->
-                              <v-select label="Target" :items="accountListComboTarget" :value="statementItem.operationType != 'D' ? statement.statementType.accountSource : null" return-object>
+                              </v-select>
+                              <v-select label="Target Account" v-model="statementItem.accountTarget" :items="accountListComboTarget" clearable return-object>
                                  <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
                                  <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
                               </v-select>
                            </df-grid>
                            <df-grid>
-                              <v-select label="Location" :items="locationListCombo" return-object>
+                              <v-select label="Location" v-model="statementItem.location" :items="locationListCombo" return-object>
                                  <template v-slot:selection="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
                                  <template v-slot:item="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
                               </v-select>

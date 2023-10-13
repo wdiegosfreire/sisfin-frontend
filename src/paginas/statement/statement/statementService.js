@@ -84,19 +84,23 @@ export default {
       },
 
       executeEdition(statement) {
-         this.$_message_console(statement);
-
          if (this.isMissingIdentity(statement) || this.isMissingRequiredFields(statement))
             return;
 
-         // statement.userIdentity = this.$store.state.userIdentity;
-         // this.$_transaction_post("/statement/executeEdition", statement).then(() => {
-         //    this.closeForm(statement);
-         //    this.$_message_showSuccess();
-         //    this.accessModule();
-         // }).catch(error => {
-         //    this.$_message_handleError(error);
-         // });
+         for (let statementItem of statement.statementItemList) {
+            statementItem.statement = {
+               identity: statement.identity
+            };
+         }
+
+         statement.userIdentity = this.$store.state.userIdentity;
+         this.$_transaction_post("/statement/executeEdition", statement).then(() => {
+            this.closeForm(statement);
+            this.$_message_showSuccess();
+            this.accessModule();
+         }).catch(error => {
+            this.$_message_handleError(error);
+         });
       },
 
       executeExclusion(statement) {
@@ -121,12 +125,7 @@ export default {
          return false;
       },
 
-      isMissingRequiredFields(statement) {
-         if (!statement.statementFile) {
-            this.$_message_showRequired("Mising statement file.");
-            return true;
-         }
-
+      isMissingRequiredFields() {
          return false;
       },
 

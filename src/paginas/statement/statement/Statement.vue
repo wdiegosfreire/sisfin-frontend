@@ -62,7 +62,14 @@ export default {
          closingBalance: null,
          isClosed: false,
          statementType: {},
-         statementItemList: [],
+         statementItemList: [
+            {
+               identity: null,
+               accountSource: {},
+               accountTarget: {},
+               location: {}
+            }
+         ],
          userIdentity: null,
          statementFile: null
       });
