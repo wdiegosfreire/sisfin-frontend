@@ -88,16 +88,13 @@ export default {
             return;
 
          for (let statementItem of statement.statementItemList) {
-            statementItem.statement = {
-               identity: statement.identity
-            };
+            statementItem.statement = null;
          }
 
          statement.userIdentity = this.$store.state.userIdentity;
          this.$_transaction_post("/statement/executeEdition", statement).then(() => {
-            this.closeForm(statement);
             this.$_message_showSuccess();
-            this.accessModule();
+            this.accessEdition(statement);
          }).catch(error => {
             this.$_message_handleError(error);
          });

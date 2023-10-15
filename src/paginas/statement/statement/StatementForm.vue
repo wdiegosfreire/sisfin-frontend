@@ -38,26 +38,27 @@
                               <df-output-text label="Operation Type" :color="statementItem.operationType == 'D' ? '#FF0000' : '#00FF00'">{{ statementItem.operationType == "D" ? "Outcoming" : "Incoming" }}</df-output-text>
                               <df-output-text label="Document Number">{{ statementItem.documentNumber ? statementItem.documentNumber : "-"}}</df-output-text>
                            </df-grid>
-                           <df-grid>
-                              <v-select label="Source Account" v-model="statementItem.accountSource" :items="accountListComboSource" clearable return-object>
-                                 <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-                                 <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
-                              </v-select>
-                              <v-select label="Target Account" v-model="statementItem.accountTarget" :items="accountListComboTarget" clearable return-object>
-                                 <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-                                 <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
-                              </v-select>
-                           </df-grid>
-                           <df-grid>
-                              <v-select label="Location" v-model="statementItem.location" :items="locationListCombo" return-object>
-                                 <template v-slot:selection="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
-                                 <template v-slot:item="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
-                              </v-select>
-                           </df-grid>
-                           <df-grid>
-                              <a href="#" @click="executeEdition(statementItem)">Exportar e gerar movimento</a>
-                              <a href="#">Exportar sem gerar movimento</a>
-                           </df-grid>
+                           <span v-if="!statementItem.isExported">
+                              <df-grid column="auto-lg">
+                                 <v-text-field label="New Description" v-model="statementItem.descriptionNew" />
+                                 <v-select v-if="statementItem.operationType == 'C'" label="Source Account" v-model="statementItem.accountSource" :items="accountListComboSource" clearable return-object dense>
+                                    <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
+                                    <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                                 </v-select>
+                                 <v-select v-if="statementItem.operationType == 'D'" label="Target Account" v-model="statementItem.accountTarget" :items="accountListComboTarget" clearable return-object dense>
+                                    <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
+                                    <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                                 </v-select>
+                                 <v-select label="Location" v-model="statementItem.location" :items="locationListCombo" clearable return-object dense>
+                                    <template v-slot:selection="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
+                                    <template v-slot:item="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
+                                 </v-select>
+                              </df-grid>
+                              <df-grid class="text-center">
+                                 <a href="#" @click="executeEdition(statementItem)">Exportar e gerar movimento</a>
+                                 <a href="#">Exportar sem gerar movimento</a>
+                              </df-grid>
+                           </span>
                         </v-card-text>
                      </v-card>
                   </v-expansion-panel-content>
