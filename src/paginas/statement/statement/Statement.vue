@@ -16,7 +16,13 @@
          @executeExclusion="executeExclusion"
       />
 
-      <statement-form :statement="$store.state.globalEntity"
+      <statement-form
+         :statement="$store.state.globalEntity"
+         :location-list-combo="$store.state.globalLocationListCombo"
+         :account-list-combo-source="$store.state.globalAccountListComboSource"
+         :account-list-combo-target="$store.state.globalAccountListComboTarget"
+         :payment-method-list-combo="$store.state.globalPaymentMethodListCombo"
+
          @executeRegistration="executeRegistration"
          @executeEdition="executeEdition"
          @cleanForm="cleanForm"
@@ -57,6 +63,14 @@ export default {
          closingBalance: null,
          isClosed: false,
          statementType: {},
+         statementItemList: [
+            {
+               identity: null,
+               accountSource: {},
+               accountTarget: {},
+               location: {}
+            }
+         ],
          userIdentity: null,
          statementFile: null
       });
