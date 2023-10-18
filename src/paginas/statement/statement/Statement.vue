@@ -21,6 +21,7 @@
          :location-list-combo="$store.state.globalLocationListCombo"
          :account-list-combo-source="$store.state.globalAccountListComboSource"
          :account-list-combo-target="$store.state.globalAccountListComboTarget"
+         :payment-method-list-combo="$store.state.globalPaymentMethodListCombo"
 
          @executeRegistration="executeRegistration"
          @executeEdition="executeEdition"

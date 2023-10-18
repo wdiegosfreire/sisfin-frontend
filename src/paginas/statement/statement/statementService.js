@@ -39,6 +39,7 @@ export default {
             this.$store.commit("setGlobalLocationListCombo", response.data.map.locationListCombo);
             this.$store.commit("setGlobalAccountListComboSource", response.data.map.accountListComboSource);
             this.$store.commit("setGlobalAccountListComboTarget", response.data.map.accountListComboTarget);
+            this.$store.commit("setGlobalPaymentMethodListCombo", response.data.map.paymentMethodListCombo);
 
             this.$store.commit("showGlobalDialog", true);
          }).catch(error => {
