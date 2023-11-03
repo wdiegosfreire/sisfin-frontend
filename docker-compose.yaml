@@ -11,8 +11,9 @@ services:
     networks:
       - net_sisfin_dev
     volumes:
-      - ./:/srv/app
-    working_dir: /srv/app
+      - .:/app
+      - /app/node_modules
+    working_dir: /app
 
 networks:
   net_sisfin_dev:

@@ -19,6 +19,7 @@
       <statement-type-form
          :statementType="$store.state.globalEntity"
          :bank-list-combo="$store.state.globalBankListCombo"
+         :account-list-combo-source="$store.state.globalAccountListComboSource"
 
          @executeRegistration="executeRegistration"
          @executeEdition="executeEdition"
