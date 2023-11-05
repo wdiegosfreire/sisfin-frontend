@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const axiosInstance = axios.create({
-   baseURL: (process.env.VUE_APP_SISFIN_FRONTEND_ENVIROMENT == "heroku" ? "https://sisfin-transaction.herokuapp.com" : "http://localhost:8081")
+   baseURL: (process.env.VUE_APP_SISFIN_FRONTEND_ENVIROMENT == "default" ? "http://localhost:8081" : "http://172.31.32.253:8081")
 });
 
 export default axiosInstance;
