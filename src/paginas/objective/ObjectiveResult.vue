@@ -1,7 +1,7 @@
 <template>
    <v-card>
       <v-card-text>
-
+         <h3 v-if="collection.length > 0" class="text-left pb-3">Results in This Page: {{ collection.length }}</h3>
          <span v-for="objective in collection" :key="objective.identity">
             <span v-for="objectiveMovement in objective.objectiveMovementList" :key="objectiveMovement.identity">
 
@@ -44,21 +44,21 @@
                         <df-output-text class="text-left" label="Due Date">{{ objectiveMovement.dueDate | moment("DD/MM/YYYY") }}</df-output-text>
                         <df-output-text class="text-left" label="Payment Date">{{ objectiveMovement.paymentDate | moment("DD/MM/YYYY") }}</df-output-text>
                         <df-output-text class="text-left" label="Installment">{{ objectiveMovement.installment }}</df-output-text>
-                        <df-output-text class="text-left" label="Payment Method">{{ objectiveMovement.paymentMethod ? objective.objectiveMovementList[0].paymentMethod.name : "" }}</df-output-text>
+                        <df-output-text class="text-left" label="Payment Method">{{ objectiveMovement.paymentMethod ? objectiveMovement.paymentMethod.name : "" }}</df-output-text>
                         <df-output-text class="text-left" label="Location">{{ objective.location ? objective.location.name : "" }}</df-output-text>
                      </df-grid>
 
                      <v-expansion-panels focusable class="mb-1">
                         <v-expansion-panel>
-                           <v-expansion-panel-header>Items</v-expansion-panel-header>
-                           <v-expansion-panel-content>
-                              <objective-item-result :collection="objective.objectiveItemList" dense />
-                           </v-expansion-panel-content>
-                        </v-expansion-panel>
-                        <v-expansion-panel>
                            <v-expansion-panel-header>Movements</v-expansion-panel-header>
                            <v-expansion-panel-content>
                               <objective-movement-result :collection="objective.objectiveMovementList" dense />
+                           </v-expansion-panel-content>
+                        </v-expansion-panel>
+                        <v-expansion-panel>
+                           <v-expansion-panel-header>Items</v-expansion-panel-header>
+                           <v-expansion-panel-content>
+                              <objective-item-result :collection="objective.objectiveItemList" dense />
                            </v-expansion-panel-content>
                         </v-expansion-panel>
                      </v-expansion-panels>

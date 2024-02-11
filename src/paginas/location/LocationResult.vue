@@ -1,6 +1,7 @@
 <template>
    <v-card>
       <v-card-text>
+         <h3 v-if="collection.length > 0" class="text-left pb-3">Results in This Page: {{ collection.length }}</h3>
          <v-card outlined class="elevation-1 mb-4" v-for="location in collection" :key="location.identity">
             <v-card-title>
                <span>{{ location.name }}</span>
@@ -9,9 +10,7 @@
                <v-spacer></v-spacer>
                <v-menu offset-y>
                   <template v-slot:activator="{ on, attrs }">
-                     <v-btn outlined fab small v-bind="attrs" v-on="on">
-                        <df-icon icon="fa-bars" />
-                     </v-btn>
+                     <v-btn outlined fab small v-bind="attrs" v-on="on"><df-icon icon="fa-bars" /></v-btn>
                   </template>
                   <v-list dense width="150">
                      <v-subheader>Options</v-subheader>

@@ -5,11 +5,11 @@ Vue.use(Vuetify);
 
 export default new Vuetify({
    theme: {
-      dark: false,
+      dark: true,
       themes: {
         dark: {
-          primary: '#21CFF3',
-          secondary: '#ffe18d',
+          primary: '#272727',
+          secondary: '#FFE18D',
           accent: '#FF4081',
           success: '#4CAF50',
           info: '#2196F3',

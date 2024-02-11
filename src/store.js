@@ -5,21 +5,21 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-      globalObjectiveMovement: {
-         objective: {}
-      },
+		globalObjectiveMovement: {
+			objective: {}
+		},
 
-      globalMonth: "",
-      globalYear: "",
+		globalMonth: "",
+		globalYear: "",
 
 		globalResult: [],
 		globalEntity: {},
 		globalDialog: false,
 		globalLoading: false,
 
-      userName: "",
+		userName: "",
 		userIdentity: "",
-      sessionToken: "",
+		sessionToken: "",
 
 		message: {
 			severity: "",
@@ -28,21 +28,22 @@ export default new Vuex.Store({
 			date: new Date()
 		},
 
-      globalBankListCombo: [],
-      globalLocationListCombo: [],
-      globalAccountListComboSource: [],
-      globalPaymentMethodListCombo: [],
-      globalAccountListComboTarget: [],
-      globalAccountListComboLevelOne: [],
-      globalAccountListComboLevelTwo: [],
+		globalBankListCombo: [],
+		globalLocationListCombo: [],
+		globalAccountListComboSource: [],
+		globalPaymentMethodListCombo: [],
+		globalStatementTypeListCombo: [],
+		globalAccountListComboTarget: [],
+		globalAccountListComboLevelOne: [],
+		globalAccountListComboLevelTwo: [],
 
-      money2: { decimal: ',', thousands: '.', prefix: 'R$ ', precision: 2 },
-      money3: { decimal: ',', thousands: '.', prefix: 'R$ ', precision: 3 }
+		money2: { decimal: ',', thousands: '.', prefix: 'R$ ', precision: 2 },
+		money3: { decimal: ',', thousands: '.', prefix: 'R$ ', precision: 3 }
 	},
 
 	mutations: {
-      setGlobalYear(state, payload) { state.globalYear = payload; },
-      setGlobalMonth(state, payload) { state.globalMonth = payload; },
+		setGlobalYear(state, payload) { state.globalYear = payload; },
+		setGlobalMonth(state, payload) { state.globalMonth = payload; },
 		setGlobalResult(state, payload) { state.globalResult = payload; },
 		setGlobalEntity(state, payload) { state.globalEntity = payload; },
 		setGlobalLoading(state, payload) { state.globalLoading = payload; },
@@ -54,14 +55,14 @@ export default new Vuex.Store({
 			state.userName = payload;
 		},
 
-      setUserIdentity(state, payload) {
+		setUserIdentity(state, payload) {
 			window.localStorage.userIdentity = payload;
 			state.userIdentity = payload;
 		},
 
-      setSessionToken(state, payload) {
-         window.localStorage.sessionToken = payload;
-         state.sessionToken = payload;
+		setSessionToken(state, payload) {
+			window.localStorage.sessionToken = payload;
+			state.sessionToken = payload;
 		},
 
 		showMessage(state, payload) {
@@ -73,13 +74,13 @@ export default new Vuex.Store({
 			}
 		},
 
-      
-      setGlobalBankListCombo(state, payload) { state.globalBankListCombo = payload; },
-      setGlobalLocationListCombo(state, payload) { state.globalLocationListCombo = payload; },
-      setGlobalAccountListComboSource(state, payload) { state.globalAccountListComboSource = payload; },
-      setGlobalAccountListComboTarget(state, payload) { state.globalAccountListComboTarget = payload; },
-      setGlobalPaymentMethodListCombo(state, payload) { state.globalPaymentMethodListCombo = payload; },
-      setGlobalAccountListComboLevelOne(state, payload) { state.globalAccountListComboLevelOne = payload; },
-      setGlobalAccountListComboLevelTwo(state, payload) { state.globalAccountListComboLevelTwo = payload; },
+		setGlobalBankListCombo(state, payload) { state.globalBankListCombo = payload; },
+		setGlobalLocationListCombo(state, payload) { state.globalLocationListCombo = payload; },
+		setGlobalAccountListComboSource(state, payload) { state.globalAccountListComboSource = payload; },
+		setGlobalAccountListComboTarget(state, payload) { state.globalAccountListComboTarget = payload; },
+		setGlobalPaymentMethodListCombo(state, payload) { state.globalPaymentMethodListCombo = payload; },
+		setGlobalStatementTypeListCombo(state, payload) { state.globalStatementTypeListCombo = payload; },
+		setGlobalAccountListComboLevelOne(state, payload) { state.globalAccountListComboLevelOne = payload; },
+		setGlobalAccountListComboLevelTwo(state, payload) { state.globalAccountListComboLevelTwo = payload; },
 	}
 });
