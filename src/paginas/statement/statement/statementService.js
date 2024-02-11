@@ -27,9 +27,31 @@ export default {
          });
       },
 
-      accessRegistration() {
-         this.$store.commit(Constants.store.SET_GLOBAL_ENTITY, {identity: null, statementFile: null});
-         this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
+      accessRegistration(bankComboSelected) {
+         let statement = {
+            userIdentity: this.$store.state.userIdentity
+         };
+
+         if (bankComboSelected) {
+            bankComboSelected.userIdentity = this.$store.state.userIdentity;
+
+            let statementType = {
+               userIdentity: this.$store.state.userIdentity,
+               bank: bankComboSelected
+            };
+
+            statement.statementType = statementType;
+         }
+
+         this.$_transaction_post("/statement/accessRegistration", statement).then(response => {
+            this.$store.commit("setGlobalBankListCombo", response.data.map.bankListCombo);
+            this.$store.commit("setGlobalStatementTypeListCombo", response.data.map.statementTypeListCombo);
+
+            this.$store.commit(Constants.store.SET_GLOBAL_ENTITY, {identity: null, statementFile: null});
+            this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
+         }).catch(error => {
+            this.$_message_handleError(error);
+         });
       },
 
       accessEdition(statement) {

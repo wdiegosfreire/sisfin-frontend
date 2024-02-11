@@ -4,10 +4,10 @@
          <v-card outlined class="elevation-1 mb-4" :class="getIdentation(account)" v-for="account in collection" :key="account.identity">
             <v-card-title>
                <span v-if="account.accountParent">
-                  <span v-if="account.accountParent.accountParent">{{ account.accountParent.accountParent.name }}::</span>
-                  <span>{{ account.accountParent.name }}::</span>
+                  <span v-if="account.accountParent.accountParent">{{ account.accountParent.accountParent.name }}<df-icon icon="fa-arrow-right" size="xs" class="pl-1 pr-1" /></span>
+                  <span>{{ account.accountParent.name }}<df-icon icon="fa-arrow-right" size="xs" class="pl-1 pr-1" /></span>
                </span>
-               <span>{{ account.name }} <df-icon v-if="account.icon" size="xs" :icon="account.icon" /></span>
+               <span>{{ account.name }}<df-icon v-if="account.icon" size="xs" :icon="account.icon" class="pl-1" /></span>
 
                <v-spacer></v-spacer>
                <div v-if="account.accountParent">
@@ -37,7 +37,7 @@
             <v-divider></v-divider>
 
             <v-card-text>
-               <df-grid>
+               <df-grid column="auto-sm">
                   <df-output-text class="text-left" label="Identity">{{ account.identity }}</df-output-text>
                   <df-output-text class="text-left" label="Level">{{ account.level }}</df-output-text>
                   <df-output-text v-if="account.note" class="text-justify" label="Notes">{{ account.note }}</df-output-text>

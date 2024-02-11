@@ -3,8 +3,8 @@
       <thead>
          <tr>
             <th>#</th>
-            <th>DESCRIPTION</th>
             <th>TARGET</th>
+            <th>DESCRIPTION</th>
             <th class="text-right">AMOUNT (R$)</th>
             <th></th>
             <th class="text-right">VALUE (R$)</th>
@@ -17,8 +17,8 @@
       <tbody>
          <tr v-for="objectiveItem in collection" :key="objectiveItem.identity">
             <td>{{ objectiveItem.sequential }}</td>
-            <td>{{ objectiveItem.description }}</td>
             <td>{{ objectiveItem.accountTarget | traceAccount }}</td>
+            <td>{{ objectiveItem.description }}</td>
             <td class="text-right">{{ objectiveItem.amount | currency(3) }}</td>
             <td class="text-right">x</td>
             <td class="text-right">{{ objectiveItem.unitaryValue | currency }}</td>

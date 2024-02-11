@@ -18,12 +18,15 @@
 
       <statement-form
          :statement="$store.state.globalEntity"
+         :bank-list-combo="$store.state.globalBankListCombo"
          :location-list-combo="$store.state.globalLocationListCombo"
          :account-list-combo-source="$store.state.globalAccountListComboSource"
          :account-list-combo-target="$store.state.globalAccountListComboTarget"
          :payment-method-list-combo="$store.state.globalPaymentMethodListCombo"
+         :statement-type-list-combo="$store.state.globalStatementTypeListCombo"
 
          @executeRegistration="executeRegistration"
+         @accessRegistration="accessRegistration"
          @executeEdition="executeEdition"
          @cleanForm="cleanForm"
          @closeForm="closeForm"

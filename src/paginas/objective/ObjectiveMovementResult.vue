@@ -3,8 +3,8 @@
       <thead>
          <tr>
             <th>#</th>
-            <th></th>
             <th>SOURCE</th>
+            <th></th>
             <th>DUE DATE</th>
             <th>PAYMENT DATE</th>
             <th>PAYMENT METHOD</th>
@@ -16,8 +16,8 @@
       <tbody>
          <tr v-for="objectiveMovement in collection" :key="objectiveMovement.identity">
             <td class="sign-column">{{ objectiveMovement.installment }}</td>
-            <td class="sign-column"><df-icon v-if="objectiveMovement.inPeriod" size="lg" icon="fa-check" color="green" title="Selected Installment" /></td>
             <td>{{ objectiveMovement.accountSource | traceAccount }}</td>
+            <td class="sign-column"><df-icon v-if="objectiveMovement.inPeriod" size="lg" icon="fa-check" color="green" title="Selected Installment" /></td>
             <td>{{ objectiveMovement.dueDate | moment("DD/MM/YYYY") }}</td>
             <td>{{ objectiveMovement.paymentDate | moment("DD/MM/YYYY") }}</td>
             <td>{{ objectiveMovement.paymentMethod.name }}</td>
