@@ -2,6 +2,7 @@
    <v-card>
       <v-card-text>
          <h3 v-if="collection.length > 0" class="text-left pb-3">Results in This Page: {{ collection.length }}</h3>
+
          <span v-for="objective in collection" :key="objective.identity">
             <span v-for="objectiveMovement in objective.objectiveMovementList" :key="objectiveMovement.identity">
 
