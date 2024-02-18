@@ -154,6 +154,7 @@ export default {
       },
 
       executeEdition(statementItem) {
+         this.$_message_console(statementItem);
          let statement = {
             identity: this.statement.identity,
             year: this.statement.year,

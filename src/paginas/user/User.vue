@@ -32,9 +32,11 @@ import maintenanceApi from "../../components/axios/maintenance/maintenanceApi.js
 import transactionApi from "../../components/axios/transaction/transactionApi.js";
 import userService from "./userService.js";
 
+import message from "../../components/mixins/message.js";
+
 export default {
    name: "User",
-   mixins: [ maintenanceApi, transactionApi, userService ],
+   mixins: [ maintenanceApi, transactionApi, userService, message ],
 
    data() {
       return {
@@ -69,10 +71,10 @@ export default {
    },
 
    created: function () {
-      if (process.env.VUE_APP_SISFIN_FRONTEND_ENVIROMENT != "default") {
-         this.checkMicroServiceMaintenance();
-         this.checkMicroServiceTransaction();
-      }
+      this.$_message_console(process.env.VUE_APP_SISFIN_FRONTEND_ENVIROMENT);
+
+      this.checkMicroServiceMaintenance();
+      this.checkMicroServiceTransaction();
    }
 }
 </script>
