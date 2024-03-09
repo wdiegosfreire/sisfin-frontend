@@ -11,12 +11,12 @@
 
       <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
 
-      <location-result :collection="$store.state.globalResult"
+      <location-result :collection="locationListResult"
          @accessEdition="accessEdition"
          @executeExclusion="executeExclusion"
       />
 
-      <location-form :location="$store.state.globalEntity"
+      <location-form :location="locationForm"
          @executeRegistration="executeRegistration"
          @executeEdition="executeEdition"
          @cleanForm="cleanForm"

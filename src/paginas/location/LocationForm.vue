@@ -9,7 +9,7 @@
 			</v-toolbar>
 
 			<v-card-text>
-				<df-grid v-if="location.identity" >
+				<df-grid v-if="location.identity">
 					<v-text-field label="Identity" readonly v-model="location.identity" />
 				</df-grid>
 				<df-grid>
@@ -24,15 +24,15 @@
 				</df-grid>
 			</v-card-text>
 
-         <v-card-actions>
-            <v-btn v-if="this.location.identity" color="button" width="150" @click="$emit('executeEdition', location)">Confirm</v-btn>
-            <v-btn v-else width="150" @click="$emit('executeRegistration', location)">Confirm</v-btn>
+			<v-card-actions>
+				<v-btn v-if="this.location.identity" color="button" width="150" @click="executeEdition">Confirm</v-btn>
+				<v-btn v-else width="150" @click="executeRegistration">Confirm</v-btn>
 
-            <v-btn width="150" @click="$emit('cleanForm', location)">Clear</v-btn>
-            <v-btn width="150" @click="$emit('closeForm', location)">Close</v-btn>
-         </v-card-actions>
-      </v-card>
-   </v-dialog>
+				<v-btn width="150" @click="$emit('cleanForm', location)">Clear</v-btn>
+				<v-btn width="150" @click="$emit('closeForm', location)">Close</v-btn>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
 </template>
 
 <script>
@@ -40,18 +40,68 @@ import DfGrid from "../../components/grid/Grid.vue";
 
 import { mask } from 'vue-the-mask';
 
+import message from "../../components/mixins/message.js";
+
 export default {
 	name: "LocationForm",
 
 	components: { DfGrid },
 
-   directives: { mask },
+	directives: { mask },
 
-   props: {
-      location: {
-         type: Object,
-         required: true
-      }
-   }
+	mixins: [ message],
+
+	props: {
+		location: {
+			type: Object,
+			required: true
+		}
+	},
+
+	methods: {
+		executeRegistration() {
+			if (this.isMissingRequiredFields()) {
+				return;
+			}
+
+			this.$emit('executeRegistration', this.location);
+		},
+
+		executeEdition() {
+			if (this.isMissingIdentity() || this.isMissingRequiredFields()) {
+				return;
+			}
+
+			this.$emit('executeEdition', this.location);
+		},
+
+		isMissingIdentity() {
+			if (!this.location.identity) {
+				this.$_message_showRequired("Missing location identity.");
+				return true;
+			}
+
+         return false;
+      },
+
+		isMissingRequiredFields() {
+			if (!this.location.name || !this.location.name.trim()) {
+				this.$_message_showRequired("Mising location sname.");
+				return true;
+			}
+
+			if (!this.location.cnpj || !this.location.cnpj.trim()) {
+				this.$_message_showRequired("Missing location CNPJ.");
+				return true;
+			}
+
+			if (!this.location.branch || !this.location.branch.trim()) {
+				this.$_message_showRequired("Missing location branch.");
+				return true;
+			}
+
+			return false;
+		},
+	}
 };
 </script>

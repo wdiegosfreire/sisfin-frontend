@@ -26,8 +26,11 @@ export default {
       },
 
 		$_message_handleError(error) {
-         let exception = null;
+         if (!error) {
+            return;
+         }
 
+         let exception = null;
          if (!error.response && error.message == "Network Error") {
             exception = {
                severity: "error",
