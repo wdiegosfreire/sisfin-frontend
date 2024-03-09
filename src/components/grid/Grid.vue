@@ -1,29 +1,30 @@
 <template>
-   <div :class="gridStyle">
-      <slot></slot>
-   </div>
+	<div :class="gridStyle">
+		<slot></slot>
+	</div>
 </template>
 
 <script>
 export default {
-   name: "DfGrid",
-   props: {
-      fluid: {
-         type: Boolean,
-         default: false
-      },
-      column: {
-         type: String,
-         default: "auto-md"
-      },
-      spaced: {
-         type: Boolean,
-         default: false
-      }
-   },
+	name: "DfGrid",
+	props: {
+		fluid: {
+			type: Boolean,
+			default: false
+		},
+		column: {
+			type: String,
+			default: "auto-md"
+		},
+		spaced: {
+			type: Boolean,
+			default: false
+		}
+	},
+
 	computed: {
 		gridStyle() {
-			var gridStyle = "df-grid";
+			let gridStyle = "df-grid";
 
 			if (this.column)
 				gridStyle += ` df-column-${this.column}`;
@@ -48,7 +49,7 @@ export default {
 }
 
 .df-grid-margin-bottom {
-   margin-bottom: 8px;
+	margin-bottom: 8px;
 }
 
 .df-column-menu {
