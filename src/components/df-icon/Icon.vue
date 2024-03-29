@@ -10,6 +10,7 @@
       :bounce="bounce"
 
       :title="title"
+      :class="getClicked"
 
       @click="$emit('click')" />
 </template>
@@ -17,6 +18,12 @@
 <script>
 export default {
    name: "DfIcon",
+
+   data() {
+      return {
+         isClicked: false
+      }
+   },
 
    props: {
       icon: { type: String, required: true },
@@ -26,13 +33,23 @@ export default {
       spin: { type: Boolean },
       snake: { type: Boolean },
       bounce: { type: Boolean },
-      title: { type: String }
+      title: { type: String },
+      clicked: { type: Boolean }
    },
 
    computed: {
       getIcon() {
          return `fa-solid ${this.icon}`;
+      },
+      getClicked() {
+         return this.clicked ? "clicked" : "";
       }
    },
 };
 </script>
+
+<style lang="css">
+.clicked {
+   color: red;
+}
+</style>

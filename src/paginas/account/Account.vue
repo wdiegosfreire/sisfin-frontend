@@ -11,19 +11,19 @@
 
       <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
 
-      <account-result :collection="$store.state.globalResult"
+      <account-result :collection="accountListResult"
          @accessEdition="accessEdition"
          @executeExclusion="executeExclusion"
       />
 
-      <account-form :account="$store.state.globalEntity" :account-list-combo-level-one="$store.state.globalAccountListComboLevelOne" :account-list-combo-level-two="$store.state.globalAccountListComboLevelTwo"
-         @updateParentAccount="updateParentAccount"
+      <account-form :account="accountForm"
+         :account-list-combo-level-one="accountListComboLevelOne"
+         :account-list-combo-level-two="accountListComboLevelTwo"
+
          @executeRegistration="executeRegistration"
          @accessRegistration="accessRegistration"
          @executeEdition="executeEdition"
-         @cleanForm="cleanForm"
          @closeForm="closeForm"
-         @setIcon="setIcon"
       />
    </div>
 </template>
