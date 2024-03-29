@@ -23,7 +23,7 @@ export default {
                userIdentity: this.$store.state.userIdentity
             }
 
-            const response = await this.$_transaction_post("/location/accessModule", location)   
+            const response = await this.$_transaction_post("/location/accessModule", location);
             this.locationListResult = response.data.map.locationList;
          }
          catch (error) {
@@ -49,12 +49,12 @@ export default {
       },
   
       async executeSearch(filterValue) {
-         let location = {
-            filter: filterValue,
-            userIdentity: this.$store.state.userIdentity
-         }
-
          try {
+            let location = {
+               filter: filterValue,
+               userIdentity: this.$store.state.userIdentity
+            }
+
             const response = await this.$_transaction_post("/location/executeSearch", location);
             this.locationListResult = response.data.map.locationList;
          }
@@ -103,16 +103,6 @@ export default {
          catch (error) {
             this.$_message_handleError(error);
          }
-      },
-
-      cleanForm(location) {
-         if (!location.identity) {
-            location.name = "";
-            location.cnpj = "";
-         }
-
-         location.branch = "";
-         location.note = "";
       },
 
       closeForm(location) {

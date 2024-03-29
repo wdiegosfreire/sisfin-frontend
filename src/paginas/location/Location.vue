@@ -19,7 +19,6 @@
       <location-form :location="locationForm"
          @executeRegistration="executeRegistration"
          @executeEdition="executeEdition"
-         @cleanForm="cleanForm"
          @closeForm="closeForm"
       />
    </div>
