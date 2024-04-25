@@ -25,6 +25,8 @@ export default {
 
             const response = await this.$_transaction_post("/location/accessModule", location);
             this.locationListResult = response.data.map.locationList;
+
+            this.$_message_console(response);
          }
          catch (error) {
             this.$_message_handleError(error);

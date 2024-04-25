@@ -39,7 +39,9 @@ export default {
             };
          }
          else {
-            exception = JSON.parse(error.response.data.message);
+            this.$_message_console(error.response.data);
+
+            exception = error.response.data;
          }
 
          this.$_message_showMessage(exception.severity, exception.summary, exception.messageList);
