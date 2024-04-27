@@ -39,8 +39,6 @@ export default {
             };
          }
          else {
-            this.$_message_console(error.response.data);
-
             exception = error.response.data;
          }
 
