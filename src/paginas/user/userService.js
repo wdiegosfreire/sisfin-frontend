@@ -34,7 +34,7 @@ export default {
         this.$store.commit("setUserIdentity", response.data.map.userAuthenticated.identity);
         this.$store.commit("setSessionToken", response.data.map.token);
 
-        this.$router.push("/resumo");
+        this.$router.push("/summary");
       }).catch(error => {
         this.$_message_handleError(error);
       });

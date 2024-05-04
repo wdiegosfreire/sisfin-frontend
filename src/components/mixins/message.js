@@ -38,6 +38,15 @@ export default {
                messageList: ["Unable to connect with server."]
             };
          }
+         else if (!error.response.data.severity && !error.response.data.summary && !error.response.data.messageList) {
+            exception = {
+               severity: "error",
+               summary: "Unknow Error",
+               messageList: ["Unknow Error. See the console for more detais."]
+            }
+
+            this.$_message_console(error.response.data);
+         }
          else {
             exception = error.response.data;
          }

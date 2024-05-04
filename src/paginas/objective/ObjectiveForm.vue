@@ -23,33 +23,6 @@
                   </v-select>
                </v-tab-item>
 
-               <!-- Items registration form -->
-               <v-tab>Items</v-tab>
-               <v-tab-item>
-                  <df-grid column="frac-15">
-                     <v-text-field label="Sequential" v-model="objectiveItemForm.sequential" tabindex="-1" v-mask="['####']"></v-text-field>
-                     <v-text-field label="Description" v-model="objectiveItemForm.description" append-icon="mdi-map-marker" @click:append="copyDescriptionFromObjective()"></v-text-field>
-                  </df-grid>
-                  <df-grid column="auto-sm">
-                     <v-select label="Target" v-model="objectiveItemForm.accountTarget" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
-                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-                        <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
-                     </v-select>
-                  </df-grid>
-                  <df-grid column="auto-sm">
-                     <v-text-field label="Amount" v-model.number="objectiveItemForm.amount" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
-                     <v-text-field label="Unitary Value" v-model.number="objectiveItemForm.unitaryValue" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
-                     <v-text-field label="Total" v-model.number="objectiveItemForm.totalValue" prefix="R$" readonly tabindex="-1" />
-                     <v-btn @click="addNewItem()">Add</v-btn>
-                  </df-grid>
-
-                  <objective-item-result dense enable-delete
-                     :collection="objective.objectiveItemList"
-
-                     @setItemTotalValue="getItemTotalValue"
-                  />
-               </v-tab-item>
-
                <!-- Movements registration form -->
                <v-tab>Movements</v-tab>
                <v-tab-item>
@@ -77,6 +50,33 @@
                      :collection="objective.objectiveMovementList"
 
                      @setMovementTotalValue="getMovementTotalValue"
+                  />
+               </v-tab-item>
+
+               <!-- Items registration form -->
+               <v-tab>Items</v-tab>
+               <v-tab-item>
+                  <df-grid column="frac-15">
+                     <v-text-field label="Sequential" v-model="objectiveItemForm.sequential" tabindex="-1" v-mask="['####']"></v-text-field>
+                     <v-text-field label="Description" v-model="objectiveItemForm.description" append-icon="mdi-map-marker" @click:append="copyDescriptionFromObjective()"></v-text-field>
+                  </df-grid>
+                  <df-grid column="auto-sm">
+                     <v-select label="Target" v-model="objectiveItemForm.accountTarget" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
+                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
+                        <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                     </v-select>
+                  </df-grid>
+                  <df-grid column="auto-sm">
+                     <v-text-field label="Amount" v-model.number="objectiveItemForm.amount" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
+                     <v-text-field label="Unitary Value" v-model.number="objectiveItemForm.unitaryValue" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
+                     <v-text-field label="Total" v-model.number="objectiveItemForm.totalValue" prefix="R$" readonly tabindex="-1" />
+                     <v-btn @click="addNewItem()">Add</v-btn>
+                  </df-grid>
+
+                  <objective-item-result dense enable-delete
+                     :collection="objective.objectiveItemList"
+
+                     @setItemTotalValue="getItemTotalValue"
                   />
                </v-tab-item>
             </v-tabs>
@@ -360,7 +360,6 @@ export default {
 
       validateFormData() {
          if (this.objective.description == "") { this.$_message_showRequired("Missing objective description."); return false; }
-         if (!this.objective.location.identity) { this.$_message_showRequired("Missing objective location."); return false; }
          if (this.objective.objectiveMovementList.length == 0) { this.$_message_showRequired("Missing movements."); return false; }
          if (this.objective.objectiveItemList.length == 0) { this.$_message_showRequired("Missing items."); return false }
          if (this.totalAllMovements !== this.totalAllItems) { this.$_message_showRequired("Total of movements is diferent of total of items."); return false; }
