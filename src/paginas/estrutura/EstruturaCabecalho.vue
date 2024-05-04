@@ -2,7 +2,7 @@
   <v-app-bar app color="primary">
     <v-app-bar-nav-icon v-if="$store.state.sessionToken" @click.stop="showNavigationDrawer = !showNavigationDrawer"></v-app-bar-nav-icon>
     <v-toolbar-title :title="computedEnviroment">
-      Financial Control System - FCS <span class="text-caption">2024-04-27</span>
+      Financial Control System - FCS <span class="text-caption">2024-05-04</span>
     </v-toolbar-title>
 
     <v-spacer />
@@ -12,7 +12,7 @@
     </v-toolbar-items>
   </v-app-bar>
 
-  <v-navigation-drawer absolute temporary v-model="showNavigationDrawer" dark>
+  <v-navigation-drawer fixed temporary v-model="showNavigationDrawer" dark>
     <v-list-item>
       <v-list-item-avatar>
         <v-avatar color="primary" size="40">{{ computedInitials }}</v-avatar>
@@ -24,7 +24,7 @@
 
     <v-list dense>
       <v-subheader>Activities</v-subheader>
-      <v-list-item link @click="accessModuleResumo()">
+      <v-list-item link @click="accessModuleSummary()">
         <v-list-item-icon><v-icon>mdi-text</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Summary</v-list-item-title></v-list-item-content>
       </v-list-item>
@@ -57,6 +57,10 @@
       <v-list-item link @click="accessModuleStatementType()">
         <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
         <v-list-item-content><v-list-item-title>Statement Types</v-list-item-title></v-list-item-content>
+      </v-list-item>
+      <v-list-item link @click="accessModuleStatementPattern()">
+        <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
+        <v-list-item-content><v-list-item-title>Statement Patterns</v-list-item-title></v-list-item-content>
       </v-list-item>
 
       <v-subheader>COMING SOON</v-subheader>
@@ -133,8 +137,8 @@ export default {
     }
   },
   methods: {
-    accessModuleResumo() {
-      this.$router.push("/resumo");
+    accessModuleSummary() {
+      this.$router.push("/summary");
     },
 
     accessModuleObjective() {
@@ -163,6 +167,10 @@ export default {
 
     accessModuleStatementType() {
       this.$router.push("/statementType");
+    },
+
+    accessModuleStatementPattern() {
+      this.$router.push("/statementPattern");
     },
 
     accessModuleDesejo() {
