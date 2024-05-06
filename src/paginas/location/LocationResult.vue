@@ -5,7 +5,6 @@
          <v-card outlined class="elevation-1 mb-4" v-for="location in collection" :key="location.identity">
             <v-card-title>
                <span>{{ location.name }}</span>
-               <h6 v-if="location.branch" class="ml-1">({{ location.branch }})</h6>
 
                <v-spacer></v-spacer>
                <v-menu offset-y>
@@ -33,8 +32,6 @@
             <v-card-text>
                <df-grid>
                   <df-output-text class="text-left" label="Identity">{{ location.identity }}</df-output-text>
-                  <df-output-text class="text-left" label="CNPJ">{{ location.cnpj }}</df-output-text>
-                  <df-output-text class="text-left" label="Branch">{{ location.branch }}</df-output-text>
                   <df-output-text class="text-left" label="Notes">{{ location.note ? location.note : "No notes" }}</df-output-text>
                </df-grid>
             </v-card-text>

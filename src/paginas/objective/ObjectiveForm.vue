@@ -18,8 +18,8 @@
                   <v-text-field label="Description" v-model="objective.description" :readonly="isIdentityPresent" />
 
                   <v-select label="Location" v-model="objective.location" :items="locationListCombo" return-object>
-                     <template v-slot:selection="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
-                     <template v-slot:item="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
+                     <template v-slot:selection="{ item }">{{ item.name }}</template>
+                     <template v-slot:item="{ item }">{{ item.name }}</template>
                   </v-select>
                </v-tab-item>
 

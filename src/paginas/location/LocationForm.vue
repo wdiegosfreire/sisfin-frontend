@@ -16,10 +16,6 @@
 					<v-text-field label="Name" v-model="location.name" :readonly="Boolean(location.identity)" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="CNPJ" v-model="location.cnpj" :readonly="Boolean(location.identity)" v-mask="['##.###.###/####-##']" />
-					<v-text-field label="Branch" v-model="location.branch" />
-				</df-grid>
-				<df-grid>
 					<v-text-field label="Note" v-model="location.note" />
 				</df-grid>
 			</v-card-text>
@@ -90,26 +86,14 @@ export default {
 				return true;
 			}
 
-			if (!this.location.cnpj || !this.location.cnpj.trim()) {
-				this.$_message_showRequired("Missing location CNPJ.");
-				return true;
-			}
-
-			if (!this.location.branch || !this.location.branch.trim()) {
-				this.$_message_showRequired("Missing location branch.");
-				return true;
-			}
-
 			return false;
 		},
 
       cleanForm() {
          if (!this.location.identity) {
             this.location.name = "";
-            this.location.cnpj = "";
          }
 
-         this.location.branch = "";
          this.location.note = "";
       }
 	}
