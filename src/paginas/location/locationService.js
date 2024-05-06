@@ -108,8 +108,6 @@ export default {
       closeForm(location) {
          location.identity = "";
          location.name = "";
-         location.cnpj = "";
-         location.branch = "";
          location.note = "";
 
          this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, false);

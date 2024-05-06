@@ -98,12 +98,12 @@ export default {
 
 		isMissingRequiredFields() {
 			if (!this.statementPattern.comparator || !this.statementPattern.comparator.trim()) {
-				this.$_message_showRequired("Mising statement pattern sname.");
+				this.$_message_showRequired("Mising statement pattern comparator.");
 				return true;
 			}
 
 			if (!this.statementPattern.description || !this.statementPattern.description.trim()) {
-				this.$_message_showRequired("Missing statement pattern CNPJ.");
+				this.$_message_showRequired("Missing statement pattern description.");
 				return true;
 			}
 

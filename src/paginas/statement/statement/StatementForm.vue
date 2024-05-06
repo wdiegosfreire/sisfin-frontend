@@ -61,8 +61,8 @@
                                     <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
                                  </v-select>
                                  <v-select label="Location" v-model="statementItem.location" :items="locationListCombo" clearable return-object dense>
-                                    <template v-slot:selection="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
-                                    <template v-slot:item="{ item }">{{ item.name }} - <i>{{ item.branch }}</i></template>
+                                    <template v-slot:selection="{ item }">{{ item.name }}</template>
+                                    <template v-slot:item="{ item }">{{ item.name }}</template>
                                  </v-select>
                                  <v-select label="Payment Method" v-model="statementItem.paymentMethod" :items="paymentMethodListCombo" clearable return-object dense>
                                     <template v-slot:selection="{ item }">{{ item.name }}</template>
