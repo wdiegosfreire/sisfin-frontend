@@ -83,8 +83,9 @@ export default {
       },
 
       async executeRegistration(statement) {
-         if (this.isMissingRequiredFields(statement))
+         if (this.isMissingRequiredFields(statement)) {
             return;
+         }
 
          statement.userIdentity = this.$store.state.userIdentity;
 
@@ -97,7 +98,7 @@ export default {
 
          statement.statementFile = await toBase64(statement.statementFile);
 
-         this.$_transaction_post("/statement/executeRegistration", statement).then(() => {
+                  this.$_transaction_post("/statement/executeRegistration", statement).then(() => {
             this.closeForm(statement);
             this.$_message_showSuccess();
             this.accessModule();
@@ -107,8 +108,9 @@ export default {
       },
 
       executeEdition(statement) {
-         if (this.isMissingIdentity(statement) || this.isMissingRequiredFields(statement))
+         if (this.isMissingIdentity(statement) || this.isMissingRequiredFields(statement)) {
             return;
+         }
 
          for (let statementItem of statement.statementItemList) {
             statementItem.statement = null;
@@ -145,11 +147,22 @@ export default {
          return false;
       },
 
-      isMissingRequiredFields() {
+      isMissingRequiredFields(statement) {
+         if (!statement.statementType?.name) {
+            this.$_message_showRequired("Mising statement type. Please, choose a bank to load the statement type list.");
+            return true;
+         }
+
+         if (!statement.statementFile) {
+            this.$_message_showRequired("Mising statement file.");
+            return true;
+         }
+
          return false;
       },
 
       cleanForm(statement) {
+         statement.statementType = {};
          statement.statementFile = null;
       },
 
