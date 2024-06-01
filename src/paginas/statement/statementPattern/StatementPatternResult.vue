@@ -33,7 +33,7 @@
                <df-grid>
                   <df-output-text class="text-left" label="Identity">{{ statementPattern.identity }}</df-output-text>
                   <df-output-text class="text-left" label="Description">{{ statementPattern.description }}</df-output-text>
-                  <df-output-text class="text-left" label="Location">{{ statementPattern.location.name }}</df-output-text>
+                  <df-output-text class="text-left" label="Location">{{ statementPattern.location ? statementPattern.location.name : "" }}</df-output-text>
                   <df-output-text class="text-left" label="Target Account">{{ statementPattern.accountTarget | traceAccount }}</df-output-text>
                </df-grid>
             </v-card-text>

@@ -37,14 +37,14 @@
                               <df-output-text label="Date">{{ statementItem.movementDate | moment("DD/MM/YYYY") }}</df-output-text>
                               <df-output-text label="Value">{{ statementItem.movementValue | currency }}</df-output-text>
                               <span>
+                                 <df-output-text label="Operation Type" v-if="statementItem.operationType == 'D'">Outcoming</df-output-text>
+                                 <df-output-text label="Operation Type" v-else>Incoming</df-output-text>
+                              </span>
+                              <df-output-text label="Document Number">{{ statementItem.documentNumber ? statementItem.documentNumber : "-"}}</df-output-text>
+                              <span>
                                  <df-output-text label="Status" v-if="statementItem.isExported" color="#00FF00">Exported</df-output-text>
                                  <df-output-text label="Status" v-else  color="#FF0000">Pending</df-output-text>
                               </span>
-                              <span>
-                                 <df-output-text label="Operation Type" v-if="statementItem.operationType == 'D'" color="#FF0000">Outcoming</df-output-text>
-                                 <df-output-text label="Operation Type" v-else color="#00FF00">Incoming</df-output-text>
-                              </span>
-                              <df-output-text label="Document Number">{{ statementItem.documentNumber ? statementItem.documentNumber : "-"}}</df-output-text>
                            </df-grid>
                            <df-grid spaced v-if="!statementItem.isExported">
                               <v-btn x-small @click="toggleEditMode(statementItem)">Show form</v-btn>
