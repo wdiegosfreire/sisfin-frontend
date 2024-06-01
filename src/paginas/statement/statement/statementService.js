@@ -153,7 +153,7 @@ export default {
             return true;
          }
 
-         if (!statement.statementFile) {
+         if (!statement.identity && !statement.statementFile) {
             this.$_message_showRequired("Mising statement file.");
             return true;
          }
