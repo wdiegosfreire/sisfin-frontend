@@ -134,9 +134,12 @@ export default {
 
       executeExclusion(objective) {
          this.$confirm(Constants.message.DELETE).then(() => {
-            objective.userIdentity = this.$store.state.userIdentity;
+            let objectiveDelete = {
+               identity: objective.identity,
+               userIdentity: this.$store.state.userIdentity
+            }
 
-            this.$_transaction_post("/objective/executeExclusion", objective).then(() => {
+            this.$_transaction_post("/objective/executeExclusion", objectiveDelete).then(() => {
                this.$_message_showSuccess();
                this.accessModule();
             }).catch(error => {
