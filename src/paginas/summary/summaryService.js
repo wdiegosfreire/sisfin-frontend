@@ -12,7 +12,10 @@ export default {
    data() {
       return {
          showSearchField: false,
+         incomingOutcomingChartAccountSelected: {},
+
          barChartData: {},
+         accountListBalanceCombo: [],
 
          monthList: [
             {monthName: "January", monthNumber: "01"},
@@ -38,16 +41,23 @@ export default {
                this.$_message_showError("Period not found");
                return;
             }
-   
+
             let summary = {
+               incomingOutcomingChartAccountIdentity: this.incomingOutcomingChartAccountSelected.identity,
                userIdentity: this.$store.state.userIdentity,
                periodDate: new Date(this.$store.state.globalYear + "-" + this.$store.state.globalMonth + "-01 12:00:00")
             };
 
             const response = await this.$_transaction_post("/summary/accessModule", summary);
             this.barChartData = response.data.map.barChartData;
+            this.accountListBalanceCombo = response.data.map.accountListBalanceCombo;
 
-            this.$_message_console(this.barChartData);
+            if (!this.incomingOutcomingChartAccountSelected || !this.incomingOutcomingChartAccountSelected.identity) {
+               this.incomingOutcomingChartAccountSelected = this.accountListBalanceCombo[0];
+            }
+
+            this.$_message_console("100");
+            this.$_message_console(this.accountListBalanceCombo.length);
          }
          catch (error) {
             this.$_message_handleError(error);

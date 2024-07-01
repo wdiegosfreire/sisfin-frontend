@@ -5,8 +5,6 @@
          <v-spacer></v-spacer>
 
          <v-btn icon @click.stop="accessModule()" title="Click to reload page"><df-icon icon="fa-arrows-rotate" size="lg" /></v-btn>
-         <v-btn icon @click.stop="toggleFilterField()" title="Click to search"><df-icon icon="fa-magnifying-glass" size="lg" /></v-btn>
-         <v-btn icon @click.stop="accessRegistration()" title="Click to register a new location"><df-icon icon="fa-plus" /></v-btn>
       </v-app-bar>
 
       <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
@@ -25,6 +23,10 @@
       <v-card>
          <v-card-title>Incoming & Outcoming</v-card-title>
          <v-card-text class="text-left">
+            <v-select @change="accessModule" v-model="incomingOutcomingChartAccountSelected" return-object label="Balance Account" item-text="name" :items="accountListBalanceCombo" no-data-text="No data found">
+               <template v-slot:selection="{ item }">{{ item.accountParent.accountParent.name }} :: {{ item.accountParent.name }} :: {{ item.name }} Bolinha</template>
+               <template v-slot:item="{ item }">{{ item.accountParent.accountParent.name }} :: {{ item.accountParent.name }} :: {{ item.name }}</template>
+            </v-select>
             <BarChart :chartData="barChartData" />
          </v-card-text>
       </v-card>
@@ -52,7 +54,7 @@ export default {
          month: "",
          year: "",
          ignoreMonth: false,
-         ignoreYear: false,
+         ignoreYear: false
       };
    },
 
