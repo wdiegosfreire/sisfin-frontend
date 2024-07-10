@@ -86,11 +86,11 @@ export default {
       async executeRegistration(account) {
          try {
             account.userIdentity = this.$store.state.userIdentity;
-            const response = await this.$_transaction_post("/account/executeRegistration", account);
-            this.accountListResult = response.data.map.accountList;
+            await this.$_transaction_post("/account/executeRegistration", account);
 
             this.closeForm(account);
             this.$_message_showSuccess();
+            this.accessModule();
          }
          catch (error) {
             this.$_message_handleError(error);
@@ -100,11 +100,11 @@ export default {
       async executeEdition(account) {
          try {
             account.userIdentity = this.$store.state.userIdentity;
-            const response = await this.$_transaction_post("/account/executeEdition", account);
-            this.accountListResult = response.data.map.accountList;
+            await this.$_transaction_post("/account/executeEdition", account);
 
             this.closeForm(account);
             this.$_message_showSuccess();
+            this.accessModule();
          }
          catch (error) {
             this.$_message_handleError(error);
@@ -116,9 +116,10 @@ export default {
             await this.$confirm(Constants.message.DELETE);
 
             account.userIdentity = this.$store.state.userIdentity;
-            const response = await this.$_transaction_post("/account/executeExclusion", account);
-            this.accountListResult = response.data.map.accountList;
+            await this.$_transaction_post("/account/executeExclusion", account);
+
             this.$_message_showSuccess();
+            this.accessModule();
          }
          catch (error) {
             this.$_message_handleError(error);
