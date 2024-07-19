@@ -13,7 +13,7 @@
 					<v-text-field label="Identity" readonly v-model="bank.identity" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="Name" v-model="bank.name" :readonly="Boolean(bank.identity)" />
+					<v-text-field label="Name" v-model="bank.name" />
 				</df-grid>
 			</v-card-text>
 

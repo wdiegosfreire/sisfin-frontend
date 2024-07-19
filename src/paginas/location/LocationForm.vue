@@ -13,7 +13,7 @@
 					<v-text-field label="Identity" readonly v-model="location.identity" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="Name" v-model="location.name" :readonly="Boolean(location.identity)" />
+					<v-text-field label="Name" v-model="location.name" />
 				</df-grid>
 				<df-grid>
 					<v-text-field label="Note" v-model="location.note" />

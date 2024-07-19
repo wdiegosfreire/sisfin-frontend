@@ -13,7 +13,7 @@
                <v-text-field label="Identity" readonly v-model="paymentMethod.identity" />
             </df-grid>
             <df-grid>
-               <v-text-field label="Name" v-model="paymentMethod.name" :readonly="Boolean(paymentMethod.identity)" />
+               <v-text-field label="Name" v-model="paymentMethod.name" />
             </df-grid>
             <df-grid>
                <v-text-field label="Acronym" v-model="paymentMethod.acronym" v-mask="['AAA']" />

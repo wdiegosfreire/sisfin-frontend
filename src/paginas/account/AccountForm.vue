@@ -26,7 +26,7 @@
                </df-grid>
             </span>
 
-            <v-text-field label="Name" v-model="account.name" :readonly="Boolean(account.identity)" />
+            <v-text-field label="Name" v-model="account.name" />
             <v-text-field label="Notes" v-model="account.note" />
 
             Icons (experimental)

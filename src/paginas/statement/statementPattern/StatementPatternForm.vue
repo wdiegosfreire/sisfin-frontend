@@ -16,7 +16,7 @@
 					<v-text-field label="Comparator" v-model="statementPattern.comparator" :readonly="Boolean(statementPattern.identity)" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="Description" v-model="statementPattern.description" :readonly="Boolean(statementPattern.identity)" />
+					<v-text-field label="Description" v-model="statementPattern.description" />
 				</df-grid>
 				<df-grid>
 					<v-select label="Location" v-model="statementPattern.location" item-text="name" :items="locationListCombo" return-object></v-select>

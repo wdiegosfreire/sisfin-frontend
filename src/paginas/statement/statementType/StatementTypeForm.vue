@@ -13,7 +13,7 @@
 					<v-text-field label="Identity" readonly v-model="statementType.identity" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="Name" v-model="statementType.name" :readonly="Boolean(statementType.identity)" />
+					<v-text-field label="Name" v-model="statementType.name" />
 				</df-grid>
             <v-select label="Bank" v-model="statementType.bank" item-text="name" :items="bankListCombo" return-object></v-select>
             <v-select label="Source Account" v-model="statementType.accountSource" :items="accountListComboSource" return-object @change="validateSelectedSource()">
