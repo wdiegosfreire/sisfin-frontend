@@ -83,9 +83,15 @@ export default {
       });
 
       let newDate = new Date();
-      this.month = newDate.getMonth() + 1
-      this.year = newDate.getFullYear() + "";
+      this.month = newDate.getMonth();
+      this.year = newDate.getFullYear();
 
+      if (this.month == 0) {
+         this.month = 12;
+         this.year--;
+      }
+
+      this.year = this.year + "";
       this.month = this.month.toString().padStart(2,"0");
 
       this.$store.commit("setGlobalMonth", this.month);
