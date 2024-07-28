@@ -56,6 +56,7 @@ export default {
 
       accessEdition(statement) {
          statement.userIdentity = this.$store.state.userIdentity;
+
          this.$_transaction_post("/statement/accessEdition", statement).then(response => {
             this.$store.commit("setGlobalEntity", response.data.map.statement);
             this.$store.commit("setGlobalLocationListCombo", response.data.map.locationListCombo);
