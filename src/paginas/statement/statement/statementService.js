@@ -99,7 +99,7 @@ export default {
 
          statement.statementFile = await toBase64(statement.statementFile);
 
-                  this.$_transaction_post("/statement/executeRegistration", statement).then(() => {
+         this.$_transaction_post("/statement/executeRegistration", statement).then(() => {
             this.closeForm(statement);
             this.$_message_showSuccess();
             this.accessModule();
