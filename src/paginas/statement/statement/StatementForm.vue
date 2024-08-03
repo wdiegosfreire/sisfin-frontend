@@ -70,8 +70,8 @@
                                  </v-select>
                               </df-grid>
                               <df-grid class="text-center">
-                                 <v-btn x-small @click="executeEdition(statementItem)">Exportar e gerar movimento</v-btn>
-                                 <v-btn x-small>Exportar sem gerar movimento</v-btn>
+                                 <v-btn x-small @click="executeEdition(statementItem, true)">Export and Create Movement</v-btn>
+                                 <v-btn x-small @click="executeEdition(statementItem, false)">Export without Create Movement</v-btn>
                               </df-grid>
                            </span>
                         </v-card-text>
@@ -153,7 +153,24 @@ export default {
          this.$emit("executeRegistration", statement);
       },
 
-      executeEdition(statementItem) {
+      executeEdition(statementItem, isCreateMovement) {
+         if (isCreateMovement) {
+            if (!statementItem.descriptionNew) {
+               this.$_message_showRequired("Mising movement new description.");
+               return;
+            }
+   
+            if (!statementItem.accountSource && !statementItem.accountTarget) {
+               this.$_message_showRequired("Mising account source/target.");
+               return;
+            }
+   
+            if (!statementItem.paymentMethod) {
+               this.$_message_showRequired("Mising payment method.");
+               return;
+            }
+         }
+
          let statement = {
             identity: this.statement.identity,
             year: this.statement.year,
@@ -162,6 +179,7 @@ export default {
             closingBalance: this.statement.closingBalance,
             isClosed: this.statement.isClosed,
             statementType: this.statement.statementType,
+            isCreateMovement: isCreateMovement,
             statementItemList: [statementItem]
          }
 
