@@ -29,52 +29,59 @@
                   <v-expansion-panel-header>Statement Items</v-expansion-panel-header>
                   <v-expansion-panel-content>
                      <v-card class="mt-3" v-for="(statementItem, index) in statement.statementItemList" :key="statementItem.identity" outlined>
-                        <v-card-text class="pa-2">
-                           <df-grid spaced>
-                              <df-output-text label="Description" class="bold">{{ index + 1 }}. {{ statementItem.description }}</df-output-text>
-                           </df-grid>
+                        <v-card-title>{{ index + 1 }}. {{ statementItem.description }}</v-card-title>
+
+                        <v-card-text>
                            <df-grid column="auto-sm" spaced>
                               <df-output-text label="Date">{{ statementItem.movementDate | moment("DD/MM/YYYY") }}</df-output-text>
                               <df-output-text label="Value">{{ statementItem.movementValue | currency }}</df-output-text>
-                              <span>
-                                 <df-output-text label="Operation Type" v-if="statementItem.operationType == 'D'">Outcoming</df-output-text>
-                                 <df-output-text label="Operation Type" v-else>Incoming</df-output-text>
-                              </span>
                               <df-output-text label="Document Number">{{ statementItem.documentNumber ? statementItem.documentNumber : "-"}}</df-output-text>
-                              <span>
-                                 <df-output-text label="Status" v-if="statementItem.isExported" color="#00FF00">Exported</df-output-text>
-                                 <df-output-text label="Status" v-else  color="#FF0000">Pending</df-output-text>
-                              </span>
                            </df-grid>
-                           <df-grid spaced v-if="!statementItem.isExported">
-                              <v-btn x-small @click="toggleEditMode(statementItem)">Show form</v-btn>
-                           </df-grid>
-                           <span v-if="!statementItem.isExported && statementItem.isVisible">
-                              <df-grid column="auto-lg">
-                                 <v-text-field label="New Description" v-model="statementItem.descriptionNew" dense />
-                                 <v-select v-if="statementItem.operationType == 'C'" label="Source Account" v-model="statementItem.accountSource" :items="accountListComboSource" clearable return-object dense>
-                                    <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-                                    <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
-                                 </v-select>
-                                 <v-select v-if="statementItem.operationType == 'D'" label="Target Account" v-model="statementItem.accountTarget" :items="accountListComboTarget" clearable return-object dense>
-                                    <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-                                    <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
-                                 </v-select>
-                                 <v-select label="Location" v-model="statementItem.location" :items="locationListCombo" clearable return-object dense>
-                                    <template v-slot:selection="{ item }">{{ item.name }}</template>
-                                    <template v-slot:item="{ item }">{{ item.name }}</template>
-                                 </v-select>
-                                 <v-select label="Payment Method" v-model="statementItem.paymentMethod" :items="paymentMethodListCombo" clearable return-object dense>
-                                    <template v-slot:selection="{ item }">{{ item.name }}</template>
-                                    <template v-slot:item="{ item }">{{ item.name }}</template>
-                                 </v-select>
-                              </df-grid>
-                              <df-grid class="text-center">
-                                 <v-btn x-small @click="executeEdition(statementItem, true)">Export and Create Movement</v-btn>
-                                 <v-btn x-small @click="executeEdition(statementItem, false)">Export without Create Movement</v-btn>
-                              </df-grid>
-                           </span>
                         </v-card-text>
+                        <v-divider />
+
+                        <v-card-text>
+                           <v-chip small outlined color="success" class="mr-3" v-if="statementItem.operationType == 'C'">Incoming</v-chip>
+                           <v-chip small outlined color="#FF0000" class="mr-3" v-else>Outcoming</v-chip>
+
+                           <v-chip small outlined color="success" v-if="statementItem.isExported">Exported</v-chip>
+                           <v-chip small outlined color="#FF0000" v-else>Pending</v-chip>
+                        </v-card-text>
+
+                        <span v-if="!statementItem.isExported">
+                           <v-divider />
+                           <v-card-actions>
+                              <v-btn text @click="statementItem.isVisible = !statementItem.isVisible">SHOW FORM</v-btn>
+                              <v-spacer />
+                              <v-btn icon @click="statementItem.isVisible = !statementItem.isVisible"><v-icon>{{ statementItem.isVisible ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon></v-btn>
+                           </v-card-actions>
+
+                           <v-expand-transition>
+                              <v-card-text v-show="statementItem.isVisible">
+                                 <df-grid column="auto-lg">
+                                    <v-text-field label="New Description" v-model="statementItem.descriptionNew" dense />
+                                    <v-select v-if="statementItem.operationType == 'C'" label="Source Account" v-model="statementItem.accountSource" :items="accountListComboSource" clearable return-object dense>
+                                       <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
+                                       <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                                    </v-select>
+                                    <v-select v-if="statementItem.operationType == 'D'" label="Target Account" v-model="statementItem.accountTarget" :items="accountListComboTarget" clearable return-object dense>
+                                       <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
+                                       <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                                    </v-select>
+                                    <v-select label="Location" v-model="statementItem.location" :items="locationListCombo" clearable return-object dense>
+                                       <template v-slot:selection="{ item }">{{ item.name }}</template>
+                                       <template v-slot:item="{ item }">{{ item.name }}</template>
+                                    </v-select>
+                                    <v-select label="Payment Method" v-model="statementItem.paymentMethod" :items="paymentMethodListCombo" clearable return-object dense>
+                                       <template v-slot:selection="{ item }">{{ item.name }}</template>
+                                       <template v-slot:item="{ item }">{{ item.name }}</template>
+                                    </v-select>
+                                 </df-grid>
+                                 <v-btn small @click="executeEdition(statementItem, true)" class="mr-3">Export and Create Movement</v-btn>
+                                 <v-btn small @click="executeEdition(statementItem, false)">Export without Create Movement</v-btn>
+                              </v-card-text>
+                           </v-expand-transition>
+                        </span>
                      </v-card>
                   </v-expansion-panel-content>
                </v-expansion-panel>
@@ -184,10 +191,6 @@ export default {
          }
 
          this.$emit("executeEdition", statement);
-      },
-
-      toggleEditMode(statementItem) {
-         statementItem.isVisible = true;
       }
    }
 };
