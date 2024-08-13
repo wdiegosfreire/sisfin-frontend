@@ -20,8 +20,8 @@
                   <df-output-text label="Identity">{{ statement.identity }}</df-output-text>
                   <df-output-text label="Opening Balance">{{ statement.openingBalance | currency }}</df-output-text>
                   <df-output-text label="Closing Balance">{{ statement.closingBalance | currency }}</df-output-text>
-                  <df-output-text label="Source">{{ statement.statementType.accountSource | traceAccount }}</df-output-text>
                   <df-output-text label="Status">{{ statement.isClosed ? "Closed" : "Opened" }}</df-output-text>
+                  <df-output-text label="Source">{{ statement.statementType.accountSource | traceAccount }}</df-output-text>
                </df-grid>
             </v-card-text>
             <v-expansion-panels focusable class="mb-1">
@@ -41,11 +41,11 @@
                         <v-divider />
 
                         <v-card-text>
-                           <v-chip small outlined color="success" class="mr-3" v-if="statementItem.operationType == 'C'">Incoming</v-chip>
-                           <v-chip small outlined color="#FF0000" class="mr-3" v-else>Outcoming</v-chip>
+                           <v-chip small color="success" class="mr-3" v-if="statementItem.operationType == 'C'">Incoming</v-chip>
+                           <v-chip small color="error" class="mr-3" v-else>Outcoming</v-chip>
 
-                           <v-chip small outlined color="success" v-if="statementItem.isExported">Exported</v-chip>
-                           <v-chip small outlined color="#FF0000" v-else>Pending</v-chip>
+                           <v-chip small color="success" v-if="statementItem.isExported">Exported</v-chip>
+                           <v-chip small color="error" v-else>Pending</v-chip>
                         </v-card-text>
 
                         <span v-if="!statementItem.isExported">
@@ -58,7 +58,7 @@
 
                            <v-expand-transition>
                               <v-card-text v-show="statementItem.isVisible">
-                                 <df-grid column="auto-lg">
+                                 <df-grid column="auto-lg" fluid>
                                     <v-text-field label="New Description" v-model="statementItem.descriptionNew" dense />
                                     <v-select v-if="statementItem.operationType == 'C'" label="Source Account" v-model="statementItem.accountSource" :items="accountListComboSource" clearable return-object dense>
                                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
@@ -76,9 +76,9 @@
                                        <template v-slot:selection="{ item }">{{ item.name }}</template>
                                        <template v-slot:item="{ item }">{{ item.name }}</template>
                                     </v-select>
+                                    <v-btn small @click="executeEdition(statementItem, true)" class="mr-3">Export and Create Movement</v-btn>
+                                    <v-btn small @click="executeEdition(statementItem, false)">Export without Create Movement</v-btn>
                                  </df-grid>
-                                 <v-btn small @click="executeEdition(statementItem, true)" class="mr-3">Export and Create Movement</v-btn>
-                                 <v-btn small @click="executeEdition(statementItem, false)">Export without Create Movement</v-btn>
                               </v-card-text>
                            </v-expand-transition>
                         </span>
