@@ -132,6 +132,8 @@ export default {
          }
 			
 			this.statementPattern.description = "";
+			this.statementPattern.location = [];
+			this.statementPattern.accountTarget = [];
       }
 	}
 };
