@@ -107,6 +107,16 @@ export default {
 				return true;
 			}
 
+			if (!this.statementPattern.location || !this.statementPattern.location.identity) {
+				this.$_message_showRequired("Missing statement pattern's location.");
+				return true;
+			}
+
+			if (!this.statementPattern.accountTarget || !this.statementPattern.accountTarget.identity) {
+				this.$_message_showRequired("Missing statement pattern's target account.");
+				return true;
+			}
+
 			return false;
 		},
 
@@ -132,8 +142,8 @@ export default {
          }
 			
 			this.statementPattern.description = "";
-			this.statementPattern.location = [];
-			this.statementPattern.accountTarget = [];
+			this.statementPattern.location = {};
+			this.statementPattern.accountTarget = {};
       }
 	}
 };
