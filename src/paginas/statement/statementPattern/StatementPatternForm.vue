@@ -19,8 +19,8 @@
 					<v-text-field label="Description" v-model="statementPattern.description" />
 				</df-grid>
 				<df-grid>
-					<v-select label="Location" v-model="statementPattern.location" item-text="name" :items="locationListCombo" return-object></v-select>
-					<v-select label="Target Account" v-model="statementPattern.accountTarget" item-text="name" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
+					<v-select label="Location" v-model="statementPattern.location" item-text="name" item-value="identity" :items="locationListCombo" return-object></v-select>
+					<v-select label="Target Account" v-model="statementPattern.accountTarget" item-text="name" item-value="identity" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
 						<template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
                   <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
 					</v-select>
