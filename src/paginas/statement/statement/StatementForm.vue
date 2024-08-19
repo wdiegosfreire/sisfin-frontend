@@ -8,8 +8,8 @@
 
          <span v-if="!statement.identity">
             <v-card-text>
-               <v-select v-model="bankComboSelected" label="Bank" item-text="name" :items="bankListCombo" @change="$emit('accessRegistration', bankComboSelected)" return-object></v-select>
-               <v-select v-model="statementTypeComboSelected" label="StatementType" item-text="name" :items="statementTypeListCombo" return-object></v-select>
+               <v-autocomplete v-model="bankComboSelected" label="Bank" item-text="name" item-value="identity" :items="bankListCombo" @change="$emit('accessRegistration', bankComboSelected)" return-object></v-autocomplete>
+               <v-autocomplete v-model="statementTypeComboSelected" label="StatementType" item-text="name" item-value="identity" :items="statementTypeListCombo" return-object></v-autocomplete>
                <v-file-input v-model="statement.statementFile" label="Statement File" append-icon="mdi-file" prepend-icon=""></v-file-input>
             </v-card-text>
          </span>
@@ -60,22 +60,22 @@
                               <v-card-text v-show="statementItem.isVisible">
                                  <df-grid column="auto-lg" fluid>
                                     <v-text-field label="New Description" v-model="statementItem.descriptionNew" dense />
-                                    <v-select v-if="statementItem.operationType == 'C'" label="Source Account" v-model="statementItem.accountSource" :items="accountListComboSource" clearable return-object dense>
+                                    <v-autocomplete v-if="statementItem.operationType == 'C'" label="Source Account" item-text="name" item-value="identity" v-model="statementItem.accountSource" :items="accountListComboSource" clearable return-object dense>
                                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
                                        <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
-                                    </v-select>
-                                    <v-select v-if="statementItem.operationType == 'D'" label="Target Account" v-model="statementItem.accountTarget" :items="accountListComboTarget" clearable return-object dense>
+                                    </v-autocomplete>
+                                    <v-autocomplete v-if="statementItem.operationType == 'D'" label="Target Account" item-text="name" item-value="identity" v-model="statementItem.accountTarget" :items="accountListComboTarget" clearable return-object dense>
                                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
                                        <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
-                                    </v-select>
-                                    <v-select label="Location" v-model="statementItem.location" :items="locationListCombo" clearable return-object dense>
+                                    </v-autocomplete>
+                                    <v-autocomplete label="Location" item-text="name" item-value="identity" v-model="statementItem.location" :items="locationListCombo" clearable return-object dense>
                                        <template v-slot:selection="{ item }">{{ item.name }}</template>
                                        <template v-slot:item="{ item }">{{ item.name }}</template>
-                                    </v-select>
-                                    <v-select label="Payment Method" v-model="statementItem.paymentMethod" :items="paymentMethodListCombo" clearable return-object dense>
+                                    </v-autocomplete>
+                                    <v-autocomplete label="Payment Method" item-text="name" item-value="identity" v-model="statementItem.paymentMethod" :items="paymentMethodListCombo" clearable return-object dense>
                                        <template v-slot:selection="{ item }">{{ item.name }}</template>
                                        <template v-slot:item="{ item }">{{ item.name }}</template>
-                                    </v-select>
+                                    </v-autocomplete>
                                     <v-btn small @click="executeEdition(statementItem, true)" class="mr-3">Export and Create Movement</v-btn>
                                     <v-btn small @click="executeEdition(statementItem, false)">Export without Create Movement</v-btn>
                                  </df-grid>
