@@ -19,11 +19,11 @@
 					<v-text-field label="Description" v-model="statementPattern.description" />
 				</df-grid>
 				<df-grid>
-					<v-select label="Location" v-model="statementPattern.location" item-text="name" :items="locationListCombo" return-object></v-select>
-					<v-select label="Target Account" v-model="statementPattern.accountTarget" item-text="name" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
+					<v-autocomplete label="Location" v-model="statementPattern.location" item-text="name" item-value="identity" :items="locationListCombo" return-object></v-autocomplete>
+					<v-autocomplete label="Target Account" v-model="statementPattern.accountTarget" item-text="name" item-value="identity" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
 						<template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-                  <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
-					</v-select>
+						<template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+					</v-autocomplete>
 				</df-grid>
 			</v-card-text>
 
@@ -59,15 +59,15 @@ export default {
 			required: true
 		},
 
-      locationListCombo: {
-         type: Array,
-         required: true
-      },
+		locationListCombo: {
+			type: Array,
+			required: true
+		},
 
-      accountListComboTarget: {
-         type: Array,
-         required: true
-      }
+		accountListComboTarget: {
+			type: Array,
+			required: true
+		}
 	},
 
 	methods: {
@@ -93,8 +93,8 @@ export default {
 				return true;
 			}
 
-         return false;
-      },
+			return false;
+		},
 
 		isMissingRequiredFields() {
 			if (!this.statementPattern.comparator || !this.statementPattern.comparator.trim()) {
@@ -107,33 +107,44 @@ export default {
 				return true;
 			}
 
+			if (!this.statementPattern.location || !this.statementPattern.location.identity) {
+				this.$_message_showRequired("Missing statement pattern's location.");
+				return true;
+			}
+
+			if (!this.statementPattern.accountTarget || !this.statementPattern.accountTarget.identity) {
+				this.$_message_showRequired("Missing statement pattern's target account.");
+				return true;
+			}
+
 			return false;
 		},
 
-      validateSelectedTarget() {
-         let errorMessage = "";
+		validateSelectedTarget() {
+			let errorMessage = "";
 
-         if (!this.statementPattern || !this.statementPattern.accountTarget || this.statementPattern.accountTarget.level.length != 9)
-            errorMessage = "Please, select a final target account.";
-         else if (this.statementPattern.accountTarget.level.startsWith("02."))
-            errorMessage = `Accounts with level "02." can't be used as target account.`;
+			if (!this.statementPattern || !this.statementPattern.accountTarget || this.statementPattern.accountTarget.level.length != 9)
+				errorMessage = "Please, select a final target account.";
+			else if (this.statementPattern.accountTarget.level.startsWith("02."))
+				errorMessage = `Accounts with level "02." can't be used as target account.`;
 
-         if (errorMessage) {
-            this.$_message_showRequired(errorMessage);
-            this.statementPattern.accountTarget = {};
+			if (errorMessage) {
+				this.$_message_showRequired(errorMessage);
+				this.statementPattern.accountTarget = {};
 
-            return;
-         }
-      },
+				return;
+			}
+		},
 
-      cleanForm() {
-         if (!this.statementPattern.identity) {
-            this.statementPattern.comparator = "";
-         }
+		cleanForm() {
+			if (!this.statementPattern.identity) {
+				this.statementPattern.comparator = "";
+			}
 			
 			this.statementPattern.description = "";
-      }
+			this.statementPattern.location = {};
+			this.statementPattern.accountTarget = {};
+		}
 	}
 };
 </script>
-../../../components/mixins/message.js
