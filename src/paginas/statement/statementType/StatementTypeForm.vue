@@ -15,22 +15,22 @@
 				<df-grid>
 					<v-text-field label="Name" v-model="statementType.name" />
 				</df-grid>
-            <v-autocomplete label="Bank" v-model="statementType.bank" item-text="name" item-value="identity" :items="bankListCombo" return-object></v-autocomplete>
-            <v-autocomplete label="Source Account" v-model="statementType.accountSource" item-text="name" item-value="identity" :items="accountListComboSource" return-object @change="validateSelectedSource()">
-               <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-               <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
-            </v-autocomplete>
+				<v-autocomplete label="Bank" v-model="statementType.bank" item-text="name" item-value="identity" :items="bankListCombo" return-object></v-autocomplete>
+				<v-autocomplete label="Source Account" v-model="statementType.accountSource" item-text="name" item-value="identity" :items="accountListComboSource" return-object @change="validateSelectedSource()">
+					<template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
+					<template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+				</v-autocomplete>
 			</v-card-text>
 
-         <v-card-actions>
-            <v-btn v-if="this.statementType.identity" color="button" width="150" @click="$emit('executeEdition', statementType)">Confirm</v-btn>
-            <v-btn v-else width="150" @click="$emit('executeRegistration', statementType)">Confirm</v-btn>
+			<v-card-actions>
+				<v-btn v-if="this.statementType.identity" color="button" width="150" @click="$emit('executeEdition', statementType)">Confirm</v-btn>
+				<v-btn v-else width="150" @click="$emit('executeRegistration', statementType)">Confirm</v-btn>
 
-            <v-btn width="150" @click="$emit('cleanForm', statementType)">Clear</v-btn>
-            <v-btn width="150" @click="$emit('closeForm', statementType)">Close</v-btn>
-         </v-card-actions>
-      </v-card>
-   </v-dialog>
+				<v-btn width="150" @click="$emit('cleanForm', statementType)">Clear</v-btn>
+				<v-btn width="150" @click="$emit('closeForm', statementType)">Close</v-btn>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
 </template>
 
 <script>
@@ -46,43 +46,43 @@ export default {
 
 	components: { DfGrid },
 
-   directives: { mask },
+	directives: { mask },
 
-   mixins: [ message ],
+	mixins: [ message ],
 
-   props: {
-      statementType: {
-         type: Object,
-         required: true
-      },
+	props: {
+		statementType: {
+			type: Object,
+			required: true
+		},
 
-      bankListCombo: {
-         type: Array,
-         required: true
-      },
+		bankListCombo: {
+			type: Array,
+			required: true
+		},
 
-      accountListComboSource: {
-         type: Array,
-         required: true
-      },
-   },
+		accountListComboSource: {
+			type: Array,
+			required: true
+		},
+	},
 
-   methods: {
-      validateSelectedSource() {
-         let errorMessage = "";
+	methods: {
+		validateSelectedSource() {
+			let errorMessage = "";
 
-         if (!this.statementType || !this.statementType.accountSource || this.statementType.accountSource.level.length != 9)
-            errorMessage = "Please, select a final source account.";
-         else if (this.statementType.accountSource.level.startsWith("03."))
-            errorMessage = `Accounts with level "03." can't be used as source account.`;
+			if (!this.statementType || !this.statementType.accountSource || this.statementType.accountSource.level.length != 9)
+				errorMessage = "Please, select a final source account.";
+			else if (this.statementType.accountSource.level.startsWith("03."))
+				errorMessage = `Accounts with level "03." can't be used as source account.`;
 
-         if (errorMessage) {
-            this.$_message_showRequired(errorMessage);
-            this.statementType.accountSource = {};
+			if (errorMessage) {
+				this.$_message_showRequired(errorMessage);
+				this.statementType.accountSource = {};
 
-            return;
-         }
-      },
-   }
+				return;
+			}
+		},
+	}
 };
 </script>
