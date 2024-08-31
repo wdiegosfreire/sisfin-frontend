@@ -35,7 +35,7 @@
 						<df-output-text class="text-left" label="Identity">{{ statement.identity }}</df-output-text>
 						<df-output-text class="text-left" label="Opening Balance">{{ statement.openingBalance | currency }}</df-output-text>
 						<df-output-text class="text-left" label="Closing Balance">{{ statement.closingBalance | currency }}</df-output-text>
-						<df-output-text class="text-left" label="Status">{{ statement.isClosed ? "Closed" : "Opened" }}</df-output-text>
+						<df-output-text class="text-left bold" label="Status" :color="statement.isClosed ? 'green' : 'red'">{{ statement.isClosed ? "Closed" : "Opened" }}</df-output-text>
 					</df-grid>
 				</v-card-text>
 			</v-card>

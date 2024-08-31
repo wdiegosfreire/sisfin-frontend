@@ -20,7 +20,7 @@
                   <df-output-text label="Identity">{{ statement.identity }}</df-output-text>
                   <df-output-text label="Opening Balance">{{ statement.openingBalance | currency }}</df-output-text>
                   <df-output-text label="Closing Balance">{{ statement.closingBalance | currency }}</df-output-text>
-                  <df-output-text label="Status">{{ statement.isClosed ? "Closed" : "Opened" }}</df-output-text>
+                  <df-output-text label="Status" class="bold" :color="statement.isClosed ? 'green' : 'red'">{{ statement.isClosed ? "Closed" : "Opened" }}</df-output-text>
                   <df-output-text label="Source">{{ statement.statementType.accountSource | traceAccount }}</df-output-text>
                </df-grid>
             </v-card-text>
