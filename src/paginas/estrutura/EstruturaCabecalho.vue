@@ -107,8 +107,6 @@
         </v-list-group>
       </v-list-group>
 
-      <v-divider></v-divider>
-
       <v-list-group>
         <template v-slot:activator>
           <v-list-item-title class="text-h6">COMING SOON</v-list-item-title>
