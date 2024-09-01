@@ -20,7 +20,7 @@
                   <df-output-text label="Identity">{{ statement.identity }}</df-output-text>
                   <df-output-text label="Opening Balance">{{ statement.openingBalance | currency }}</df-output-text>
                   <df-output-text label="Closing Balance">{{ statement.closingBalance | currency }}</df-output-text>
-                  <df-output-text label="Status">{{ statement.isClosed ? "Closed" : "Opened" }}</df-output-text>
+                  <df-output-text label="Status" class="bold" :color="statement.isClosed ? 'green' : 'red'">{{ statement.isClosed ? "Closed" : "Opened" }}</df-output-text>
                   <df-output-text label="Source">{{ statement.statementType.accountSource | traceAccount }}</df-output-text>
                </df-grid>
             </v-card-text>
@@ -60,11 +60,11 @@
                               <v-card-text v-show="statementItem.isVisible">
                                  <df-grid column="auto-lg" fluid>
                                     <v-text-field label="New Description" v-model="statementItem.descriptionNew" dense />
-                                    <v-autocomplete v-if="statementItem.operationType == 'C'" label="Source Account" item-text="name" item-value="identity" v-model="statementItem.accountSource" :items="accountListComboSource" clearable return-object dense>
+                                    <v-autocomplete v-if="statementItem.operationType == 'C'" label="Source Account" item-text="name" item-value="identity" v-model="statementItem.accountSource" :items="accountListComboSource" @change="validateSelectedSource(statementItem)" clearable return-object dense>
                                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
                                        <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
                                     </v-autocomplete>
-                                    <v-autocomplete v-if="statementItem.operationType == 'D'" label="Target Account" item-text="name" item-value="identity" v-model="statementItem.accountTarget" :items="accountListComboTarget" clearable return-object dense>
+                                    <v-autocomplete v-if="statementItem.operationType == 'D'" label="Target Account" item-text="name" item-value="identity" v-model="statementItem.accountTarget" :items="accountListComboTarget" @change="validateSelectedTarget(statementItem)" clearable return-object dense>
                                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
                                        <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
                                     </v-autocomplete>
@@ -167,7 +167,7 @@ export default {
                return;
             }
    
-            if (!statementItem.accountSource && !statementItem.accountTarget) {
+            if ((!statementItem.accountSource || !statementItem.accountSource.identity) && (!statementItem?.accountTarget || !statementItem?.accountTarget.identity)) {
                this.$_message_showRequired("Mising account source/target.");
                return;
             }
@@ -191,7 +191,39 @@ export default {
          }
 
          this.$emit("executeEdition", statement);
-      }
-   }
+      },
+
+		validateSelectedSource(statementItem) {
+			let errorMessage = "";
+
+			if (!statementItem || !statementItem.accountSource || statementItem.accountSource.level.length != 9)
+				errorMessage = "Please, select a final source account.";
+			else if (statementItem.accountSource.level.startsWith("03."))
+				errorMessage = `Accounts with level "03." can't be used as source account.`;
+
+			if (errorMessage) {
+				this.$_message_showRequired(errorMessage);
+				statementItem.accountSource = {};
+
+				return;
+			}
+		},
+
+		validateSelectedTarget(statementItem) {
+			let errorMessage = "";
+
+			if (!statementItem || !statementItem.accountTarget || statementItem.accountTarget.level.length != 9)
+				errorMessage = "Please, select a final target account.";
+			else if (statementItem.accountTarget.level.startsWith("02."))
+				errorMessage = `Accounts with level "02." can't be used as target account.`;
+
+			if (errorMessage) {
+				this.$_message_showRequired(errorMessage);
+				statementItem.accountTarget = {};
+
+				return;
+			}
+		},
+	}
 };
 </script>

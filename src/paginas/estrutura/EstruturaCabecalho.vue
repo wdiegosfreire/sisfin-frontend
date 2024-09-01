@@ -12,12 +12,12 @@
     </v-toolbar-items>
   </v-app-bar>
 
-  <v-navigation-drawer fixed temporary v-model="showNavigationDrawer" dark>
+  <v-navigation-drawer v-model="showNavigationDrawer" width="300" fixed temporary dark >
     <v-list-item>
       <v-list-item-avatar>
         <v-avatar color="primary" size="40">{{ computedInitials }}</v-avatar>
       </v-list-item-avatar>
-      <v-list-item-content><v-list-item-title>{{ computedName }}</v-list-item-title></v-list-item-content>
+      <v-list-item-title>{{ computedName }}</v-list-item-title>
     </v-list-item>
 
     <v-divider></v-divider>
@@ -28,45 +28,54 @@
           <v-list-item-title class="text-h6">FINANCES</v-list-item-title>
         </template>
 
-        <v-subheader>ACTIVITIES</v-subheader>
-        <v-list-item link @click="accessModuleSummary()">
-          <v-list-item-icon><v-icon>mdi-text</v-icon></v-list-item-icon>
-          <v-list-item-content><v-list-item-title>Summary</v-list-item-title></v-list-item-content>
-        </v-list-item>
-        <v-list-item link @click="accessModuleObjective()">
-          <v-list-item-icon><v-icon>mdi-cash-multiple</v-icon></v-list-item-icon>
-          <v-list-item-content><v-list-item-title>Objectives</v-list-item-title></v-list-item-content>
-        </v-list-item>
-        <v-list-item link @click="accessModuleStatement()">
-          <v-list-item-icon><v-icon>mdi-notebook-plus-outline</v-icon></v-list-item-icon>
-          <v-list-item-content><v-list-item-title>Statements</v-list-item-title></v-list-item-content>
-        </v-list-item>
+        <v-list-group :value="true" no-action sub-group>
+          <template v-slot:activator>
+            <v-list-item-title>ACTIVITIES</v-list-item-title>
+          </template>
 
-        <v-subheader>REGISTRATIONS</v-subheader>
-        <v-list-item link @click="accessModuleAccount()">
-          <v-list-item-icon><v-icon>mdi-piggy-bank-outline</v-icon></v-list-item-icon>
-          <v-list-item-content><v-list-item-title>Accounts</v-list-item-title></v-list-item-content>
-        </v-list-item>
-        <v-list-item link @click="accessModuleLocation()">
-          <v-list-item-icon><v-icon>mdi-office-building-marker-outline</v-icon></v-list-item-icon>
-          <v-list-item-content><v-list-item-title>Locations</v-list-item-title></v-list-item-content>
-        </v-list-item>
-        <v-list-item link @click="accessModulePaymentMethod()">
-          <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
-          <v-list-item-content><v-list-item-title>Payment Methods</v-list-item-title></v-list-item-content>
-        </v-list-item>
-        <v-list-item link @click="accessModuleBank()">
-          <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
-          <v-list-item-content><v-list-item-title>Banks</v-list-item-title></v-list-item-content>
-        </v-list-item>
-        <v-list-item link @click="accessModuleStatementType()">
-          <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
-          <v-list-item-content><v-list-item-title>Statement Types</v-list-item-title></v-list-item-content>
-        </v-list-item>
-        <v-list-item link @click="accessModuleStatementPattern()">
-          <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
-          <v-list-item-content><v-list-item-title>Statement Patterns</v-list-item-title></v-list-item-content>
-        </v-list-item>
+          <v-list-item link @click="accessModuleSummary()">
+            <v-list-item-icon><v-icon>mdi-text</v-icon></v-list-item-icon>
+            <v-list-item-title>Summary</v-list-item-title>
+          </v-list-item>
+          <v-list-item link @click="accessModuleObjective()">
+            <v-list-item-icon><v-icon>mdi-cash-multiple</v-icon></v-list-item-icon>
+            <v-list-item-title>Objectives</v-list-item-title>
+          </v-list-item>
+          <v-list-item link @click="accessModuleStatement()">
+            <v-list-item-icon><v-icon>mdi-notebook-plus-outline</v-icon></v-list-item-icon>
+            <v-list-item-title>Statements</v-list-item-title>
+          </v-list-item>
+        </v-list-group>
+
+        <v-list-group :value="true" no-action sub-group>
+          <template v-slot:activator>
+            <v-list-item-title>REGISTRATIONS</v-list-item-title>
+          </template>
+          <v-list-item link @click="accessModuleAccount()">
+            <v-list-item-icon><v-icon>mdi-piggy-bank-outline</v-icon></v-list-item-icon>
+            <v-list-item-title>Accounts</v-list-item-title>
+          </v-list-item>
+          <v-list-item link @click="accessModuleLocation()">
+            <v-list-item-icon><v-icon>mdi-office-building-marker-outline</v-icon></v-list-item-icon>
+            <v-list-item-title>Locations</v-list-item-title>
+          </v-list-item>
+          <v-list-item link @click="accessModulePaymentMethod()">
+            <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
+            <v-list-item-title>Payment Methods</v-list-item-title>
+          </v-list-item>
+          <v-list-item link @click="accessModuleBank()">
+            <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
+            <v-list-item-title>Banks</v-list-item-title>
+          </v-list-item>
+          <v-list-item link @click="accessModuleStatementType()">
+            <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
+            <v-list-item-title>Statement Types</v-list-item-title>
+          </v-list-item>
+          <v-list-item link @click="accessModuleStatementPattern()">
+            <v-list-item-icon><v-icon>mdi-credit-card-check-outline</v-icon></v-list-item-icon>
+            <v-list-item-title>Statement Patterns</v-list-item-title>
+          </v-list-item>
+        </v-list-group>
       </v-list-group>
 
 
@@ -75,37 +84,49 @@
           <v-list-item-title class="text-h6">SUPERMARKET</v-list-item-title>
         </template>
 
-        <v-subheader>ACTIVITIES</v-subheader>
-        <v-list-item link @click="accessModuleSupermarket()">
-          <v-list-item-icon><v-icon>mdi-text</v-icon></v-list-item-icon>
-          <v-list-item-content><v-list-item-title>Activity One</v-list-item-title></v-list-item-content>
-        </v-list-item>
+        <v-list-group :value="true" no-action sub-group>
+          <template v-slot:activator>
+            <v-list-item-title>ACTIVITIES</v-list-item-title>
+          </template>
 
-        <v-subheader>REGISTRATIONS</v-subheader>
-        <v-list-item link @click="accessModuleSupermarket()">
-          <v-list-item-icon><v-icon>mdi-text</v-icon></v-list-item-icon>
-          <v-list-item-content><v-list-item-title>Registration One</v-list-item-title></v-list-item-content>
-        </v-list-item>
+          <v-list-item link @click="accessModuleSupermarket()">
+            <v-list-item-icon><v-icon>mdi-text</v-icon></v-list-item-icon>
+            <v-list-item-title>Activity One</v-list-item-title>
+          </v-list-item>
+        </v-list-group>
+
+        <v-list-group :value="true" no-action sub-group>
+          <template v-slot:activator>
+            <v-list-item-title>REGISTRATIONS</v-list-item-title>
+          </template>
+
+          <v-list-item link @click="accessModuleSupermarket()">
+            <v-list-item-icon><v-icon>mdi-text</v-icon></v-list-item-icon>
+            <v-list-item-title>Registration One</v-list-item-title>
+          </v-list-item>
+        </v-list-group>
       </v-list-group>
 
+      <v-list-group>
+        <template v-slot:activator>
+          <v-list-item-title class="text-h6">COMING SOON</v-list-item-title>
+        </template>        
 
-      <v-divider></v-divider>
-
-      <v-subheader>COMING SOON</v-subheader>
-      <v-list-item link @click="accessModuleDesejo()">
-        <v-list-item-icon><v-icon>mdi-heart-half-full</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Wish List</v-list-item-title></v-list-item-content>
-      </v-list-item>
-      <v-list-item link @click="accessModuleAutomovel()">
-        <v-list-item-icon><v-icon>mdi-car</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Car Management</v-list-item-title></v-list-item-content>
-      </v-list-item>
+        <v-list-item link @click="accessModuleDesejo()">
+          <v-list-item-icon><v-icon>mdi-heart-half-full</v-icon></v-list-item-icon>
+          <v-list-item-title>Wish List</v-list-item-title>
+        </v-list-item>
+        <v-list-item link @click="accessModuleAutomovel()">
+          <v-list-item-icon><v-icon>mdi-car</v-icon></v-list-item-icon>
+          <v-list-item-title>Car Management</v-list-item-title>
+        </v-list-item>
+      </v-list-group>
 
       <v-divider></v-divider>
 
       <v-list-item link @click="executeLogout()">
         <v-list-item-icon><v-icon>mdi-logout</v-icon></v-list-item-icon>
-        <v-list-item-content><v-list-item-title>Log Out</v-list-item-title></v-list-item-content>
+        <v-list-item-title>Log Out</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-navigation-drawer>

@@ -23,11 +23,28 @@
       <v-card>
          <v-card-title>Incoming & Outcoming</v-card-title>
          <v-card-text class="text-left">
-            <v-select @change="accessModule" v-model="incomingOutcomingChartAccountSelected" return-object label="Balance Account" item-text="name" :items="accountListBalanceCombo" no-data-text="No data found">
-               <template v-slot:selection="{ item }">{{ item.accountParent.accountParent.name }} :: {{ item.accountParent.name }} :: {{ item.name }} Bolinha</template>
-               <template v-slot:item="{ item }">{{ item.accountParent.accountParent.name }} :: {{ item.accountParent.name }} :: {{ item.name }}</template>
-            </v-select>
-            <BarChart :chartData="barChartData" />
+				<df-grid>
+					<v-select @change="accessModule" v-model="incomingOutcomingChartAccountSelected" return-object label="Balance Account" item-text="name" :items="accountListBalanceCombo" no-data-text="No data found">
+						<template v-slot:selection="{ item }">{{ item.accountParent.accountParent.name }} :: {{ item.accountParent.name }} :: {{ item.name }}</template>
+						<template v-slot:item="{ item }">{{ item.accountParent.accountParent.name }} :: {{ item.accountParent.name }} :: {{ item.name }}</template>
+					</v-select>
+					<v-select @change="accessModule" v-model="incomingOutcomingChartPeriodRangeSelected" label="Period Range" :items="periodRangeList" />
+				</df-grid>
+
+				<df-grid>
+					<v-card v-for="(label, index) in barChartData.labels" :key="index" elevation="8">
+						<v-card-title class="text-h5">{{ label }}</v-card-title>
+						<v-simple-table dense>
+							<tbody>
+								<tr v-for="data in barChartData.datasets" :key="data.label">
+									<td>{{ data.label }}</td><td class="text-right">{{ data.data[index] | currency }}</td>
+								</tr>
+							</tbody>
+						</v-simple-table>
+               </v-card>
+				</df-grid>
+
+            <bar-chart :chartData="barChartData" />
          </v-card-text>
       </v-card>
    </div>

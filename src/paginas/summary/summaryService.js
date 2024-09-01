@@ -13,6 +13,7 @@ export default {
       return {
          showSearchField: false,
          incomingOutcomingChartAccountSelected: {},
+         incomingOutcomingChartPeriodRangeSelected: 6,
 
          barChartData: {},
          accountListBalanceCombo: [],
@@ -30,7 +31,9 @@ export default {
             {monthName: "October", monthNumber: "10"},
             {monthName: "November", monthNumber: "11"},
             {monthName: "December", monthNumber: "12"}
-         ]
+         ],
+
+         periodRangeList: [1, 3, 4, 6, 12]
       };
    },
 
@@ -44,6 +47,7 @@ export default {
 
             let summary = {
                incomingOutcomingChartAccountIdentity: this.incomingOutcomingChartAccountSelected.identity,
+               incomingOutcomingChartPeriodRangeValue: this.incomingOutcomingChartPeriodRangeSelected,
                userIdentity: this.$store.state.userIdentity,
                periodDate: new Date(this.$store.state.globalYear + "-" + this.$store.state.globalMonth + "-01 12:00:00")
             };
