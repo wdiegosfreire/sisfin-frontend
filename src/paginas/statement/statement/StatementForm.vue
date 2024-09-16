@@ -38,8 +38,20 @@
                               <df-output-text label="Document Number">{{ statementItem.documentNumber ? statementItem.documentNumber : "-"}}</df-output-text>
                            </df-grid>
                         </v-card-text>
-                        <v-divider />
 
+                        <span v-if="!statementItem.isExported && statementItem.complement.objectiveMovementList.length > 0" outlined>
+                           <v-divider />
+                           <v-card-text style="color: red;">
+                              <div>Movements were found for the same date and value for this item. Please review the information below before exporting.</div>
+                              <ul>
+                                 <li v-for="objectiveMovement in statementItem.complement.objectiveMovementList" :key="objectiveMovement.identity">
+                                    {{ objectiveMovement.identity }} | {{ objectiveMovement.accountSource | traceAccount }} | {{ objectiveMovement.objective.description }} | {{ objectiveMovement.paymentDate | moment("DD/MM/YYYY") }} | {{ objectiveMovement.value }}
+                                 </li>
+                              </ul>
+                           </v-card-text>
+                        </span>
+
+                        <v-divider />
                         <v-card-text>
                            <v-chip small color="success" class="mr-3" v-if="statementItem.operationType == 'C'">Incoming</v-chip>
                            <v-chip small color="error" class="mr-3" v-else>Outcoming</v-chip>
