@@ -150,8 +150,8 @@ export default {
 		"$store.userIdentity": "setUserIdentity"
 	},
 
-  	computed: {
-	 	computedInitials() {
+	computed: {
+		computedInitials() {
 			let splittedName = [];
 			let firstChar = "";
 			let lastChar = "";
@@ -165,7 +165,7 @@ export default {
 			return firstChar + lastChar;
 		},
 
-	 	computedName() {
+		computedName() {
 			let splittedName = [];
 			let firstName = "";
 			let lastName = "";
@@ -233,7 +233,7 @@ export default {
 			this.$router.push("/supermercado");
 		},
 
-	 	executeLogout() {
+		executeLogout() {
 			this.$_maintenance_post(`/user/executeLogout`, this.user).then(() => {
 				this.$store.commit("setUserName", "");
 				this.$store.commit("setUserIdentity", "");
