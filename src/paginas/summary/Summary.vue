@@ -31,13 +31,16 @@
 					<v-select @change="accessModule" v-model="incomingOutcomingChartPeriodRangeSelected" label="Period Range" :items="periodRangeList" />
 				</df-grid>
 
-				<df-grid>
+				<df-grid class="mb-3">
 					<v-card v-for="(label, index) in barChartData.labels" :key="index" elevation="8">
 						<v-card-title class="text-h5">{{ label }}</v-card-title>
 						<v-simple-table dense>
 							<tbody>
 								<tr v-for="data in barChartData.datasets" :key="data.label">
-									<td>{{ data.label }}</td><td class="text-right">{{ data.data[index] | currency }}</td>
+									<td class="pr-0" style="width: 1px;">{{ data.identifier }}.</td>
+									<td>{{ data.label }}</td>
+                           <td class="text-right">{{ data.data[index] | currency }}</td>
+                           <td class="pl-0" style="width: 1px;"><df-icon :icon="data.icon" size="md" /></td>
 								</tr>
 							</tbody>
 						</v-simple-table>

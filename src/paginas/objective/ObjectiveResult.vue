@@ -5,10 +5,16 @@
 
          <span v-for="objective in collection" :key="objective.identity">
             <span v-for="objectiveMovement in objective.objectiveMovementList" :key="objectiveMovement.identity">
+               <v-card v-if="objectiveMovement.props.isNewHeader" class="mb-4">
+                  <v-app-bar color="primary" dense>
+                     <df-icon icon="fa-clock" class="white--text mr-3" />
+                     <v-toolbar-title class="text-h6 white--text pl-0">{{ objectiveMovement.paymentDate | moment("DD/MM/YYYY") }}</v-toolbar-title>
+                  </v-app-bar>
+               </v-card>
 
                <v-card v-if="objectiveMovement.inPeriod" outlined class="elevation-1 mb-4">
                   <v-card-title>
-                     <span>{{ objective.description }}: {{ objectiveMovement.value | currency }}</span>
+                     <span>{{ objectiveMovement.accountSource | traceAccount }} :: {{ objective.description }}: {{ objectiveMovement.value | currency }}</span>
 
                      <v-spacer></v-spacer>
                      <v-menu offset-y>
@@ -68,7 +74,6 @@
 
             </span>
          </span>
-
       </v-card-text>
 
       <v-card-text v-if="collection.length == 0">No results found.</v-card-text>
@@ -97,11 +102,20 @@ export default {
 
    data() {
       return {
-         search: ""
+         search: "",
+         grupo: ""
       };
    },
 
    methods: {
+      getNewHeader(data) {
+         if (this.grupo != data) {
+            this.grupo = data;
+            return true;
+         }
+
+         return false;
+      }
    }
 };
 </script>
