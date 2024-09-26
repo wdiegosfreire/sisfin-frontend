@@ -45,7 +45,11 @@
                               <div>Movements were found for the same date and value for this item. Please review the information below before exporting.</div>
                               <ul>
                                  <li v-for="objectiveMovement in statementItem.complement.objectiveMovementList" :key="objectiveMovement.identity">
-                                    {{ objectiveMovement.identity }} | {{ objectiveMovement.accountSource | traceAccount }} | {{ objectiveMovement.objective.description }} | {{ objectiveMovement.paymentDate | moment("DD/MM/YYYY") }} | {{ objectiveMovement.value }}
+                                    {{ objectiveMovement.identity }} |
+                                    {{ objectiveMovement.accountSource | traceAccount }} |
+                                    {{ objectiveMovement.objective && objectiveMovement.objective.description ? objectiveMovement.objective.description : "" }} |
+                                    {{ objectiveMovement.paymentDate | moment("DD/MM/YYYY") }} |
+                                    {{ objectiveMovement.value }}
                                  </li>
                               </ul>
                            </v-card-text>
