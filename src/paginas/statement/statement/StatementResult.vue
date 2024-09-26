@@ -3,15 +3,15 @@
 		<v-card-text>
 			<h3 v-if="collection.length > 0" class="text-left pb-3">Results in This Page: {{ collection.length }}</h3>
 
-			<span outlined class="elevation-1 mb-4" v-for="statement in collection" :key="statement.identity">
-				<v-card v-if="statement.props.isNewHeader" class="mb-4 mt-4">
+			<span v-for="statement in collection" :key="statement.identity">
+				<v-card v-if="statement.props.isNewHeader" outlined class="elevation-1 mb-4">
                <v-app-bar color="primary" dense>
                   <df-icon icon="fa-calendar" class="white--text mr-3" />
                   <v-toolbar-title class="text-h6 white--text pl-0">{{ statement.month }}/{{ statement.year }}</v-toolbar-title>
                </v-app-bar>
             </v-card>
 
-				<v-card>
+				<v-card outlined class="elevation-1 mb-4">
 					<v-card-title>
 						<span>{{ statement.month }}/{{ statement.year }} :: {{ statement.statementType ? statement.statementType.bank.name : "" }} :: {{ statement.statementType ? statement.statementType.name : "" }}</span>
 	
