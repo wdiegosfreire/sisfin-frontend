@@ -39,18 +39,12 @@
                            </df-grid>
                         </v-card-text>
 
-                        <span v-if="!statementItem.isExported && statementItem.complement.objectiveMovementList.length > 0" outlined>
+                        <span v-if="!statementItem.isExported && statementItem.props.similarMovementList.length > 0" outlined>
                            <v-divider />
                            <v-card-text style="color: red;">
                               <div>Movements were found for the same date and value for this item. Please review the information below before exporting.</div>
                               <ul>
-                                 <li v-for="objectiveMovement in statementItem.complement.objectiveMovementList" :key="objectiveMovement.identity">
-                                    {{ objectiveMovement.identity }} |
-                                    {{ objectiveMovement.accountSource | traceAccount }} |
-                                    {{ objectiveMovement.objective && objectiveMovement.objective.description ? objectiveMovement.objective.description : "" }} |
-                                    {{ objectiveMovement.paymentDate | moment("DD/MM/YYYY") }} |
-                                    {{ objectiveMovement.value }}
-                                 </li>
+                                 <li v-for="similarMovement in statementItem.props.similarMovementList" :key="similarMovement">{{ similarMovement }}</li>
                               </ul>
                            </v-card-text>
                         </span>
