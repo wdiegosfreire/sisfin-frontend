@@ -14,7 +14,10 @@
 
                <v-card v-if="objectiveMovement.inPeriod" outlined class="elevation-1 mb-4">
                   <v-card-title>
-                     <span>{{ objectiveMovement.accountSource | traceAccount }} :: {{ objective.description }}: {{ objectiveMovement.value | currency }}</span>
+                     <span>
+                        <df-icon icon="fa-circle" size="xs" color="purple" /> {{ objectiveMovement.accountSource | traceAccount }}
+                        <df-icon icon="fa-arrow-right-long" size="sm" /> {{ objective.description }}: R$ {{ objectiveMovement.value | currency }}
+                     </span>
 
                      <v-spacer></v-spacer>
                      <v-menu offset-y>
@@ -55,7 +58,7 @@
                         <df-output-text class="text-left" label="Location">{{ objective.location ? objective.location.name : "" }}</df-output-text>
                      </df-grid>
 
-                     <v-expansion-panels focusable class="mb-1">
+                     <v-expansion-panels accordion focusable multiple>
                         <v-expansion-panel>
                            <v-expansion-panel-header>Movements</v-expansion-panel-header>
                            <v-expansion-panel-content>
