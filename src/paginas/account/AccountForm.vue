@@ -21,8 +21,8 @@
             </span>
             <span v-else>
                <df-grid>
-                  <v-select @change="$emit('accessRegistration', accountComboLevelOneSelected); updateParentAccount(accountComboLevelOneSelected);" v-model="accountComboLevelOneSelected" return-object label="First Level Account" item-text="name" :items="accountListComboLevelOne"></v-select>
-                  <v-select @change="updateParentAccount(accountComboLevelTwoSelected)" v-model="accountComboLevelTwoSelected" return-object label="Second Level Account" item-text="name" :items="accountListComboLevelTwo" no-data-text="Contas não Identificadas"></v-select>
+                  <v-autocomplete @change="$emit('accessRegistration', accountComboLevelOneSelected); updateParentAccount(accountComboLevelOneSelected);" v-model="accountComboLevelOneSelected" return-object label="First Level Account" item-text="name" item-value="identity" :items="accountListComboLevelOne"></v-autocomplete>
+                  <v-autocomplete @change="updateParentAccount(accountComboLevelTwoSelected)" v-model="accountComboLevelTwoSelected" return-object label="Second Level Account" item-text="name" item-value="identity" :items="accountListComboLevelTwo" no-data-text="Contas não Identificadas"></v-autocomplete>
                </df-grid>
             </span>
 

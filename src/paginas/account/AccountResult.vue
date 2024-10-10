@@ -27,7 +27,7 @@
                               <v-list-item-icon><df-icon icon="fa-pen-to-square" /></v-list-item-icon>
                               <v-list-item-content><v-list-item-title>Edit</v-list-item-title></v-list-item-content>
                            </v-list-item>
-                           <v-list-item v-if="!item.accountListChild" @click="$emit('executeExclusion', item)">
+                           <v-list-item v-if="!item.accountListChild || item.accountListChild.length == 0" @click="$emit('executeExclusion', item)">
                               <v-list-item-icon><df-icon icon="fa-trash-can" /></v-list-item-icon>
                               <v-list-item-content><v-list-item-title>Delete</v-list-item-title></v-list-item-content>
                            </v-list-item>
