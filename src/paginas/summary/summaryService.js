@@ -11,12 +11,17 @@ export default {
 
    data() {
       return {
+         periodRange: 6,
          showSearchField: false,
-         incomingOutcomingChartAccountSelected: {},
-         incomingOutcomingChartPeriodRangeSelected: 6,
+         balanceAccountSelected: {},
+         outcomingAccountSelected: {},
 
-         barChartData: {},
+         outcomingSummaryPieChart: {},
+         outcomingSummaryLineChart: {},
+         incomingOutcomingSummaryTableData: {},
+
          accountListBalanceCombo: [],
+         accountListOutcomingCombo: [],
 
          monthList: [
             {monthName: "January", monthNumber: "01"},
@@ -46,22 +51,30 @@ export default {
             }
 
             let summary = {
-               incomingOutcomingChartAccountIdentity: this.incomingOutcomingChartAccountSelected.identity,
-               incomingOutcomingChartPeriodRangeValue: this.incomingOutcomingChartPeriodRangeSelected,
+               periodDate: new Date(this.$store.state.globalYear + "-" + this.$store.state.globalMonth + "-01 12:00:00"),
+               periodRange: this.periodRange,
                userIdentity: this.$store.state.userIdentity,
-               periodDate: new Date(this.$store.state.globalYear + "-" + this.$store.state.globalMonth + "-01 12:00:00")
+               balanceAccountIdentity: this.balanceAccountSelected.identity,
+               outcomingAccountLevel: this.outcomingAccountSelected.level
             };
 
             const response = await this.$_transaction_post("/summary/accessModule", summary);
-            this.barChartData = response.data.map.barChartData;
-            this.accountListBalanceCombo = response.data.map.accountListBalanceCombo;
 
-            if (!this.incomingOutcomingChartAccountSelected || !this.incomingOutcomingChartAccountSelected.identity) {
-               this.incomingOutcomingChartAccountSelected = this.accountListBalanceCombo[0];
+            this.outcomingSummaryPieChart = response.data.map.outcomingSummaryPieChart;
+            this.outcomingSummaryLineChart = response.data.map.outcomingSummaryLineChart;
+            this.incomingOutcomingSummaryTableData = response.data.map.incomingOutcomingSummaryTableData;
+            this.accountListBalanceCombo = response.data.map.accountListBalanceCombo;
+            this.accountListOutcomingCombo = response.data.map.accountListOutcomingCombo;
+
+            this.$_message_console(this.outcomingSummaryPieChart['09/2024']);
+
+            if (!this.balanceAccountSelected || !this.balanceAccountSelected.identity) {
+               this.balanceAccountSelected = this.accountListBalanceCombo[0];
             }
 
-            this.$_message_console("100");
-            this.$_message_console(this.accountListBalanceCombo.length);
+            if (!this.outcomingAccountSelected || !this.outcomingAccountSelected.level) {
+               this.outcomingAccountSelected = this.accountListOutcomingCombo[0];
+            }
          }
          catch (error) {
             this.$_message_handleError(error);
