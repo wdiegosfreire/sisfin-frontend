@@ -21,6 +21,12 @@
             <v-switch v-model="ignoreYear" inset></v-switch>
          </df-grid>
       </df-grid>
+      <df-grid>
+         <v-autocomplete @change="accessModule" v-model="balanceAccountSelected" label="Balance Account" item-text="name" item-value="identity" :items="accountListBalanceCombo" no-data-text="No data found" clearable return-object>
+            <template v-slot:selection="{ item }">{{ item.accountParent.accountParent.name }} :: {{ item.accountParent.name }} :: {{ item.name }}</template>
+            <template v-slot:item="{ item }">{{ item.accountParent.accountParent.name }} :: {{ item.accountParent.name }} :: {{ item.name }}</template>
+         </v-autocomplete>
+      </df-grid>
 
       <objective-result
          :collection="$store.state.globalResult"

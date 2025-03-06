@@ -66,8 +66,6 @@ export default {
             this.accountListBalanceCombo = response.data.map.accountListBalanceCombo;
             this.accountListOutcomingCombo = response.data.map.accountListOutcomingCombo;
 
-            this.$_message_console(this.outcomingSummaryPieChart['09/2024']);
-
             if (!this.balanceAccountSelected || !this.balanceAccountSelected.identity) {
                this.balanceAccountSelected = this.accountListBalanceCombo[0];
             }
