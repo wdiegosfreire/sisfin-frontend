@@ -20,9 +20,11 @@
 				</df-grid>
 				<df-grid>
 					<v-autocomplete label="Location" v-model="statementPattern.location" item-text="name" item-value="identity" :items="locationListCombo" return-object></v-autocomplete>
+				</df-grid>
+				<df-grid>
 					<v-autocomplete label="Target Account" v-model="statementPattern.accountTarget" item-text="name" item-value="identity" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
-						<template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-						<template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+						<template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
+						<template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
 					</v-autocomplete>
 				</df-grid>
 			</v-card-text>

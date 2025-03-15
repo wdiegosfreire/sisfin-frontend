@@ -39,8 +39,18 @@ Vue.filter('currency', function (value, precision) {
 Vue.filter('traceAccount', function (account) {
    let result = "";
 
-   if (account && account.accountParent && account.accountParent.accountParent) {
-      result += `${account.accountParent.accountParent.name} :: ${account.accountParent.name} :: ${account.name}`;
+   if (!account) {
+      return result;
+   }
+
+   result += account.name;
+
+   if (account.accountParent) {
+      result = `${account.accountParent.name} :: ${result}`;
+
+      if (account.accountParent.accountParent) {
+         result = `${account.accountParent.accountParent.name} :: ${result}`;
+      }
    }
    
    return result;

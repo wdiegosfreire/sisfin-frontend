@@ -35,8 +35,8 @@
                   </df-grid>
                   <df-grid>
                      <v-select label="Source" v-model="objectiveMovementForm.accountSource" :items="accountListComboSource" return-object @change="validateSelectedSource()">
-                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-                        <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                        <template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
+                        <template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
                      </v-select>
                   </df-grid>
                   <df-grid column="auto-sm">
@@ -62,8 +62,8 @@
                   </df-grid>
                   <df-grid column="auto-sm">
                      <v-select label="Target" v-model="objectiveItemForm.accountTarget" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
-                        <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-                        <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                        <template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
+                        <template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
                      </v-select>
                   </df-grid>
                   <df-grid column="auto-sm">
