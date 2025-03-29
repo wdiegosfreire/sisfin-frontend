@@ -12,6 +12,7 @@ export default {
 	data() {
       return {
          showSearchField: false,
+         balanceAccountSelected: {},
          monthList: [
             {monthName: "January", monthNumber: "01"},
             {monthName: "February", monthNumber: "02"},
@@ -25,7 +26,8 @@ export default {
             {monthName: "October", monthNumber: "10"},
             {monthName: "November", monthNumber: "11"},
             {monthName: "December", monthNumber: "12"}
-         ]
+         ],
+         accountListBalanceCombo: [],
       };
    },
 
@@ -48,6 +50,7 @@ export default {
 
          this.$_transaction_post("/objective/accessModule", objective).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.objectiveList);
+            this.accountListBalanceCombo = response.data.map.accountListBalanceCombo;
          }).catch(error => {
             this.$_message_handleError(error);
          });

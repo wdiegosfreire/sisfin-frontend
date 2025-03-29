@@ -17,8 +17,8 @@
 				</df-grid>
 				<v-autocomplete label="Bank" v-model="statementType.bank" item-text="name" item-value="identity" :items="bankListCombo" return-object></v-autocomplete>
 				<v-autocomplete label="Source Account" v-model="statementType.accountSource" item-text="name" item-value="identity" :items="accountListComboSource" return-object @change="validateSelectedSource()">
-					<template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-					<template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+					<template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
+					<template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
 				</v-autocomplete>
 			</v-card-text>
 

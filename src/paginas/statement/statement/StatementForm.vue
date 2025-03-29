@@ -71,12 +71,12 @@
                                  <df-grid column="auto-lg" fluid>
                                     <v-text-field label="New Description" v-model="statementItem.descriptionNew" dense />
                                     <v-autocomplete v-if="statementItem.operationType == 'C'" label="Source Account" item-text="name" item-value="identity" v-model="statementItem.accountSource" :items="accountListComboSource" @change="validateSelectedSource(statementItem)" clearable return-object dense>
-                                       <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-                                       <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                                       <template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
+                                       <template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
                                     </v-autocomplete>
                                     <v-autocomplete v-if="statementItem.operationType == 'D'" label="Target Account" item-text="name" item-value="identity" v-model="statementItem.accountTarget" :items="accountListComboTarget" @change="validateSelectedTarget(statementItem)" clearable return-object dense>
-                                       <template v-slot:selection="{ item }">{{ item.level }} {{ item.name }}</template>
-                                       <template v-slot:item="{ item }">{{ item.level }} {{ item.name }}</template>
+                                       <template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
+                                       <template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
                                     </v-autocomplete>
                                     <v-autocomplete label="Location" item-text="name" item-value="identity" v-model="statementItem.location" :items="locationListCombo" clearable return-object dense>
                                        <template v-slot:selection="{ item }">{{ item.name }}</template>
