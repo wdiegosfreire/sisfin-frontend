@@ -22,9 +22,24 @@
 					<v-autocomplete label="Location" v-model="statementPattern.location" item-text="name" item-value="identity" :items="locationListCombo" return-object></v-autocomplete>
 				</df-grid>
 				<df-grid>
+					<v-autocomplete label="Source Account" v-model="statementPattern.accountSource" item-text="name" item-value="identity" :items="accountListComboTarget" return-object @change="validateSelectedSource()">
+						<template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
+						<template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
+					</v-autocomplete>
+				</df-grid>
+				<df-grid>
 					<v-autocomplete label="Target Account" v-model="statementPattern.accountTarget" item-text="name" item-value="identity" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
 						<template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
 						<template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
+					</v-autocomplete>
+				</df-grid>
+				<df-grid>
+					<v-autocomplete label="Payment Method" v-model="statementPattern.paymentMethod" item-text="name" item-value="identity" :items="paymentMethodListCombo" return-object></v-autocomplete>
+				</df-grid>
+				<df-grid>
+					<v-autocomplete label="Statement Type" v-model="statementPattern.statementType" item-text="name" item-value="identity" :items="statementTypeListCombo" return-object>
+						<template v-slot:selection="{ item }">{{ item.bank.name }} :: {{ item.name }}</template>
+						<template v-slot:item="{ item }">{{ item.bank.name }} :: {{ item.name }}</template>
 					</v-autocomplete>
 				</df-grid>
 			</v-card-text>
@@ -69,6 +84,16 @@ export default {
 		accountListComboTarget: {
 			type: Array,
 			required: true
+		},
+
+		paymentMethodListCombo: {
+			type: Array,
+			required: true
+		},
+
+		statementTypeListCombo: {
+			type: Array,
+			required: true
 		}
 	},
 
@@ -109,8 +134,8 @@ export default {
 				return true;
 			}
 
-			if (!this.statementPattern.location || !this.statementPattern.location.identity) {
-				this.$_message_showRequired("Missing statement pattern's location.");
+			if (!this.statementPattern.accountSource || !this.statementPattern.accountSource.identity) {
+				this.$_message_showRequired("Missing statement pattern's source account.");
 				return true;
 			}
 
@@ -119,7 +144,28 @@ export default {
 				return true;
 			}
 
+			if (!this.statementPattern.paymentMethod || !this.statementPattern.paymentMethod.identity) {
+				this.$_message_showRequired("Missing statement pattern's payment method.");
+				return true;
+			}
+
 			return false;
+		},
+
+		validateSelectedSource() {
+			let errorMessage = "";
+
+			if (!this.statementPattern || !this.statementPattern.accountSource || this.statementPattern.accountSource.level.length != 9)
+				errorMessage = "Please, select a final target account.";
+			else if (this.statementPattern.accountSource.level.startsWith("03."))
+				errorMessage = `Accounts with level "03." can't be used as source account.`;
+
+			if (errorMessage) {
+				this.$_message_showRequired(errorMessage);
+				this.statementPattern.accountSource = {};
+
+				return;
+			}
 		},
 
 		validateSelectedTarget() {
@@ -145,7 +191,10 @@ export default {
 			
 			this.statementPattern.description = "";
 			this.statementPattern.location = {};
+			this.statementPattern.accountSource = {};
 			this.statementPattern.accountTarget = {};
+			this.statementPattern.paymentMethod = {};
+			this.statementPattern.statementType = {};
 		}
 	}
 };

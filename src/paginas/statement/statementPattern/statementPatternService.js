@@ -14,6 +14,8 @@ export default {
          statementPatternListResult: [],
          locationListCombo: [],
          accountListComboTarget: [],
+         paymentMethodListCombo: [],
+         statementTypeListCombo: [],
 
          showSearchField: false
       };
@@ -43,6 +45,8 @@ export default {
             const response = await this.$_transaction_post("/statementPattern/accessRegistration", statementPattern);
             this.locationListCombo = response.data.map.locationListCombo;
             this.accountListComboTarget = response.data.map.accountListComboTarget;
+            this.paymentMethodListCombo = response.data.map.paymentMethodListCombo;
+            this.statementTypeListCombo = response.data.map.statementTypeListCombo;
 
             this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
          }
@@ -58,6 +62,8 @@ export default {
             this.statementPatternForm = response.data.map.statementPattern;
             this.locationListCombo = response.data.map.locationListCombo;
             this.accountListComboTarget = response.data.map.accountListComboTarget;
+            this.paymentMethodListCombo = response.data.map.paymentMethodListCombo;
+            this.statementTypeListCombo = response.data.map.statementTypeListCombo;
 
             this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
          }
@@ -128,8 +134,11 @@ export default {
          statementPattern.identity = "";
          statementPattern.comparator = "";
          statementPattern.description = "";
-         statementPattern.accountTarget = null;
-         statementPattern.location = "";
+         statementPattern.location = {};
+         statementPattern.accountSource = {};
+         statementPattern.accountTarget = {};
+         statementPattern.paymentMethod = {};
+         statementPattern.statementType = {};
 
          this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, false);
       }
