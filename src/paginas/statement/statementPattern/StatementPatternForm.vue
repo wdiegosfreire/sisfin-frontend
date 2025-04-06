@@ -190,7 +190,7 @@ export default {
 			}
 			
 			this.statementPattern.description = "";
-			this.statementPattern.location = {};
+			this.statementPattern.location = undefined;
 			this.statementPattern.accountSource = {};
 			this.statementPattern.accountTarget = {};
 			this.statementPattern.paymentMethod = {};

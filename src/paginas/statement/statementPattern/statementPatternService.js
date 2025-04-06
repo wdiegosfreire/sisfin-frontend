@@ -134,7 +134,7 @@ export default {
          statementPattern.identity = "";
          statementPattern.comparator = "";
          statementPattern.description = "";
-         statementPattern.location = {};
+         statementPattern.location = undefined;
          statementPattern.accountSource = {};
          statementPattern.accountTarget = {};
          statementPattern.paymentMethod = {};
