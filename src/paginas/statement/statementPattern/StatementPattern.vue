@@ -18,6 +18,8 @@
 
       <statement-pattern-form :statementPattern="statementPatternForm"
          :account-list-combo-target="accountListComboTarget"
+         :payment-method-list-combo="paymentMethodListCombo"
+         :statement-type-list-combo="statementTypeListCombo"
          :location-list-combo="locationListCombo"
 
          @executeRegistration="executeRegistration"
