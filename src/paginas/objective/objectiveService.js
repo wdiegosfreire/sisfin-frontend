@@ -118,6 +118,19 @@ export default {
          });
       },
 
+      executeSearch(filterValue) {
+         let objective = {
+            filter: filterValue,
+            userIdentity: this.$store.state.userIdentity
+         }
+
+         this.$_transaction_post("/objective/executeSearch", objective).then(response => {
+            this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.objectiveList);
+         }).catch(error => {
+            this.$_message_handleError(error);
+         });
+      },
+
       executeEdition(objective) {
          objective.userIdentity = this.$store.state.userIdentity;
 
