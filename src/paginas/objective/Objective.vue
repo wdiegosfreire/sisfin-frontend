@@ -13,7 +13,7 @@
 
       <df-grid>
          <df-grid column="frac-45">
-            <v-select label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();" :disabled="ignoreMonth"></v-select>
+            <v-select label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();" :disabled="ignoreMonth" autofocus></v-select>
             <v-switch v-model="ignoreMonth" inset></v-switch>
          </df-grid>
          <df-grid column="frac-45">

@@ -16,7 +16,7 @@
 					<v-text-field label="Comparator" v-model="statementPattern.comparator" :readonly="Boolean(statementPattern.identity)" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="Description" v-model="statementPattern.description" />
+					<v-text-field label="Description" v-model="statementPattern.description" autofocus />
 				</df-grid>
 				<df-grid>
 					<v-autocomplete label="Location" v-model="statementPattern.location" item-text="name" item-value="identity" :items="locationListCombo" return-object></v-autocomplete>
