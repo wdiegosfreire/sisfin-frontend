@@ -13,7 +13,7 @@
 					<v-text-field label="Identity" readonly v-model="location.identity" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="Name" v-model="location.name" />
+					<v-text-field label="Name" v-model="location.name" autofocus />
 				</df-grid>
 				<df-grid>
 					<v-text-field label="Note" v-model="location.note" />

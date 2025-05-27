@@ -40,6 +40,14 @@ export default {
       });
     },
 
+    async accessResetPassword() {
+      this.$_message_showInfo("Forgot your password?");
+    },
+
+    async accessRegistration() {
+      this.$_message_showInfo("Don't have an account? Sign up and get started!");
+    },
+
     resetForm() {
       this.user.email = "";
       this.password = "";

@@ -103,9 +103,12 @@ export default {
       },
 
       accessEdition(objective) {
-         objective.userIdentity = this.$store.state.userIdentity;
+         let objectiveForEdition = {
+            identity: objective.identity,
+            userIdentity: this.$store.state.userIdentity
+         }
 
-         this.$_transaction_post("/objective/accessEdition", objective).then(response => {
+         this.$_transaction_post("/objective/accessEdition", objectiveForEdition).then(response => {
             this.$store.commit("setGlobalEntity", response.data.map.objective);
             this.$store.commit("setGlobalLocationListCombo", response.data.map.locationListCombo);
             this.$store.commit("setGlobalPaymentMethodListCombo", response.data.map.paymentMethodListCombo);
@@ -113,6 +116,19 @@ export default {
             this.$store.commit("setGlobalAccountListComboTarget", response.data.map.accountListComboTarget);
 
             this.$store.commit("showGlobalDialog", true);
+         }).catch(error => {
+            this.$_message_handleError(error);
+         });
+      },
+
+      executeSearch(filterValue) {
+         let objective = {
+            filter: filterValue,
+            userIdentity: this.$store.state.userIdentity
+         }
+
+         this.$_transaction_post("/objective/executeSearch", objective).then(response => {
+            this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.objectiveList);
          }).catch(error => {
             this.$_message_handleError(error);
          });

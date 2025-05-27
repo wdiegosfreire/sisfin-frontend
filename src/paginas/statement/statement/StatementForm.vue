@@ -8,7 +8,7 @@
 
          <span v-if="!statement.identity">
             <v-card-text>
-               <v-autocomplete v-model="bankComboSelected" label="Bank" item-text="name" item-value="identity" :items="bankListCombo" @change="$emit('accessRegistration', bankComboSelected)" return-object></v-autocomplete>
+               <v-autocomplete v-model="bankComboSelected" label="Bank" item-text="name" item-value="identity" :items="bankListCombo" @change="$emit('accessRegistration', bankComboSelected)" return-object autofocus></v-autocomplete>
                <v-autocomplete v-model="statementTypeComboSelected" label="StatementType" item-text="name" item-value="identity" :items="statementTypeListCombo" return-object></v-autocomplete>
                <v-file-input v-model="statement.statementFile" label="Statement File" append-icon="mdi-file" prepend-icon=""></v-file-input>
             </v-card-text>

@@ -13,7 +13,7 @@
 					<v-text-field label="Identity" readonly v-model="statementType.identity" />
 				</df-grid>
 				<df-grid>
-					<v-text-field label="Name" v-model="statementType.name" />
+					<v-text-field label="Name" v-model="statementType.name" autofocus />
 				</df-grid>
 				<v-autocomplete label="Bank" v-model="statementType.bank" item-text="name" item-value="identity" :items="bankListCombo" return-object></v-autocomplete>
 				<v-autocomplete label="Source Account" v-model="statementType.accountSource" item-text="name" item-value="identity" :items="accountListComboSource" return-object @change="validateSelectedSource()">

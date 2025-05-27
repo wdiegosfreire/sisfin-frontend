@@ -17,10 +17,10 @@
                   <v-text-field v-if="objective.identity" label="Identity" readonly v-model="objective.identity" />
                   <v-text-field label="Description" v-model="objective.description" :readonly="isIdentityPresent" />
 
-                  <v-select label="Location" v-model="objective.location" :items="locationListCombo" return-object>
+                  <v-autocomplete label="Location" v-model="objective.location" item-text="name" item-value="identity" :items="locationListCombo" return-object>
                      <template v-slot:selection="{ item }">{{ item.name }}</template>
                      <template v-slot:item="{ item }">{{ item.name }}</template>
-                  </v-select>
+                  </v-autocomplete>
                </v-tab-item>
 
                <!-- Movements registration form -->
@@ -28,16 +28,16 @@
                <v-tab-item>
                   <df-grid column="frac-15">
                      <v-text-field label="Installment" v-model.number="objectiveMovementForm.installment" v-mask="['###']"></v-text-field>
-                     <v-select label="Payment Method" v-model="objectiveMovementForm.paymentMethod" :items="paymentMethodListCombo" return-object>
+                     <v-autocomplete label="Payment Method" v-model="objectiveMovementForm.paymentMethod" item-text="name" item-value="identity" :items="paymentMethodListCombo" return-object>
                         <template v-slot:selection="{ item }">{{ item.name }} - {{ item.acronym }}</template>
                         <template v-slot:item="{ item }">{{ item.name }} - {{ item.acronym }}</template>
-                     </v-select>
+                     </v-autocomplete>
                   </df-grid>
                   <df-grid>
-                     <v-select label="Source" v-model="objectiveMovementForm.accountSource" :items="accountListComboSource" return-object @change="validateSelectedSource()">
+                     <v-autocomplete label="Source" v-model="objectiveMovementForm.accountSource" item-text="name" item-value="identity" :items="accountListComboSource" return-object @change="validateSelectedSource()">
                         <template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
                         <template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
-                     </v-select>
+                     </v-autocomplete>
                   </df-grid>
                   <df-grid column="auto-sm">
                      <v-text-field label="Due Date" v-model="objectiveMovementForm.dueDate" v-mask="['##/##/####']"></v-text-field>
@@ -61,10 +61,10 @@
                      <v-text-field label="Description" v-model="objectiveItemForm.description" append-icon="mdi-map-marker" @click:append="copyDescriptionFromObjective()"></v-text-field>
                   </df-grid>
                   <df-grid column="auto-sm">
-                     <v-select label="Target" v-model="objectiveItemForm.accountTarget" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
+                     <v-autocomplete label="Target" v-model="objectiveItemForm.accountTarget" item-text="name" item-value="identity" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
                         <template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
                         <template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
-                     </v-select>
+                     </v-autocomplete>
                   </df-grid>
                   <df-grid column="auto-sm">
                      <v-text-field label="Amount" v-model.number="objectiveItemForm.amount" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
@@ -136,8 +136,8 @@ export default {
          movementDateUpdated: false,
 
          objectiveMovementForm: {
-            dueDate: "01/08/2023",
-            paymentDate: "01/08/2023",
+            dueDate: "",
+            paymentDate: "",
             installment: this.objective.objectiveMovementList.length + 1,
             paymentMethod: {}
          },
