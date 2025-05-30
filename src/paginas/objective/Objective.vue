@@ -9,8 +9,6 @@
          <v-btn icon @click.stop="accessRegistration()" title="Click to register a new objective"><df-icon icon="fa-plus" /></v-btn>
       </v-app-bar>
 
-      <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
-
       <df-grid>
          <df-grid column="frac-45">
             <v-select label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();" :disabled="ignoreMonth" autofocus></v-select>
@@ -21,11 +19,17 @@
             <v-switch v-model="ignoreYear" inset></v-switch>
          </df-grid>
       </df-grid>
-      <df-grid>
-         <v-autocomplete @change="accessModule" v-model="balanceAccountSelected" label="Balance Account" item-text="name" item-value="identity" :items="accountListBalanceCombo" no-data-text="No data found" clearable return-object>
-            <template v-slot:selection="{ item }">{{ item | traceAccount }}</template>
-            <template v-slot:item="{ item }">{{ item | traceAccount }}</template>
-         </v-autocomplete>
+      <df-grid v-if="showSearchField">
+         <df-grid>
+            <v-autocomplete v-model="filter.sourceAccount" label="Balance Account" item-text="name" item-value="identity" :items="accountListBalanceCombo" no-data-text="No data found" clearable return-object>
+               <template v-slot:selection="{ item }">{{ item | traceAccount }}</template>
+               <template v-slot:item="{ item }">{{ item | traceAccount }}</template>
+            </v-autocomplete>
+         </df-grid>
+      </df-grid>
+      <df-grid v-if="showSearchField" class="mb-5">
+         <v-btn width="150" @click="accessModule">Filter</v-btn>
+         <v-btn width="150" @click="clearFilters">Clear</v-btn>
       </df-grid>
 
       <objective-result
@@ -57,14 +61,13 @@ import ObjectiveForm from "./ObjectiveForm";
 
 import DfGrid from "../../components/grid/Grid.vue";
 import DfIcon from "../../components/df-icon/Icon.vue";
-import DfInputFilter from "../../components/input/InputFilter.vue";
 
 import message from "../../components/mixins/message.js";
 
 export default {
    name: "Objective",
 
-   components: { ObjectiveResult, ObjectiveForm, DfInputFilter, DfGrid, DfIcon },
+   components: { ObjectiveResult, ObjectiveForm, DfGrid, DfIcon },
 
    mixins: [ objectiveService, message ],
 
@@ -80,7 +83,7 @@ export default {
    methods: {
       toggleFilterField() {
          if (this.showSearchField)
-            this.executeSearch();
+            this.clearFilters();
 
          this.showSearchField = !this.showSearchField;
       },
@@ -92,6 +95,11 @@ export default {
 
             this.accessModule();
          }
+      },
+
+      clearFilters() {
+         this.filter.sourceAccount = {};
+         this.accessModule();
       }
    },
 

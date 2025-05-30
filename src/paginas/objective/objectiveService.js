@@ -12,7 +12,9 @@ export default {
 	data() {
       return {
          showSearchField: false,
-         balanceAccountSelected: {},
+         filter: {
+            sourceAccount: {}
+         },
          monthList: [
             {monthName: "January", monthNumber: "01"},
             {monthName: "February", monthNumber: "02"},
@@ -27,7 +29,7 @@ export default {
             {monthName: "November", monthNumber: "11"},
             {monthName: "December", monthNumber: "12"}
          ],
-         accountListBalanceCombo: [],
+         accountListBalanceCombo: []
       };
    },
 
@@ -40,12 +42,10 @@ export default {
 
          let objective = {
             userIdentity: this.$store.state.userIdentity,
-            objectiveMovementList: [
-               {
-                  userIdentity: this.$store.state.userIdentity,
-                  paymentDate: new Date(this.$store.state.globalYear + "-" + this.$store.state.globalMonth + "-01 12:00:00")
-               }
-            ]
+            filterMap: {
+               periodDate: new Date(this.$store.state.globalYear + "-" + this.$store.state.globalMonth + "-01 12:00:00"),
+               sourceAccountIdentity: this.filter.sourceAccount.identity
+            }
          };
 
          this.$_transaction_post("/objective/accessModule", objective).then(response => {
@@ -116,19 +116,6 @@ export default {
             this.$store.commit("setGlobalAccountListComboTarget", response.data.map.accountListComboTarget);
 
             this.$store.commit("showGlobalDialog", true);
-         }).catch(error => {
-            this.$_message_handleError(error);
-         });
-      },
-
-      executeSearch(filterValue) {
-         let objective = {
-            filter: filterValue,
-            userIdentity: this.$store.state.userIdentity
-         }
-
-         this.$_transaction_post("/objective/executeSearch", objective).then(response => {
-            this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.objectiveList);
          }).catch(error => {
             this.$_message_handleError(error);
          });
