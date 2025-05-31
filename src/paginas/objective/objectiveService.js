@@ -13,7 +13,7 @@ export default {
       return {
          showSearchField: false,
          filter: {
-            sourceAccount: {}
+            accountSource: {}
          },
          monthList: [
             {monthName: "January", monthNumber: "01"},
@@ -44,7 +44,7 @@ export default {
             userIdentity: this.$store.state.userIdentity,
             filterMap: {
                periodDate: new Date(this.$store.state.globalYear + "-" + this.$store.state.globalMonth + "-01 12:00:00"),
-               sourceAccountIdentity: this.filter.sourceAccount.identity
+               accountSourceIdentity: this.filter.accountSource.identity
             }
          };
 

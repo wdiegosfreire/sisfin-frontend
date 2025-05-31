@@ -21,7 +21,7 @@
       </df-grid>
       <df-grid v-if="showSearchField">
          <df-grid>
-            <v-autocomplete v-model="filter.sourceAccount" label="Balance Account" item-text="name" item-value="identity" :items="accountListBalanceCombo" no-data-text="No data found" clearable return-object>
+            <v-autocomplete v-model="filter.accountSource" label="Source Account" item-text="name" item-value="identity" :items="accountListBalanceCombo" no-data-text="No data found" clearable return-object>
                <template v-slot:selection="{ item }">{{ item | traceAccount }}</template>
                <template v-slot:item="{ item }">{{ item | traceAccount }}</template>
             </v-autocomplete>
@@ -98,7 +98,7 @@ export default {
       },
 
       clearFilters() {
-         this.filter.sourceAccount = {};
+         this.filter.accountSource = {};
          this.accessModule();
       }
    },
