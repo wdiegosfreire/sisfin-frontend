@@ -13,7 +13,10 @@ export default {
       return {
          showSearchField: false,
          filter: {
-            accountSource: {}
+            location: {},
+            accountSource: {},
+            valueEnd: null,
+            valueStart: null,
          },
          monthList: [
             {monthName: "January", monthNumber: "01"},
@@ -29,7 +32,8 @@ export default {
             {monthName: "November", monthNumber: "11"},
             {monthName: "December", monthNumber: "12"}
          ],
-         accountListBalanceCombo: []
+         accountListBalanceCombo: [],
+         locationListCombo: []
       };
    },
 
@@ -44,13 +48,17 @@ export default {
             userIdentity: this.$store.state.userIdentity,
             filterMap: {
                periodDate: new Date(this.$store.state.globalYear + "-" + this.$store.state.globalMonth + "-01 12:00:00"),
-               accountSourceIdentity: this.filter.accountSource.identity
+               locationIdentity: this.filter.location.identity,
+               accountSourceIdentity: this.filter.accountSource.identity,
+               valueEnd: this.filter.valueEnd ? this.filter.valueEnd : null,
+               valueStart: this.filter.valueStart ? this.filter.valueStart : null
             }
          };
 
          this.$_transaction_post("/objective/accessModule", objective).then(response => {
             this.$store.commit(Constants.store.SET_GLOBAL_RESULT, response.data.map.objectiveList);
             this.accountListBalanceCombo = response.data.map.accountListBalanceCombo;
+            this.locationListCombo = response.data.map.locationListCombo;
          }).catch(error => {
             this.$_message_handleError(error);
          });
