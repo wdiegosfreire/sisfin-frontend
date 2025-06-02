@@ -19,18 +19,23 @@
             <v-switch v-model="ignoreYear" inset></v-switch>
          </df-grid>
       </df-grid>
-      <df-grid v-if="showSearchField">
+      <span v-if="showSearchField">
          <df-grid>
             <v-autocomplete v-model="filter.accountSource" label="Source Account" item-text="name" item-value="identity" :items="accountListBalanceCombo" no-data-text="No data found" clearable return-object>
                <template v-slot:selection="{ item }">{{ item | traceAccount }}</template>
                <template v-slot:item="{ item }">{{ item | traceAccount }}</template>
             </v-autocomplete>
+            <v-autocomplete v-model="filter.location" label="Location" item-text="name" item-value="identity" :items="locationListCombo" no-data-text="No data found" clearable return-object></v-autocomplete>
          </df-grid>
-      </df-grid>
-      <df-grid v-if="showSearchField" class="mb-5">
-         <v-btn width="150" @click="accessModule">Filter</v-btn>
-         <v-btn width="150" @click="clearFilters">Clear</v-btn>
-      </df-grid>
+         <df-grid column="fixed-2">
+            <v-text-field label="Value Start" v-model.number="filter.valueStart" prefix="R$"></v-text-field>
+            <v-text-field label="Value End" v-model.number="filter.valueEnd" prefix="R$"></v-text-field>
+         </df-grid>
+         <div class="mb-5 text-left">
+            <v-btn width="150" @click="accessModule" class="mr-2">Filter</v-btn>
+            <v-btn width="150" @click="clearFilters">Clear</v-btn>
+         </div>
+      </span>
 
       <objective-result
          :collection="$store.state.globalResult"
@@ -99,6 +104,10 @@ export default {
 
       clearFilters() {
          this.filter.accountSource = {};
+         this.filter.location = {};
+         this.filter.valueStart = null;
+         this.filter.valueEnd = null;
+
          this.accessModule();
       }
    },
