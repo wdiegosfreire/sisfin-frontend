@@ -10,14 +10,18 @@
       </v-app-bar>
 
       <df-grid>
-         <df-grid column="frac-45">
-            <v-select label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();" :disabled="ignoreMonth" autofocus></v-select>
-            <v-switch v-model="ignoreMonth" inset></v-switch>
-         </df-grid>
-         <df-grid column="frac-45">
-            <v-text-field label="Year" v-model="year" @input="periodChange();" :disabled="ignoreYear" />
-            <v-switch v-model="ignoreYear" inset></v-switch>
-         </df-grid>
+         <v-autocomplete label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();" :disabled="ignoreMonth" autofocus>
+            <template v-slot:append-outer>
+               <df-icon v-if="ignoreMonth" icon="fa-toggle-off" @click="ignoreMonth = !ignoreMonth" />
+               <df-icon v-else icon="fa-toggle-on" @click="ignoreMonth = !ignoreMonth" />
+            </template>
+         </v-autocomplete>
+         <v-text-field label="Year" v-model="year" @input="periodChange();" :disabled="ignoreYear">
+            <template v-slot:append-outer>
+               <df-icon v-if="ignoreYear" icon="fa-toggle-off" @click="ignoreYear = !ignoreYear" />
+               <df-icon v-else icon="fa-toggle-on" @click="ignoreYear = !ignoreYear" />
+            </template>
+         </v-text-field>
       </df-grid>
       <span v-if="showSearchField">
          <df-grid>
@@ -28,8 +32,8 @@
             <v-autocomplete v-model="filter.location" label="Location" item-text="name" item-value="identity" :items="locationListCombo" no-data-text="No data found" clearable return-object></v-autocomplete>
          </df-grid>
          <df-grid column="fixed-2">
-            <v-text-field label="Value Start" v-model.number="filter.valueStart" prefix="R$"></v-text-field>
-            <v-text-field label="Value End" v-model.number="filter.valueEnd" prefix="R$"></v-text-field>
+            <v-text-field label="Value Start" v-model.number="filter.valueStart"></v-text-field>
+            <v-text-field label="Value End" v-model.number="filter.valueEnd"></v-text-field>
          </df-grid>
          <div class="mb-5 text-left">
             <v-btn width="150" @click="accessModule" class="mr-2">Filter</v-btn>
@@ -121,9 +125,14 @@ export default {
          objectiveItemList: []
       });
 
+      this.month = this.$store.state.globalMonth;
+      this.year = this.$store.state.globalYear;
+
       let newDate = new Date();
-      this.month = newDate.getMonth();
-      this.year = newDate.getFullYear();
+      if (!this.month)
+         this.month = newDate.getMonth();
+      if (!this.year)
+         this.year = newDate.getFullYear();
 
       if (this.month == 0) {
          this.month = 12;

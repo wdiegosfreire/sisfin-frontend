@@ -10,17 +10,19 @@
       <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
 
       <df-grid>
-         <df-grid column="frac-45">
-            <v-select label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();" :disabled="ignoreMonth" autofocus></v-select>
-            <v-switch v-model="ignoreMonth" inset></v-switch>
-         </df-grid>
-         <df-grid column="frac-45">
-            <v-text-field label="Year" v-model="year" @input="periodChange();" :disabled="ignoreYear" />
-            <v-switch v-model="ignoreYear" inset></v-switch>
-         </df-grid>
-         <df-grid>
-            <v-select @change="accessModule" v-model="periodRange" label="Period Range" :items="periodRangeList" />
-         </df-grid>
+         <v-autocomplete label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();" :disabled="ignoreMonth" autofocus>
+            <template v-slot:append-outer>
+               <df-icon v-if="ignoreMonth" icon="fa-toggle-off" @click="ignoreMonth = !ignoreMonth" />
+               <df-icon v-else icon="fa-toggle-on" @click="ignoreMonth = !ignoreMonth" />
+            </template>
+         </v-autocomplete>
+         <v-text-field label="Year" v-model="year" @input="periodChange();" :disabled="ignoreYear">
+            <template v-slot:append-outer>
+               <df-icon v-if="ignoreYear" icon="fa-toggle-off" @click="ignoreYear = !ignoreYear" />
+               <df-icon v-else icon="fa-toggle-on" @click="ignoreYear = !ignoreYear" />
+            </template>
+         </v-text-field>
+         <v-select @change="accessModule" v-model="periodRange" label="Period Range" :items="periodRangeList" />
       </df-grid>
 
       <v-card class="mb-3">
@@ -126,9 +128,14 @@ export default {
          objectiveItemList: []
       });
 
+      this.month = this.$store.state.globalMonth;
+      this.year = this.$store.state.globalYear;
+
       let newDate = new Date();
-      this.month = newDate.getMonth();
-      this.year = newDate.getFullYear();
+      if (!this.month)
+         this.month = newDate.getMonth();
+      if (!this.year)
+         this.year = newDate.getFullYear();
 
       if (this.month == 0) {
          this.month = 12;
