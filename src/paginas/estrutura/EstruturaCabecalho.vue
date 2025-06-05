@@ -1,6 +1,6 @@
 <template><span>
 
-  <v-app-bar app color="primary">
+  <v-app-bar app color="primary" dark>
 		<v-app-bar-nav-icon v-if="$store.state.sessionToken" @click.stop="showNavigationDrawer = !showNavigationDrawer"></v-app-bar-nav-icon>
 		<v-toolbar-title :title="computedEnviroment">
 			Financial Control System - FCS <span class="text-caption">2025-05-27</span>
@@ -24,6 +24,11 @@
 		<v-divider></v-divider>
 
 	<v-list dense>
+		<v-list-item>
+			<v-autocomplete v-model="themeSelected" label="Theme" :items="themeList" item-text="name" item-value="value" @change="themeChange();" return-object></v-autocomplete>
+			<v-autocomplete v-model="themeDark" label="Dark Theme" :items="decisionList" item-text="label" item-value="value" @change="themeChange();"></v-autocomplete>
+		</v-list-item>
+
 		<v-list-group :value="true">
 			<template v-slot:activator>
 				<v-list-item-title class="text-h6">FINANCES</v-list-item-title>
@@ -143,8 +148,67 @@ export default {
 	data() {
 		return {
 			user: {},
-			showNavigationDrawer: false
+			showNavigationDrawer: false,
+
+			themeDark: false,
+			themeSelected: {},
+
+			decisionList: [
+				{ label: 'No', value: false },
+				{ label: 'Yes', value: true }
+			],
+
+         themeList: [
+            {
+					name: "Blue",
+					value: "blue",
+					light: { primary: '#2196F3', secondary: '#BBDEFB', accent: '#E91E63', success: '#4CAF50', info: '#2196F3', warning: '#FB8C00', error: '#FF5252' },
+					dark: { primary: '#2196F3', secondary: '#BBDEFB', accent: '#E91E63', success: '#4CAF50', info: '#2196F3', warning: '#FB8C00', error: '#FF5252' }
+				},
+            {
+					name: "Cyan",
+					value: "cyan",
+					light: { primary: '#00BCD4', secondary: '#80DEEA', accent: '#E0F7FA', success: '#4CAF50', info: '#2196F3', warning: '#FFC107', error: '#D32F2F' },
+					dark: { primary: '#00BCD4', secondary: '#80DEEA', accent: '#E0F7FA', success: '#4CAF50', info: '#2196F3', warning: '#FFC107', error: '#D32F2F' }
+				},
+            {
+					name: "Blue Gray",
+					value: "blueGray",
+					light: { primary: '#607D8B', secondary: '#FFC107', accent: '#FF5722', success: '#4CAF50', info: '#03A9F4', warning: '#FF9800', error: '#F44336' },
+					dark: { primary: '#607D8B', secondary: '#FFC107', accent: '#FF5722', success: '#4CAF50', info: '#03A9F4', warning: '#FF9800', error: '#F44336' }
+				},
+            {
+					name: "Deep Purple",
+					value: "deepPurple",
+					light: { primary: '#673AB7', secondary: '#9575CD', accent: '#D1C4E9', success: '#4CAF50', info: '#29B6F6', warning: '#FFC107', error: '#D32F2F' },
+					dark: { primary: '#673AB7', secondary: '#9575CD', accent: '#D1C4E9', success: '#4CAF50', info: '#29B6F6', warning: '#FFC107', error: '#D32F2F' }
+				},
+            {
+					name: "Deep Orange",
+					value: "deepOrange",
+					light: { primary: '#FF5722', secondary: '#FFC107', accent: '#4CAF50', success: '#8BC34A', info: '#2196F3', warning: '#FF9800', error: '#D32F2F' },
+					dark: { primary: '#FF5722', secondary: '#795548', accent: '#FF9800', error: '#D32F2F', warning: '#FF9800', info: '#2196F3', success: '#8BC34A' }
+				},
+            {
+					name: "Pink",
+					value: "pink",
+					light: { primary: '#E91E63', secondary: '#9C27B0', accent: '#FF9800', error: '#F44336', warning: '#FFC107', info: '#2196F3', success: '#4CAF50' },
+					dark: { primary: '#E91E63', secondary: '#673AB7', accent: '#FF5722', error: '#D32F2F', warning: '#FF9800', info: '#03A9F4', success: '#8BC34A' }
+				},
+            {
+					name: "Gray",
+					value: "gray",
+					light: { primary: '#9E9E9E', secondary: '#607D8B', accent: '#FF9800', error: '#F44336', warning: '#FFC107', info: '#2196F3', success: '#4CAF50' },
+					dark: { primary: '#9E9E9E', secondary: '#455A64', accent: '#FF5722', error: '#D32F2F', warning: '#FF9800', info: '#03A9F4', success: '#8BC34A' }
+				},
+         ],
 		}
+	},
+
+	created() {
+		this.themeSelected = this.themeList[0];
+		this.$vuetify.theme.themes.light = this.themeSelected.light;
+		this.$_message_console("Bolinha");
 	},
 
 	watch: {
@@ -245,7 +309,17 @@ export default {
 			.catch(error => {
 				this.$_message_showError(error.response);
 			});
-		}
-  }
+		},
+
+		themeChange() {
+			this.$vuetify.theme.dark = false;
+			this.$vuetify.theme.themes.light = this.themeSelected.light;
+
+			if (this.themeDark) {
+				this.$vuetify.theme.dark = true;
+				this.$vuetify.theme.themes.dark = this.themeSelected.dark;
+			}
+		},
+	}
 };
 </script>

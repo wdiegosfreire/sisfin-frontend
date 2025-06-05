@@ -42,7 +42,7 @@
                   <df-grid column="auto-sm">
                      <v-text-field label="Due Date" v-model="objectiveMovementForm.dueDate" v-mask="['##/##/####']"></v-text-field>
                      <v-text-field label="Payment date" v-model="objectiveMovementForm.paymentDate" v-mask="['##/##/####']"></v-text-field>
-                     <v-text-field label="Value" v-model.number="objectiveMovementForm.value" prefix="R$"></v-text-field>
+                     <v-text-field label="Value" v-model.number="objectiveMovementForm.value"></v-text-field>
                      <v-btn @click="addNewMovement()">Add</v-btn>
                   </df-grid>
 
@@ -67,9 +67,9 @@
                      </v-autocomplete>
                   </df-grid>
                   <df-grid column="auto-sm">
-                     <v-text-field label="Amount" v-model.number="objectiveItemForm.amount" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
-                     <v-text-field label="Unitary Value" v-model.number="objectiveItemForm.unitaryValue" prefix="R$" @blur="calculateItemTotalValue()"></v-text-field>
-                     <v-text-field label="Total" v-model.number="objectiveItemForm.totalValue" prefix="R$" readonly tabindex="-1" />
+                     <v-text-field label="Amount" v-model.number="objectiveItemForm.amount" @blur="calculateItemTotalValue()"></v-text-field>
+                     <v-text-field label="Unitary Value" v-model.number="objectiveItemForm.unitaryValue" @blur="calculateItemTotalValue()"></v-text-field>
+                     <v-text-field label="Total" v-model.number="objectiveItemForm.totalValue" readonly tabindex="-1" />
                      <v-btn @click="addNewItem()">Add</v-btn>
                   </df-grid>
 

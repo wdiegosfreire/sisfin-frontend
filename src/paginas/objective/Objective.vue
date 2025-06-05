@@ -9,24 +9,37 @@
          <v-btn icon @click.stop="accessRegistration()" title="Click to register a new objective"><df-icon icon="fa-plus" /></v-btn>
       </v-app-bar>
 
-      <df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
-
       <df-grid>
-         <df-grid column="frac-45">
-            <v-select label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();" :disabled="ignoreMonth" autofocus></v-select>
-            <v-switch v-model="ignoreMonth" inset></v-switch>
-         </df-grid>
-         <df-grid column="frac-45">
-            <v-text-field label="Year" v-model="year" @input="periodChange();" :disabled="ignoreYear" />
-            <v-switch v-model="ignoreYear" inset></v-switch>
-         </df-grid>
-      </df-grid>
-      <df-grid>
-         <v-autocomplete @change="accessModule" v-model="balanceAccountSelected" label="Balance Account" item-text="name" item-value="identity" :items="accountListBalanceCombo" no-data-text="No data found" clearable return-object>
-            <template v-slot:selection="{ item }">{{ item | traceAccount }}</template>
-            <template v-slot:item="{ item }">{{ item | traceAccount }}</template>
+         <v-autocomplete label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();" :disabled="ignoreMonth" autofocus>
+            <template v-slot:append-outer>
+               <df-icon v-if="ignoreMonth" icon="fa-toggle-off" @click="ignoreMonth = !ignoreMonth" />
+               <df-icon v-else icon="fa-toggle-on" @click="ignoreMonth = !ignoreMonth" />
+            </template>
          </v-autocomplete>
+         <v-text-field label="Year" v-model="year" @input="periodChange();" :disabled="ignoreYear">
+            <template v-slot:append-outer>
+               <df-icon v-if="ignoreYear" icon="fa-toggle-off" @click="ignoreYear = !ignoreYear" />
+               <df-icon v-else icon="fa-toggle-on" @click="ignoreYear = !ignoreYear" />
+            </template>
+         </v-text-field>
       </df-grid>
+      <span v-if="showSearchField">
+         <df-grid>
+            <v-autocomplete v-model="filter.accountSource" label="Source Account" item-text="name" item-value="identity" :items="accountListBalanceCombo" no-data-text="No data found" clearable return-object>
+               <template v-slot:selection="{ item }">{{ item | traceAccount }}</template>
+               <template v-slot:item="{ item }">{{ item | traceAccount }}</template>
+            </v-autocomplete>
+            <v-autocomplete v-model="filter.location" label="Location" item-text="name" item-value="identity" :items="locationListCombo" no-data-text="No data found" clearable return-object></v-autocomplete>
+         </df-grid>
+         <df-grid column="fixed-2">
+            <v-text-field label="Value Start" v-model.number="filter.valueStart"></v-text-field>
+            <v-text-field label="Value End" v-model.number="filter.valueEnd"></v-text-field>
+         </df-grid>
+         <div class="mb-5 text-left">
+            <v-btn width="150" @click="accessModule" class="mr-2">Filter</v-btn>
+            <v-btn width="150" @click="clearFilters">Clear</v-btn>
+         </div>
+      </span>
 
       <objective-result
          :collection="$store.state.globalResult"
@@ -57,14 +70,13 @@ import ObjectiveForm from "./ObjectiveForm";
 
 import DfGrid from "../../components/grid/Grid.vue";
 import DfIcon from "../../components/df-icon/Icon.vue";
-import DfInputFilter from "../../components/input/InputFilter.vue";
 
 import message from "../../components/mixins/message.js";
 
 export default {
    name: "Objective",
 
-   components: { ObjectiveResult, ObjectiveForm, DfInputFilter, DfGrid, DfIcon },
+   components: { ObjectiveResult, ObjectiveForm, DfGrid, DfIcon },
 
    mixins: [ objectiveService, message ],
 
@@ -80,7 +92,7 @@ export default {
    methods: {
       toggleFilterField() {
          if (this.showSearchField)
-            this.executeSearch();
+            this.clearFilters();
 
          this.showSearchField = !this.showSearchField;
       },
@@ -92,6 +104,15 @@ export default {
 
             this.accessModule();
          }
+      },
+
+      clearFilters() {
+         this.filter.accountSource = {};
+         this.filter.location = {};
+         this.filter.valueStart = null;
+         this.filter.valueEnd = null;
+
+         this.accessModule();
       }
    },
 
@@ -104,9 +125,14 @@ export default {
          objectiveItemList: []
       });
 
+      this.month = this.$store.state.globalMonth;
+      this.year = this.$store.state.globalYear;
+
       let newDate = new Date();
-      this.month = newDate.getMonth();
-      this.year = newDate.getFullYear();
+      if (!this.month)
+         this.month = newDate.getMonth();
+      if (!this.year)
+         this.year = newDate.getFullYear();
 
       if (this.month == 0) {
          this.month = 12;
