@@ -208,7 +208,6 @@ export default {
 	created() {
 		this.themeSelected = this.themeList[0];
 		this.$vuetify.theme.themes.light = this.themeSelected.light;
-		this.$_message_console("Bolinha");
 	},
 
 	watch: {
