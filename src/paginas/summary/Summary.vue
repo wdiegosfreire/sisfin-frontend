@@ -44,7 +44,7 @@
 									<td class="pr-0" style="width: 1px;">{{ data.identifier }}.</td>
 									<td>{{ data.label }}</td>
 									<td class="text-right">{{ data.data[index] | currency }}</td>
-									<td class="pl-0" style="width: 1px;"><df-icon :icon="data.icon" size="md" /></td>
+									<td class="pl-0" style="width: 1px;"><df-icon :icon="data.icon" size="1x" /></td>
 								</tr>
 							</tbody>
 						</v-simple-table>
