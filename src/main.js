@@ -24,41 +24,41 @@ library.add(fas);
 Vue.component('fa-icon', FontAwesomeIcon);
 
 Vue.filter('currency', function (value, precision) {
-   if (!precision || (precision != 2 && precision != 3))
-      precision = 2;
+	if (!precision || (precision != 2 && precision != 3))
+		precision = 2;
 
-   const formatter = new Intl.NumberFormat("pt-BR", {
-      style: 'decimal',
-      minimumFractionDigits: precision,
-      maximumFractionDigits: precision
-   });
+	const formatter = new Intl.NumberFormat("pt-BR", {
+		style: 'decimal',
+		minimumFractionDigits: precision,
+		maximumFractionDigits: precision
+	});
 
-   return formatter.format(value);
+	return formatter.format(value);
 });
 
 Vue.filter('traceAccount', function (account) {
-   let result = "";
+	let result = "";
 
-   if (!account) {
-      return result;
-   }
+	if (!account) {
+		return result;
+	}
 
-   result += account.name;
+	result += account.name;
 
-   if (account.accountParent) {
-      result = `${account.accountParent.name} :: ${result}`;
+	if (account.accountParent) {
+		result = `${account.accountParent.name} :: ${result}`;
 
-      if (account.accountParent.accountParent) {
-         result = `${account.accountParent.accountParent.name} :: ${result}`;
-      }
-   }
-   
-   return result;
+		if (account.accountParent.accountParent) {
+			result = `${account.accountParent.accountParent.name} :: ${result}`;
+		}
+	}
+	
+	return result;
 });
 
 new Vue({
-   vuetify,
-   store,
-   router,
-   render: h => h(App)
+	vuetify,
+	store,
+	router,
+	render: h => h(App)
 }).$mount('#app')

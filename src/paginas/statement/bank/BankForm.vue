@@ -17,15 +17,15 @@
 				</df-grid>
 			</v-card-text>
 
-         <v-card-actions>
-            <v-btn v-if="this.bank.identity" color="button" width="150" @click="$emit('executeEdition', bank)">Confirm</v-btn>
-            <v-btn v-else width="150" @click="$emit('executeRegistration', bank)">Confirm</v-btn>
+			<v-card-actions>
+				<v-btn v-if="this.bank.identity" color="button" width="150" @click="$emit('executeEdition', bank)">Confirm</v-btn>
+				<v-btn v-else width="150" @click="$emit('executeRegistration', bank)">Confirm</v-btn>
 
-            <v-btn width="150" @click="$emit('cleanForm', bank)">Clear</v-btn>
-            <v-btn width="150" @click="$emit('closeForm', bank)">Close</v-btn>
-         </v-card-actions>
-      </v-card>
-   </v-dialog>
+				<v-btn width="150" @click="$emit('cleanForm', bank)">Clear</v-btn>
+				<v-btn width="150" @click="$emit('closeForm', bank)">Close</v-btn>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
 </template>
 
 <script>
@@ -38,13 +38,13 @@ export default {
 
 	components: { DfGrid },
 
-   directives: { mask },
+	directives: { mask },
 
-   props: {
-      bank: {
-         type: Object,
-         required: true
-      }
-   }
+	props: {
+		bank: {
+			type: Object,
+			required: true
+		}
+	}
 };
 </script>
