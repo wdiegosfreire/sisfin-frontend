@@ -22,16 +22,10 @@
 					<v-autocomplete label="Location" v-model="statementPattern.location" item-text="name" item-value="identity" :items="locationListCombo" return-object></v-autocomplete>
 				</df-grid>
 				<df-grid>
-					<v-autocomplete label="Source Account" v-model="statementPattern.accountSource" item-text="name" item-value="identity" :items="accountListComboTarget" return-object @change="validateSelectedSource()">
-						<template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
-						<template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
-					</v-autocomplete>
+					<df-autocomplete-account label="Source Account" v-model="statementPattern.accountSource" :items="accountListComboTarget" validate-as="source"></df-autocomplete-account>
 				</df-grid>
 				<df-grid>
-					<v-autocomplete label="Target Account" v-model="statementPattern.accountTarget" item-text="name" item-value="identity" :items="accountListComboTarget" return-object @change="validateSelectedTarget()">
-						<template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
-						<template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
-					</v-autocomplete>
+					<df-autocomplete-account label="Target Account" v-model="statementPattern.accountTarget" :items="accountListComboTarget" validate-as="target"></df-autocomplete-account>
 				</df-grid>
 				<df-grid>
 					<v-autocomplete label="Payment Method" v-model="statementPattern.paymentMethod" item-text="name" item-value="identity" :items="paymentMethodListCombo" return-object></v-autocomplete>
@@ -59,12 +53,14 @@
 import { mask } from 'vue-the-mask';
 
 import DfGrid from "../../../components/grid/Grid.vue";
+import DfAutocompleteAccount from "../../../components/df-autocomplete/AutocompleteAccount.vue";
+
 import message from "../../../components/mixins/message.js";
 
 export default {
 	name: "StatementPatternForm",
 
-	components: { DfGrid },
+	components: { DfGrid, DfAutocompleteAccount },
 
 	directives: { mask },
 
@@ -150,38 +146,6 @@ export default {
 			}
 
 			return false;
-		},
-
-		validateSelectedSource() {
-			let errorMessage = "";
-
-			if (!this.statementPattern || !this.statementPattern.accountSource || this.statementPattern.accountSource.level.length != 9)
-				errorMessage = "Please, select a final target account.";
-			else if (this.statementPattern.accountSource.level.startsWith("03."))
-				errorMessage = `Accounts with level "03." can't be used as source account.`;
-
-			if (errorMessage) {
-				this.$_message_showRequired(errorMessage);
-				this.statementPattern.accountSource = {};
-
-				return;
-			}
-		},
-
-		validateSelectedTarget() {
-			let errorMessage = "";
-
-			if (!this.statementPattern || !this.statementPattern.accountTarget || this.statementPattern.accountTarget.level.length != 9)
-				errorMessage = "Please, select a final target account.";
-			else if (this.statementPattern.accountTarget.level.startsWith("02."))
-				errorMessage = `Accounts with level "02." can't be used as target account.`;
-
-			if (errorMessage) {
-				this.$_message_showRequired(errorMessage);
-				this.statementPattern.accountTarget = {};
-
-				return;
-			}
 		},
 
 		cleanForm() {
