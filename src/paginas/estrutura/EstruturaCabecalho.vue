@@ -250,51 +250,59 @@ export default {
 
 	methods: {
 		accessModuleSummary() {
-			this.$router.push("/summary");
+			this.navigateTo("/summary");
 		},
 
 		accessModuleObjective() {
-			this.$router.push("/objective");
+			this.navigateTo("/objective");
 		},
 
 		accessModuleStatement() {
-			this.$router.push("/statement");
+			this.navigateTo("/statement");
 		},
 
 		accessModuleAccount() {
-			this.$router.push("/account");
+			this.navigateTo("/account");
 		},
 
 		accessModuleLocation() {
-			this.$router.push("/location");
+			this.navigateTo("/location");
 		},
 
 		accessModulePaymentMethod() {
-			this.$router.push("/paymentMethod");
+			this.navigateTo("/paymentMethod");
 		},
 
 		accessModuleBank() {
-			this.$router.push("/bank");
+			this.navigateTo("/bank");
 		},
 
 		accessModuleStatementType() {
-			this.$router.push("/statementType");
+			this.navigateTo("/statementType");
 		},
 
 		accessModuleStatementPattern() {
-			this.$router.push("/statementPattern");
+			this.navigateTo("/statementPattern");
 		},
 
 		accessModuleDesejo() {
-			this.$router.push("/desejo");
+			this.navigateTo("/desejo");
 		},
 
 		accessModuleAutomovel() {
-			this.$router.push("/automovel");
+			this.navigateTo("/automovel");
 		},
 
 		accessModuleSupermarket() {
-			this.$router.push("/supermercado");
+			this.navigateTo("/supermercado");
+		},
+
+		navigateTo(path) {
+			this.$router.push(path).catch(error => {
+				if (error.name !== 'NavigationDuplicated' && !error.message.includes('Avoided redundant navigation to current location')) {
+					this.$_message_console(error);
+				}
+			});
 		},
 
 		executeLogout() {
