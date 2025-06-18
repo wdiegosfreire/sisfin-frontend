@@ -5,7 +5,7 @@
 		<v-main>
 			<v-container fluid>
 				<v-row>
-					<v-col align="center">
+					<v-col>
 						<router-view />
 					</v-col>
 				</v-row>

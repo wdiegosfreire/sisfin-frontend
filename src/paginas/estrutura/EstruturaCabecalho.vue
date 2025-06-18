@@ -206,7 +206,7 @@ export default {
 	},
 
 	created() {
-		this.themeSelected = this.themeList[0];
+		this.themeSelected = this.themeList[3];
 		this.$vuetify.theme.themes.light = this.themeSelected.light;
 	},
 

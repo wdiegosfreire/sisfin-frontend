@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="d-flex justify-center">
 		<v-card max-width="500">
 			<v-img src="../../assets/imagens/financas-pessoais.jpg">
 				<v-card-title class="headline">Authentication</v-card-title>
@@ -16,22 +16,22 @@
 			</v-card-actions>
 	
 			<v-card-actions v-if="maintenance">
-				<v-alert outlined prominent type="error" border="left" class="text-left">
+				<v-alert outlined prominent type="error" class="text-left">
 					The service "MAINTENANCE" is not responding. We'll try again after each 30 seconds until the service is back again.
 				</v-alert>
 			</v-card-actions>
 			<v-card-actions v-if="transaction">
-				<v-alert outlined prominent type="error" border="left" class="text-left">
+				<v-alert outlined prominent type="error" class="text-left">
 					The service "TRANSACTION" is not responding. We'll try again after each 30 seconds until the service is back again.
 				</v-alert>
 			</v-card-actions>
 
 			<v-card-text class="text-right">
-				<v-btn @click="accessResetPassword" color="primary" plain>Forgot your password?</v-btn>
+				<v-btn @click="accessResetPassword" color="primary" class="mt-1" plain>Forgot your password?</v-btn>
+				<v-btn @click="accessRegistration" color="primary" class="mt-2" plain>Don't have an account? Sign up and get started!</v-btn>
 			</v-card-text>
 		</v-card>
 
-		<v-btn @click="accessRegistration" class="mt-5" color="primary" plain>Don't have an account? Sign up and get started!</v-btn>
 	</div>
 </template>
 
