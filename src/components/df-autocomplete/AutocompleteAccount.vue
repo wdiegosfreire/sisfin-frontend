@@ -4,10 +4,11 @@
 		itemValue="identity"
 		:items="items"
 		:label="label"
+		:dense="dense"
+		:clearable="clearable"
 		:filter="filterAccount"
 		@change="validateSelected"
-		return-object
-		>
+		return-object>
 
 		<template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
 		<template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
@@ -33,6 +34,14 @@ export default {
 		value: {
 			type: Object,
 			default: () => ({})
+		},
+		dense: {
+			type: Boolean,
+			default: false
+		},
+		clearable: {
+			type: Boolean,
+			default: false
 		},
 		validateAs: {
 			type: String,
