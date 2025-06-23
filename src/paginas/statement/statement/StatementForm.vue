@@ -72,11 +72,20 @@
 												<v-text-field label="New Description" v-model="statementItem.descriptionNew" dense />
 												<df-autocomplete-account v-if="statementItem.operationType == 'C'" label="Source Account" v-model="statementItem.accountSource" :items="accountListComboSource" validate-as="source" clearable dense></df-autocomplete-account>
 												<df-autocomplete-account v-if="statementItem.operationType == 'D'" label="Target Account" v-model="statementItem.accountTarget" :items="accountListComboTarget" validate-as="target" clearable dense></df-autocomplete-account>
-												<v-autocomplete label="Location" item-text="name" item-value="identity" v-model="statementItem.location" :items="locationListCombo" clearable return-object dense></v-autocomplete>
-												<v-autocomplete label="Payment Method" item-text="name" item-value="identity" v-model="statementItem.paymentMethod" :items="paymentMethodListCombo" clearable return-object dense></v-autocomplete>
-												<v-btn small @click="executeEdition(statementItem, true)" class="mr-3">Export and Create Movement</v-btn>
-												<v-btn small @click="executeEdition(statementItem, false)">Export without Create Movement</v-btn>
 											</df-grid>
+											<df-grid column="auto-lg" fluid>
+												<df-grid column="fixed-2">
+													<v-autocomplete label="Location" item-text="name" item-value="identity" v-model="statementItem.location" :items="locationListCombo" clearable return-object dense></v-autocomplete>
+													<v-autocomplete label="Payment Method" item-text="name" item-value="identity" v-model="statementItem.paymentMethod" :items="paymentMethodListCombo" clearable return-object dense></v-autocomplete>
+												</df-grid>
+												<df-grid column="fixed-2">
+													<v-btn small @click="executeEdition(statementItem, true)" class="mr-3">Export and Create Movement</v-btn>
+													<v-btn small @click="executeEdition(statementItem, false)">Export without Create Movement</v-btn>
+
+												</df-grid>
+											</df-grid>
+
+
 										</v-card-text>
 									</v-expand-transition>
 								</span>
