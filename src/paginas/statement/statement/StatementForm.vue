@@ -70,22 +70,10 @@
 										<v-card-text v-show="statementItem.isVisible">
 											<df-grid column="auto-lg" fluid>
 												<v-text-field label="New Description" v-model="statementItem.descriptionNew" dense />
-												<v-autocomplete v-if="statementItem.operationType == 'C'" label="Source Account" item-text="name" item-value="identity" v-model="statementItem.accountSource" :items="accountListComboSource" @change="validateSelectedSource(statementItem)" clearable return-object dense>
-													<template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
-													<template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
-												</v-autocomplete>
-												<v-autocomplete v-if="statementItem.operationType == 'D'" label="Target Account" item-text="name" item-value="identity" v-model="statementItem.accountTarget" :items="accountListComboTarget" @change="validateSelectedTarget(statementItem)" clearable return-object dense>
-													<template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
-													<template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
-												</v-autocomplete>
-												<v-autocomplete label="Location" item-text="name" item-value="identity" v-model="statementItem.location" :items="locationListCombo" clearable return-object dense>
-													<template v-slot:selection="{ item }">{{ item.name }}</template>
-													<template v-slot:item="{ item }">{{ item.name }}</template>
-												</v-autocomplete>
-												<v-autocomplete label="Payment Method" item-text="name" item-value="identity" v-model="statementItem.paymentMethod" :items="paymentMethodListCombo" clearable return-object dense>
-													<template v-slot:selection="{ item }">{{ item.name }}</template>
-													<template v-slot:item="{ item }">{{ item.name }}</template>
-												</v-autocomplete>
+												<df-autocomplete-account v-if="statementItem.operationType == 'C'" label="Source Account" v-model="statementItem.accountSource" :items="accountListComboSource" validate-as="source" clearable dense></df-autocomplete-account>
+												<df-autocomplete-account v-if="statementItem.operationType == 'D'" label="Target Account" v-model="statementItem.accountTarget" :items="accountListComboTarget" validate-as="target" clearable dense></df-autocomplete-account>
+												<v-autocomplete label="Location" item-text="name" item-value="identity" v-model="statementItem.location" :items="locationListCombo" clearable return-object dense></v-autocomplete>
+												<v-autocomplete label="Payment Method" item-text="name" item-value="identity" v-model="statementItem.paymentMethod" :items="paymentMethodListCombo" clearable return-object dense></v-autocomplete>
 												<v-btn small @click="executeEdition(statementItem, true)" class="mr-3">Export and Create Movement</v-btn>
 												<v-btn small @click="executeEdition(statementItem, false)">Export without Create Movement</v-btn>
 											</df-grid>
@@ -116,11 +104,12 @@ import message from "../../../components/mixins/message.js";
 
 import DfGrid from "../../../components/grid/Grid.vue";
 import DfOutputText from "../../../components/output/OutputText.vue";
+import DfAutocompleteAccount from "../../../components/df-autocomplete/AutocompleteAccount.vue";
 
 export default {
 	name: "StatementForm",
 
-	components: { DfGrid, DfOutputText },
+	components: { DfGrid, DfOutputText, DfAutocompleteAccount },
 
 	directives: { mask },
 
