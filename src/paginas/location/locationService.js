@@ -4,113 +4,113 @@ import message from "../../components/mixins/message.js";
 import Constants from "../../plugins/Constants";
 
 export default {
-   name: "locationService",
+	name: "locationService",
 
-   mixins: [ transactionApi, message ],
+	mixins: [ transactionApi, message ],
 
-   data() {
-      return {
-         locationForm: {},
-         locationListResult: [],
-         showSearchField: false
-      };
-   },
+	data() {
+		return {
+			locationForm: {},
+			locationListResult: [],
+			showSearchField: false
+		};
+	},
 
-   methods: {
-      async accessModule() {
-         try {
-            let location = {
-               userIdentity: this.$store.state.userIdentity
-            }
+	methods: {
+		async accessModule() {
+			try {
+				let location = {
+					userIdentity: this.$store.state.userIdentity
+				}
 
-            const response = await this.$_transaction_post("/location/accessModule", location);
-            this.locationListResult = response.data.map.locationList;
-         }
-         catch (error) {
-            this.$_message_handleError(error);
-         }
-      },
+				const response = await this.$_transaction_post("/location/accessModule", location);
+				this.locationListResult = response.data.map.locationList;
+			}
+			catch (error) {
+				this.$_message_handleError(error);
+			}
+		},
 
-      async accessRegistration() {
-         this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
-      },
+		async accessRegistration() {
+			this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
+		},
 
-      async accessEdition(location) {
-         try {
-            location.userIdentity = this.$store.state.userIdentity;
-            const response = await this.$_transaction_post("/location/accessEdition", location);
-            this.locationForm = response.data.map.location;
+		async accessEdition(location) {
+			try {
+				location.userIdentity = this.$store.state.userIdentity;
+				const response = await this.$_transaction_post("/location/accessEdition", location);
+				this.locationForm = response.data.map.location;
 
-            this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
-         }
-         catch (error) {
-            this.$_message_handleError(error);
-         }
-      },
+				this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, true);
+			}
+			catch (error) {
+				this.$_message_handleError(error);
+			}
+		},
   
-      async executeSearch(filterValue) {
-         try {
-            let location = {
-               filter: filterValue,
-               userIdentity: this.$store.state.userIdentity
-            }
+		async executeSearch(filterValue) {
+			try {
+				let location = {
+					filter: filterValue,
+					userIdentity: this.$store.state.userIdentity
+				}
 
-            const response = await this.$_transaction_post("/location/executeSearch", location);
-            this.locationListResult = response.data.map.locationList;
-         }
-         catch (error) {
-            this.$_message_handleError(error);
-         }
-      },
+				const response = await this.$_transaction_post("/location/executeSearch", location);
+				this.locationListResult = response.data.map.locationList;
+			}
+			catch (error) {
+				this.$_message_handleError(error);
+			}
+		},
 
-      async executeRegistration(location) {
-         try {
-            location.userIdentity = this.$store.state.userIdentity;
-            const response = await this.$_transaction_post("/location/executeRegistration", location);
-            this.locationListResult = response.data.map.locationList;
+		async executeRegistration(location) {
+			try {
+				location.userIdentity = this.$store.state.userIdentity;
+				const response = await this.$_transaction_post("/location/executeRegistration", location);
+				this.locationListResult = response.data.map.locationList;
 
-            this.closeForm(location);
-            this.$_message_showSuccess();
-         }
-         catch (error) {
-            this.$_message_handleError(error);
-         }
-      },
+				this.closeForm(location);
+				this.$_message_showSuccess();
+			}
+			catch (error) {
+				this.$_message_handleError(error);
+			}
+		},
 
-      async executeEdition(location) {
-         try {
-            location.userIdentity = this.$store.state.userIdentity;
-            const response = await this.$_transaction_post("/location/executeEdition", location);
-            this.locationListResult = response.data.map.locationList;
+		async executeEdition(location) {
+			try {
+				location.userIdentity = this.$store.state.userIdentity;
+				const response = await this.$_transaction_post("/location/executeEdition", location);
+				this.locationListResult = response.data.map.locationList;
 
-            this.closeForm(location);
-            this.$_message_showSuccess();
-         }
-         catch (error) {
-            this.$_message_handleError(error);
-         }
-      },
+				this.closeForm(location);
+				this.$_message_showSuccess();
+			}
+			catch (error) {
+				this.$_message_handleError(error);
+			}
+		},
 
-      async executeExclusion(location) {
-         try {
-            await this.$confirm(Constants.message.DELETE);
+		async executeExclusion(location) {
+			try {
+				await this.$confirm(Constants.message.DELETE);
 
-            location.userIdentity = this.$store.state.userIdentity;
-            const response = await this.$_transaction_post("/location/executeExclusion", location);
-            this.locationListResult = response.data.map.locationList;
-            this.$_message_showSuccess();
-         }
-         catch (error) {
-            this.$_message_handleError(error);
-         }
-      },
+				location.userIdentity = this.$store.state.userIdentity;
+				const response = await this.$_transaction_post("/location/executeExclusion", location);
+				this.locationListResult = response.data.map.locationList;
+				this.$_message_showSuccess();
+			}
+			catch (error) {
+				this.$_message_handleError(error);
+			}
+		},
 
-      closeForm(location) {
-         location.identity = "";
-         location.name = "";
-         location.note = "";
+		closeForm(location) {
+			location.identity = "";
+			location.name = "";
+			location.note = "";
 
-         this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, false);
-      }
-   }
+			this.$store.commit(Constants.store.SHOW_GLOBAL_DIALOG, false);
+		}
+	}
 }

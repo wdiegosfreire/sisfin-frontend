@@ -77,8 +77,8 @@ export default {
 				return true;
 			}
 
-         return false;
-      },
+			return false;
+		},
 
 		isMissingRequiredFields() {
 			if (!this.location.name || !this.location.name.trim()) {
@@ -89,13 +89,13 @@ export default {
 			return false;
 		},
 
-      cleanForm() {
-         if (!this.location.identity) {
-            this.location.name = "";
-         }
+		cleanForm() {
+			if (!this.location.identity) {
+				this.location.name = "";
+			}
 
-         this.location.note = "";
-      }
+			this.location.note = "";
+		}
 	}
 };
 </script>

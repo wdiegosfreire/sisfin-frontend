@@ -44,21 +44,21 @@ import DfIcon from "../../../components/df-icon/Icon.vue";
 import DfOutputText from "../../../components/output/OutputText.vue";
 
 export default {
-   name: "BankResult",
+	name: "BankResult",
 
-   components: { DfResultLayout, DfGrid, DfOutputText, DfIcon },
+	components: { DfResultLayout, DfGrid, DfOutputText, DfIcon },
 
-   props: {
-      collection: {
-         type: Array,
-         required: true
-      }
-   },
+	props: {
+		collection: {
+			type: Array,
+			required: true
+		}
+	},
 
-   data() {
-      return {
-         search: ""
-      };
-   }
+	data() {
+		return {
+			search: ""
+		};
+	}
 };
 </script>

@@ -1,20 +1,20 @@
 export default {
-   name: "validate",
-   methods: {
-      $_validate_currencyToNumber(value, precision) {
-         if (!precision) {
-            precision = 2
-         }
+	name: "validate",
 
-         if (value.indexOf("R$ ") != -1) {
-            value = value.split(" ")[1];
-         }
+	methods: {
+		$_validate_currencyToNumber(value, precision) {
+			if (!precision) {
+				precision = 2
+			}
 
-         value = value.replaceAll(".", "");
-         value = value.replace(",", ".");
+			if (value.indexOf("R$ ") != -1) {
+				value = value.split(" ")[1];
+			}
 
-         return parseFloat(value).toFixed(precision);
-      },
+			value = value.replaceAll(".", "");
+			value = value.replace(",", ".");
 
-   }
+			return parseFloat(value).toFixed(precision);
+		},
+	}
 }

@@ -16,10 +16,7 @@
 					<v-text-field label="Name" v-model="statementType.name" autofocus />
 				</df-grid>
 				<v-autocomplete label="Bank" v-model="statementType.bank" item-text="name" item-value="identity" :items="bankListCombo" return-object></v-autocomplete>
-				<v-autocomplete label="Source Account" v-model="statementType.accountSource" item-text="name" item-value="identity" :items="accountListComboSource" return-object @change="validateSelectedSource()">
-					<template v-slot:selection="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
-					<template v-slot:item="{ item }">{{ item.level }} {{ item | traceAccount }}</template>
-				</v-autocomplete>
+				<df-autocomplete-account label="Source Account" v-model="statementType.accountSource" :items="accountListComboSource" validate-as="source"></df-autocomplete-account>
 			</v-card-text>
 
 			<v-card-actions>
@@ -35,6 +32,7 @@
 
 <script>
 import DfGrid from "../../../components/grid/Grid.vue";
+import DfAutocompleteAccount from "../../../components/df-autocomplete/AutocompleteAccount.vue";
 
 // Mixins
 import message from "../../../components/mixins/message.js";
@@ -44,7 +42,7 @@ import { mask } from 'vue-the-mask';
 export default {
 	name: "StatementTypeForm",
 
-	components: { DfGrid },
+	components: { DfGrid, DfAutocompleteAccount },
 
 	directives: { mask },
 
@@ -64,25 +62,7 @@ export default {
 		accountListComboSource: {
 			type: Array,
 			required: true
-		},
-	},
-
-	methods: {
-		validateSelectedSource() {
-			let errorMessage = "";
-
-			if (!this.statementType || !this.statementType.accountSource || this.statementType.accountSource.level.length != 9)
-				errorMessage = "Please, select a final source account.";
-			else if (this.statementType.accountSource.level.startsWith("03."))
-				errorMessage = `Accounts with level "03." can't be used as source account.`;
-
-			if (errorMessage) {
-				this.$_message_showRequired(errorMessage);
-				this.statementType.accountSource = {};
-
-				return;
-			}
-		},
+		}
 	}
 };
 </script>

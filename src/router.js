@@ -23,21 +23,21 @@ import Supermercado from "./paginas/supermercado/Supermercado.vue";
 Vue.use(Router);
 
 const routes = [
-    { path: "/", name: "user", component: User },
-    { path: "/summary", name: "summary", component: Summary },
-    { path: "/objective", name: "objective", component: Objective },
-    { path: "/statement", name: "statement", component: Statement },
-    { path: "/account", name: "account", component: Account },
-    { path: "/location", name: "location", component: Location },
-    { path: "/paymentMethod", name: "paymentMethod", component: PaymentMethod },
-    { path: "/bank", name: "bank", component: Bank },
-    { path: "/statementType", name: "statementType", component: StatementType },
-    { path: "/statementPattern", name: "statementPattern", component: StatementPattern },
-    { path: "/desejo", name: "desejo", component: Desejo },
-    { path: "/automovel", name: "automovel", component: Automovel },
-    { path: "/supermercado", name: "supermercado", component: Supermercado }
+	{ path: "/", name: "user", component: User },
+	{ path: "/summary", name: "summary", component: Summary },
+	{ path: "/objective", name: "objective", component: Objective },
+	{ path: "/statement", name: "statement", component: Statement },
+	{ path: "/account", name: "account", component: Account },
+	{ path: "/location", name: "location", component: Location },
+	{ path: "/paymentMethod", name: "paymentMethod", component: PaymentMethod },
+	{ path: "/bank", name: "bank", component: Bank },
+	{ path: "/statementType", name: "statementType", component: StatementType },
+	{ path: "/statementPattern", name: "statementPattern", component: StatementPattern },
+	{ path: "/desejo", name: "desejo", component: Desejo },
+	{ path: "/automovel", name: "automovel", component: Automovel },
+	{ path: "/supermercado", name: "supermercado", component: Supermercado }
 ];
 
 export default new Router({
-    routes
+	routes
 });

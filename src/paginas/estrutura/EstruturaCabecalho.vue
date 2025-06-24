@@ -158,8 +158,8 @@ export default {
 				{ label: 'Yes', value: true }
 			],
 
-         themeList: [
-            {
+			themeList: [
+				{
 					name: "Blue",
 					value: "blue",
 					light: { primary: '#2196F3', secondary: '#BBDEFB', accent: '#E91E63', success: '#4CAF50', info: '#2196F3', warning: '#FB8C00', error: '#FF5252' },
@@ -171,44 +171,43 @@ export default {
 					light: { primary: '#00BCD4', secondary: '#80DEEA', accent: '#E0F7FA', success: '#4CAF50', info: '#2196F3', warning: '#FFC107', error: '#D32F2F' },
 					dark: { primary: '#00BCD4', secondary: '#80DEEA', accent: '#E0F7FA', success: '#4CAF50', info: '#2196F3', warning: '#FFC107', error: '#D32F2F' }
 				},
-            {
+				{
 					name: "Blue Gray",
 					value: "blueGray",
 					light: { primary: '#607D8B', secondary: '#FFC107', accent: '#FF5722', success: '#4CAF50', info: '#03A9F4', warning: '#FF9800', error: '#F44336' },
 					dark: { primary: '#607D8B', secondary: '#FFC107', accent: '#FF5722', success: '#4CAF50', info: '#03A9F4', warning: '#FF9800', error: '#F44336' }
 				},
-            {
+				{
 					name: "Deep Purple",
 					value: "deepPurple",
 					light: { primary: '#673AB7', secondary: '#9575CD', accent: '#D1C4E9', success: '#4CAF50', info: '#29B6F6', warning: '#FFC107', error: '#D32F2F' },
 					dark: { primary: '#673AB7', secondary: '#9575CD', accent: '#D1C4E9', success: '#4CAF50', info: '#29B6F6', warning: '#FFC107', error: '#D32F2F' }
 				},
-            {
+				{
 					name: "Deep Orange",
 					value: "deepOrange",
 					light: { primary: '#FF5722', secondary: '#FFC107', accent: '#4CAF50', success: '#8BC34A', info: '#2196F3', warning: '#FF9800', error: '#D32F2F' },
 					dark: { primary: '#FF5722', secondary: '#795548', accent: '#FF9800', error: '#D32F2F', warning: '#FF9800', info: '#2196F3', success: '#8BC34A' }
 				},
-            {
+				{
 					name: "Pink",
 					value: "pink",
 					light: { primary: '#E91E63', secondary: '#9C27B0', accent: '#FF9800', error: '#F44336', warning: '#FFC107', info: '#2196F3', success: '#4CAF50' },
 					dark: { primary: '#E91E63', secondary: '#673AB7', accent: '#FF5722', error: '#D32F2F', warning: '#FF9800', info: '#03A9F4', success: '#8BC34A' }
 				},
-            {
+				{
 					name: "Gray",
 					value: "gray",
 					light: { primary: '#9E9E9E', secondary: '#607D8B', accent: '#FF9800', error: '#F44336', warning: '#FFC107', info: '#2196F3', success: '#4CAF50' },
 					dark: { primary: '#9E9E9E', secondary: '#455A64', accent: '#FF5722', error: '#D32F2F', warning: '#FF9800', info: '#03A9F4', success: '#8BC34A' }
 				},
-         ],
+			],
 		}
 	},
 
 	created() {
-		this.themeSelected = this.themeList[0];
+		this.themeSelected = this.themeList[3];
 		this.$vuetify.theme.themes.light = this.themeSelected.light;
-		this.$_message_console("Bolinha");
 	},
 
 	watch: {
@@ -251,51 +250,59 @@ export default {
 
 	methods: {
 		accessModuleSummary() {
-			this.$router.push("/summary");
+			this.navigateTo("/summary");
 		},
 
 		accessModuleObjective() {
-			this.$router.push("/objective");
+			this.navigateTo("/objective");
 		},
 
 		accessModuleStatement() {
-			this.$router.push("/statement");
+			this.navigateTo("/statement");
 		},
 
 		accessModuleAccount() {
-			this.$router.push("/account");
+			this.navigateTo("/account");
 		},
 
 		accessModuleLocation() {
-			this.$router.push("/location");
+			this.navigateTo("/location");
 		},
 
 		accessModulePaymentMethod() {
-			this.$router.push("/paymentMethod");
+			this.navigateTo("/paymentMethod");
 		},
 
 		accessModuleBank() {
-			this.$router.push("/bank");
+			this.navigateTo("/bank");
 		},
 
 		accessModuleStatementType() {
-			this.$router.push("/statementType");
+			this.navigateTo("/statementType");
 		},
 
 		accessModuleStatementPattern() {
-			this.$router.push("/statementPattern");
+			this.navigateTo("/statementPattern");
 		},
 
 		accessModuleDesejo() {
-			this.$router.push("/desejo");
+			this.navigateTo("/desejo");
 		},
 
 		accessModuleAutomovel() {
-			this.$router.push("/automovel");
+			this.navigateTo("/automovel");
 		},
 
 		accessModuleSupermarket() {
-			this.$router.push("/supermercado");
+			this.navigateTo("/supermercado");
+		},
+
+		navigateTo(path) {
+			this.$router.push(path).catch(error => {
+				if (error.name !== 'NavigationDuplicated' && !error.message.includes('Avoided redundant navigation to current location')) {
+					this.$_message_console(error);
+				}
+			});
 		},
 
 		executeLogout() {

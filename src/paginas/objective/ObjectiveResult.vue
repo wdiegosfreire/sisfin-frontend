@@ -88,33 +88,33 @@ import ObjectiveItemResult from "./ObjectiveItemResult.vue";
 import ObjectiveMovementResult from "./ObjectiveMovementResult.vue";
 
 export default {
-   name: "ObjectiveResult",
+	name: "ObjectiveResult",
 
-   components: { DfResultLayout, DfGrid, DfOutputText, DfIcon, ObjectiveItemResult, ObjectiveMovementResult },
+	components: { DfResultLayout, DfGrid, DfOutputText, DfIcon, ObjectiveItemResult, ObjectiveMovementResult },
 
-   props: {
-      collection: {
-         type: Array,
-         required: true
-      }
-   },
+	props: {
+		collection: {
+			type: Array,
+			required: true
+		}
+	},
 
-   data() {
-      return {
-         search: "",
-         grupo: ""
-      };
-   },
+	data() {
+		return {
+			search: "",
+			grupo: ""
+		};
+	},
 
-   methods: {
-      getNewHeader(data) {
-         if (this.grupo != data) {
-            this.grupo = data;
-            return true;
-         }
+	methods: {
+		getNewHeader(data) {
+			if (this.grupo != data) {
+				this.grupo = data;
+				return true;
+			}
 
-         return false;
-      }
-   }
+			return false;
+		}
+	}
 };
 </script>
