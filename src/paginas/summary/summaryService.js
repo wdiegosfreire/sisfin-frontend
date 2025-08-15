@@ -23,21 +23,6 @@ export default {
 			accountListBalanceCombo: [],
 			accountListOutcomingCombo: [],
 
-			monthList: [
-				{monthName: "January", monthNumber: "01"},
-				{monthName: "February", monthNumber: "02"},
-				{monthName: "March", monthNumber: "03"},
-				{monthName: "April", monthNumber: "04"},
-				{monthName: "May", monthNumber: "05"},
-				{monthName: "June", monthNumber: "06"},
-				{monthName: "July", monthNumber: "07"},
-				{monthName: "August", monthNumber: "08"},
-				{monthName: "September", monthNumber: "09"},
-				{monthName: "October", monthNumber: "10"},
-				{monthName: "November", monthNumber: "11"},
-				{monthName: "December", monthNumber: "12"}
-			],
-
 			periodRangeList: [1, 3, 4, 6, 12]
 		};
 	},
