@@ -9,20 +9,7 @@
 			<v-btn icon @click.stop="accessRegistration()" title="Click to register a new objective"><df-icon icon="fa-plus" /></v-btn>
 		</v-app-bar>
 
-		<df-grid>
-			<v-autocomplete label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();" :disabled="ignoreMonth" autofocus>
-				<template v-slot:append-outer>
-					<df-icon v-if="ignoreMonth" icon="fa-toggle-off" @click="ignoreMonth = !ignoreMonth" />
-					<df-icon v-else icon="fa-toggle-on" @click="ignoreMonth = !ignoreMonth" />
-				</template>
-			</v-autocomplete>
-			<v-text-field label="Year" v-model="year" @input="periodChange();" :disabled="ignoreYear">
-				<template v-slot:append-outer>
-					<df-icon v-if="ignoreYear" icon="fa-toggle-off" @click="ignoreYear = !ignoreYear" />
-					<df-icon v-else icon="fa-toggle-on" @click="ignoreYear = !ignoreYear" />
-				</template>
-			</v-text-field>
-		</df-grid>
+		<df-period :month="month" :year="year" @periodChange="periodChange"></df-period>
 		<span v-if="showSearchField">
 			<df-grid>
 				<v-autocomplete v-model="filter.accountSource" label="Source Account" item-text="name" item-value="identity" :items="accountListBalanceCombo" no-data-text="No data found" clearable return-object>
@@ -70,13 +57,14 @@ import ObjectiveForm from "./ObjectiveForm";
 
 import DfGrid from "../../components/grid/Grid.vue";
 import DfIcon from "../../components/df-icon/Icon.vue";
+import DfPeriod from "../../components/period/Period.vue";
 
 import message from "../../components/mixins/message.js";
 
 export default {
 	name: "Objective",
 
-	components: { ObjectiveResult, ObjectiveForm, DfGrid, DfIcon },
+	components: { ObjectiveResult, ObjectiveForm, DfGrid, DfIcon, DfPeriod },
 
 	mixins: [ objectiveService, message ],
 
@@ -84,8 +72,6 @@ export default {
 		return {
 			month: "",
 			year: "",
-			ignoreMonth: false,
-			ignoreYear: false
 		};
 	},
 
@@ -97,7 +83,10 @@ export default {
 			this.showSearchField = !this.showSearchField;
 		},
 
-		periodChange() {
+		periodChange(month, year) {
+			this.month = month;
+			this.year = year;
+
 			if (this.month && this.year && this.year.length == 4) {
 				this.$store.commit("setGlobalMonth", this.month);
 				this.$store.commit("setGlobalYear", this.year);
