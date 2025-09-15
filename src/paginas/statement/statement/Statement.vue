@@ -9,6 +9,7 @@
 			<v-btn icon @click.stop="accessRegistration()" title="Click to register a new statement"><df-icon icon="fa-plus" /></v-btn>
 		</v-app-bar>
 
+		<df-period :month="month" :year="year" @periodChange="periodChange"></df-period>
 		<df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
 
 		<statement-result :collection="$store.state.globalResult"
@@ -40,12 +41,13 @@ import StatementResult from "./StatementResult.vue";
 import StatementForm from "./StatementForm.vue";
 
 import DfIcon from "../../../components/df-icon/Icon.vue";
+import DfPeriod from "../../../components/period/Period.vue";
 import DfInputFilter from "../../../components/input/InputFilter.vue";
 
 export default {
 	name: "Statement",
 
-	components: { StatementResult, StatementForm, DfInputFilter, DfIcon },
+	components: { StatementResult, StatementForm, DfInputFilter, DfIcon, DfPeriod },
 
 	mixins: [statementService],
 
@@ -55,7 +57,19 @@ export default {
 				this.executeSearch();
 
 			this.showSearchField = !this.showSearchField;
-		}
+		},
+
+		periodChange(month, year) {
+			this.month = month;
+			this.year = year;
+
+			if (this.month && this.year && this.year.length == 4) {
+				this.$store.commit("setGlobalMonth", this.month);
+				this.$store.commit("setGlobalYear", this.year);
+
+				this.accessModule();
+			}
+		},
 	},
 
 	created() {
@@ -77,6 +91,26 @@ export default {
 			userIdentity: null,
 			statementFile: null
 		});
+
+		this.month = this.$store.state.globalMonth;
+		this.year = this.$store.state.globalYear;
+
+		let newDate = new Date();
+		if (!this.month)
+			this.month = newDate.getMonth();
+		if (!this.year)
+			this.year = newDate.getFullYear();
+
+		if (this.month == 0) {
+			this.month = 12;
+			this.year--;
+		}
+
+		this.year = this.year + "";
+		this.month = this.month.toString().padStart(2,"0");
+
+		this.$store.commit("setGlobalMonth", this.month);
+		this.$store.commit("setGlobalYear", this.year);
 
 		this.accessModule();
 	},
