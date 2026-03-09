@@ -9,19 +9,8 @@
 
 		<df-input-filter transition="slide-x-transition" v-if="showSearchField" @type="executeSearch" />
 
+		<df-period :month="month" :year="year" @periodChange="periodChange"></df-period>
 		<df-grid>
-			<v-autocomplete label="Month" v-model="month" :items="monthList" item-text="monthName" item-value="monthNumber" @change="periodChange();" :disabled="ignoreMonth" autofocus>
-				<template v-slot:append-outer>
-					<df-icon v-if="ignoreMonth" icon="fa-toggle-off" @click="ignoreMonth = !ignoreMonth" />
-					<df-icon v-else icon="fa-toggle-on" @click="ignoreMonth = !ignoreMonth" />
-				</template>
-			</v-autocomplete>
-			<v-text-field label="Year" v-model="year" @input="periodChange();" :disabled="ignoreYear">
-				<template v-slot:append-outer>
-					<df-icon v-if="ignoreYear" icon="fa-toggle-off" @click="ignoreYear = !ignoreYear" />
-					<df-icon v-else icon="fa-toggle-on" @click="ignoreYear = !ignoreYear" />
-				</template>
-			</v-text-field>
 			<v-select @change="accessModule" v-model="periodRange" label="Period Range" :items="periodRangeList" />
 		</df-grid>
 
@@ -83,6 +72,8 @@ import summaryService from "./summaryService.js";
 
 import DfGrid from "../../components/grid/Grid.vue";
 import DfIcon from "../../components/df-icon/Icon.vue";
+import DfPeriod from "../../components/period/Period.vue";
+
 import message from "../../components/mixins/message.js";
 
 import PieChart from '../../components/chart/Pie.vue';
@@ -91,21 +82,22 @@ import LineChart from '../../components/chart/Line.vue';
 export default {
 	name: "Summary",
 
-	components: { DfGrid, DfIcon, PieChart, LineChart },
+	components: { DfGrid, DfIcon, PieChart, LineChart , DfPeriod },
 
 	mixins: [ summaryService, message ],
 
 	data() {
 		return {
 			month: "",
-			year: "",
-			ignoreMonth: false,
-			ignoreYear: false
+			year: ""
 		};
 	},
 
 	methods: {
-		periodChange() {
+		periodChange(month, year) {
+			this.month = month;
+			this.year = year;
+
 			if (this.month && this.year && this.year.length == 4) {
 				this.$store.commit("setGlobalMonth", this.month);
 				this.$store.commit("setGlobalYear", this.year);

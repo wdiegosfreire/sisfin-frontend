@@ -10,6 +10,8 @@ export default {
 
 	data() {
 		return {
+			month: "",
+			year: "",
 			showSearchField: false
 		};
 	},
@@ -17,7 +19,10 @@ export default {
 	methods: {
 		accessModule() {
 			let statement = {
-				userIdentity: this.$store.state.userIdentity
+				userIdentity: this.$store.state.userIdentity,
+				filterMap: {
+					periodDate: new Date(this.$store.state.globalYear + "-" + this.$store.state.globalMonth + "-01 12:00:00")
+				}
 			}
 
 			this.$_transaction_post("/statement/accessModule", statement).then(response => {
